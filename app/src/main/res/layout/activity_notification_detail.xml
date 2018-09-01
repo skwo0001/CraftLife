@@ -133,19 +133,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noti_title" />
 
-    <!--<com.mapquest.mapping.maps.MapView-->
-        <!--android:id="@+id/mapView"-->
-        <!--android:layout_width="278dp"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:visibility="invisible"-->
-        <!--app:layout_constraintBottom_toTopOf="@+id/getbutton"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/noti_time" />-->
-
-
     <Button
         android:id="@+id/getbutton"
         android:layout_width="317dp"
@@ -161,8 +148,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
-
-
 
 
 </android.support.constraint.ConstraintLayout>
