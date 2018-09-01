@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import static com.jostlingjacks.craftlife_build180829.Channel.CHANNEL_ID;
+import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class SendRequest extends JobService {
