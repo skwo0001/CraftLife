@@ -97,6 +97,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_home:
                 nextFragment = new MainFragment();
                 break;
+            case R.id.nav_settings:
+                nextFragment = new SettingsFragment();
+                break;
             case R.id.nav_aboutus:
                 nextFragment = new AboutUsFragment();
                 break;
