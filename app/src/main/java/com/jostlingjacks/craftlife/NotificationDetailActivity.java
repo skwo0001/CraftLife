@@ -3,8 +3,7 @@ package com.jostlingjacks.craftlife;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,18 +11,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
 
 public class NotificationDetailActivity extends AppCompatActivity {
 
     private Button button;
     private TextView titleTextView,  descTextView,  addressTextView,  timeTextView, addTV, timeTV;
     private ImageView actionImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +43,13 @@ public class NotificationDetailActivity extends AppCompatActivity {
         addTV = (TextView)findViewById(R.id.address);
         timeTV = (TextView) findViewById(R.id.time);
         actionImage = (ImageView) findViewById(R.id.imageAction);
+        //mMapView = (MapView)findViewById(R.id.mapView);
 
 
         if (address != null || time != null)
         {
-            if (!title.equals("Sitting Meditation")) {
-                DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_DATE_TIME;
-                OffsetDateTime offsetDateTime = OffsetDateTime.parse(time);
-                Date date = Date.from(Instant.from(offsetDateTime));
-                SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
-                time = sdf.format(date);
-                addTV.setVisibility(View.VISIBLE);
-                timeTextView.setVisibility(View.INVISIBLE);
-            }
+            addTV.setVisibility(View.VISIBLE);
+            timeTextView.setVisibility(View.INVISIBLE);
         }
 
         if (title.toLowerCase().contains("water"))
@@ -77,13 +65,13 @@ public class NotificationDetailActivity extends AppCompatActivity {
         }else if (title.toLowerCase().contains("art")){
             actionImage.setVisibility(View.VISIBLE);
             actionImage.setImageResource(R.drawable.art);
-        } else if (title.toLowerCase().contains("stand")){
+        } else if (title.equals("Stand Up")){
             actionImage.setVisibility(View.VISIBLE);
             actionImage.setImageResource(R.drawable.coach);
         }else if (title.equals("Sitting Meditation")){
             actionImage.setVisibility(View.VISIBLE);
             actionImage.setImageResource(R.drawable.meditation);
-        } else if (title.toLowerCase().contains("window")){
+        } else if (title.equals("Looking outside the window")){
             actionImage.setVisibility(View.VISIBLE);
             actionImage.setImageResource(R.drawable.curtain);
         }
@@ -91,6 +79,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
         titleTextView.setText(title);
         descTextView.setText(description);
         addressTextView.setText(address);
+
 
 
         //timeTextView.setText(time);
@@ -132,7 +121,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
             Intent myIntent = new Intent(Intent.ACTION_SEND);
             myIntent.setType("text/plain");
             String shareSub = getName();
-            String shareBody = "Details: " + getDescription() + "/n Address: " + getAddress();
+            String shareBody = "Details: " + getDescription() + "\n Address: " + getAddress();
             myIntent.putExtra(Intent.EXTRA_TEXT,shareBody);
             myIntent.putExtra(Intent.EXTRA_SUBJECT,shareSub);
             startActivity(Intent.createChooser(myIntent, "Share using"));

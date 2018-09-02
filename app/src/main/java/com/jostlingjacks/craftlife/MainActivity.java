@@ -100,7 +100,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_aboutus:
                 nextFragment = new AboutUsFragment();
                 break;
-            
+            case R.id.nav_tutorial:
+                nextFragment = new TutorialFragment();
+                break;
         }
 
         FragmentManager fragmentManager = getFragmentManager();
