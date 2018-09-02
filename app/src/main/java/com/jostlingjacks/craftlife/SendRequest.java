@@ -189,9 +189,9 @@ public class SendRequest extends JobService {
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentIntent(resultPendingIntent)
-                .setSmallIcon(R.drawable.ic_notifications)
-                .setContentTitle("Type: " + title)
-                .setContentText("Details: " + description)
+                .setSmallIcon(R.drawable.app_logo)
+                .setContentTitle(title)
+                .setContentText(description)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
 //                .setChannelId(CHANNEL_ID)
