@@ -132,7 +132,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
             Intent myIntent = new Intent(Intent.ACTION_SEND);
             myIntent.setType("text/plain");
             String shareSub = getName();
-            String shareBody = "Details: " + getDescription() + "/n Address: " + getAddress();
+            String shareBody = "Details: " + getDescription() + "\n Address: " + getAddress();
             myIntent.putExtra(Intent.EXTRA_TEXT,shareBody);
             myIntent.putExtra(Intent.EXTRA_SUBJECT,shareSub);
             startActivity(Intent.createChooser(myIntent, "Share using"));
