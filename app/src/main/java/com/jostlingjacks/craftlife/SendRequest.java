@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import static com.jostlingjacks.craftlife_build180829.Channel.CHANNEL_ID;
+import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class SendRequest extends JobService {
@@ -175,7 +175,13 @@ public class SendRequest extends JobService {
             notiMsg = "There is a " + description + ". Would you want to have a look?";
         }
 
-        Intent resultIntent = new Intent(this, NotificationDetailActivity.class);
+        Intent resultIntent;
+
+        if (address != null) {
+            resultIntent = new Intent(this, NotificationDetailActivity.class);
+        } else {
+            resultIntent = new Intent(this, NotificationRegularDetailActivity.class);
+        }
         resultIntent.putExtras(bundle);
         //resultIntent.putExtra("title",title);
 
@@ -184,8 +190,8 @@ public class SendRequest extends JobService {
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentIntent(resultPendingIntent)
                 .setSmallIcon(R.drawable.ic_notifications)
-                .setContentTitle(title)
-                .setContentText(description)
+                .setContentTitle("Type: " + title)
+                .setContentText("Details: " + description)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
 //                .setChannelId(CHANNEL_ID)

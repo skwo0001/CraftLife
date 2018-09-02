@@ -26,13 +26,11 @@
         </activity>
 
         <activity android:name=".NotificationDetailActivity" />
+        <activity android:name=".NotificationRegularDetailActivity" />
 
         <service
             android:name=".SendRequest"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
 
     </application>
 

@@ -3,16 +3,20 @@ package com.jostlingjacks.craftlife;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mapbox.mapboxsdk.annotations.MarkerOptions;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapquest.mapping.maps.MapView;
-import com.mapquest.mapping.maps.MapboxMap;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 
 public class NotificationDetailActivity extends AppCompatActivity {
@@ -20,8 +24,6 @@ public class NotificationDetailActivity extends AppCompatActivity {
     private Button button;
     private TextView titleTextView,  descTextView,  addressTextView,  timeTextView, addTV, timeTV;
     private ImageView actionImage;
-    private MapView mMapView;
-    private MapboxMap mMapboxMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
         String title = details.getString("title");
         String description  = details.getString("description");
         String address = details.getString("address");
-        String lat = details.getString("address");
+        String lat = details.getString("lat");
         String lon = details.getString("lon");
         String time = details.getString("time");
 
@@ -47,13 +49,19 @@ public class NotificationDetailActivity extends AppCompatActivity {
         addTV = (TextView)findViewById(R.id.address);
         timeTV = (TextView) findViewById(R.id.time);
         actionImage = (ImageView) findViewById(R.id.imageAction);
-        //mMapView = (MapView)findViewById(R.id.mapView);
 
 
         if (address != null || time != null)
         {
-            addTV.setVisibility(View.VISIBLE);
-            timeTextView.setVisibility(View.INVISIBLE);
+            if (!title.equals("Sitting Meditation")) {
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+                OffsetDateTime offsetDateTime = OffsetDateTime.parse(time);
+                Date date = Date.from(Instant.from(offsetDateTime));
+                SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+                time = sdf.format(date);
+                addTV.setVisibility(View.VISIBLE);
+                timeTextView.setVisibility(View.INVISIBLE);
+            }
         }
 
         if (title.toLowerCase().contains("water"))
@@ -69,13 +77,13 @@ public class NotificationDetailActivity extends AppCompatActivity {
         }else if (title.toLowerCase().contains("art")){
             actionImage.setVisibility(View.VISIBLE);
             actionImage.setImageResource(R.drawable.art);
-        } else if (title.equals("Stand Up")){
+        } else if (title.toLowerCase().contains("stand")){
             actionImage.setVisibility(View.VISIBLE);
             actionImage.setImageResource(R.drawable.coach);
         }else if (title.equals("Sitting Meditation")){
             actionImage.setVisibility(View.VISIBLE);
             actionImage.setImageResource(R.drawable.meditation);
-        } else if (title.equals("Looking outside the window")){
+        } else if (title.toLowerCase().contains("window")){
             actionImage.setVisibility(View.VISIBLE);
             actionImage.setImageResource(R.drawable.curtain);
         }
@@ -83,32 +91,6 @@ public class NotificationDetailActivity extends AppCompatActivity {
         titleTextView.setText(title);
         descTextView.setText(description);
         addressTextView.setText(address);
-
-        if (lat != null && lon != null){
-
-            //mMapView.onCreate(savedInstanceState);
-           // mMapView.setVisibility(View.VISIBLE);
-            try {
-                Double dLat = Double.parseDouble(lat);
-                Double dLon = Double.parseDouble(lon);
-
-                final LatLng geo_code = new LatLng(dLat,dLon);
-
-            } catch (Exception e)
-            {
-                Log.d("Exception", "Error");
-            }
-
-//            mMapView.getMapAsync(new OnMapReadyCallback() {
-//                @Override
-//                public void onMapReady(MapboxMap mapboxMap) {
-//                    mMapboxMap = mapboxMap;
-//                    mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(geo_code, 11));
-//                    addMarker(mMapboxMap, geo_code);
-//                }
-//            });
-
-        }
 
 
         //timeTextView.setText(time);
@@ -130,12 +112,57 @@ public class NotificationDetailActivity extends AppCompatActivity {
         //moveTaskToBack(true);
     }
 
-    private void addMarker(MapboxMap mapboxMap, LatLng geocode) {
-        final MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(geocode);
-        mapboxMap.addMarker(markerOptions);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.event_detail_menu, menu);
+        return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_share) {
+            Intent myIntent = new Intent(Intent.ACTION_SEND);
+            myIntent.setType("text/plain");
+            String shareSub = getName();
+            String shareBody = "Details: " + getDescription() + "/n Address: " + getAddress();
+            myIntent.putExtra(Intent.EXTRA_TEXT,shareBody);
+            myIntent.putExtra(Intent.EXTRA_SUBJECT,shareSub);
+            startActivity(Intent.createChooser(myIntent, "Share using"));
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public String getName(){
+        Intent intent = getIntent();
+        Bundle details = intent.getExtras();
+
+        return details.getString("title");
+    }
+
+    public String getAddress(){
+        Intent intent = getIntent();
+        Bundle details = intent.getExtras();
+
+        return details.getString("address");
+    }
+
+    public String getDescription(){
+        Intent intent = getIntent();
+        Bundle details = intent.getExtras();
+
+        return details.getString("description");
+    }
 
 
 
