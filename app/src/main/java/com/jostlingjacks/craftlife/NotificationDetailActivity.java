@@ -9,19 +9,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mapbox.mapboxsdk.annotations.MarkerOptions;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapquest.mapping.maps.MapView;
-import com.mapquest.mapping.maps.MapboxMap;
-
 
 public class NotificationDetailActivity extends AppCompatActivity {
 
     private Button button;
     private TextView titleTextView,  descTextView,  addressTextView,  timeTextView, addTV, timeTV;
     private ImageView actionImage;
-    private MapView mMapView;
-    private MapboxMap mMapboxMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,31 +78,6 @@ public class NotificationDetailActivity extends AppCompatActivity {
         descTextView.setText(description);
         addressTextView.setText(address);
 
-        if (lat != null && lon != null){
-
-            //mMapView.onCreate(savedInstanceState);
-           // mMapView.setVisibility(View.VISIBLE);
-            try {
-                Double dLat = Double.parseDouble(lat);
-                Double dLon = Double.parseDouble(lon);
-
-                final LatLng geo_code = new LatLng(dLat,dLon);
-
-            } catch (Exception e)
-            {
-                Log.d("Exception", "Error");
-            }
-
-//            mMapView.getMapAsync(new OnMapReadyCallback() {
-//                @Override
-//                public void onMapReady(MapboxMap mapboxMap) {
-//                    mMapboxMap = mapboxMap;
-//                    mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(geo_code, 11));
-//                    addMarker(mMapboxMap, geo_code);
-//                }
-//            });
-
-        }
 
 
         //timeTextView.setText(time);
@@ -129,14 +98,6 @@ public class NotificationDetailActivity extends AppCompatActivity {
         finish();
         //moveTaskToBack(true);
     }
-
-    private void addMarker(MapboxMap mapboxMap, LatLng geocode) {
-        final MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(geocode);
-        mapboxMap.addMarker(markerOptions);
-    }
-
-
 
 
 }
