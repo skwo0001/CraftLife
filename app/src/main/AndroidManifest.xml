@@ -26,6 +26,7 @@
         </activity>
 
         <activity android:name=".NotificationDetailActivity" />
+        <activity android:name=".NotificationRegularDetailActivity" />
 
         <service
             android:name=".SendRequest"

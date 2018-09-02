@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toStartOf="@+id/noti_time"
         app:layout_constraintHorizontal_bias="0.958"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/address" />
+        app:layout_constraintTop_toBottomOf="@+id/noti_add" />
 
     <TextView
         android:id="@+id/address"
@@ -84,7 +84,7 @@
         app:layout_constraintEnd_toStartOf="@+id/noti_desc"
         app:layout_constraintHorizontal_bias="0.645"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/noti_title" />
 
     <TextView
         android:id="@+id/noti_time"
@@ -105,6 +105,7 @@
         android:layout_marginTop="8dp"
         android:textColor="@color/colorPrimary"
         android:textIsSelectable="true"
+        android:clickable="true"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noti_desc" />
