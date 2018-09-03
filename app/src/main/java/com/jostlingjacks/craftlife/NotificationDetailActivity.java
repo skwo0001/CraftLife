@@ -18,7 +18,6 @@ public class NotificationDetailActivity extends AppCompatActivity {
     private TextView titleTextView,  descTextView,  addressTextView,  timeTextView, addTV, timeTV;
     private ImageView actionImage;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,7 +145,5 @@ public class NotificationDetailActivity extends AppCompatActivity {
 
         return details.getString("description");
     }
-
-
 
 }
