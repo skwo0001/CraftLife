@@ -25,7 +25,7 @@
         <!--android:title="@string/pref_title_vibrate" />-->
 
     <ListPreference
-        android:defaultValue="15 Mins"
+        android:defaultValue="15 Minutes"
         android:entries="@array/pref_daily_suggestion_interval_values"
         android:entryValues="@array/pref_daily_suggestion_interval_values"
         android:key="daily_suggestion"
@@ -34,7 +34,7 @@
         android:title="@string/pref_daily_suggestion_interval" />
 
     <ListPreference
-        android:defaultValue="180"
+        android:defaultValue="1 Hour"
         android:entries="@array/pref_art_places_suggestion_interval_values"
         android:entryValues="@array/pref_art_places_suggestion_interval_values"
         android:key="art_suggestion"

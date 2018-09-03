@@ -6,9 +6,11 @@ import android.app.FragmentManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -29,6 +31,20 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /**
+         * the following code is for getting the settings from user settings.
+         *
+         */
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        // daily_suggestion string is from pref_notification.xml file, reference to that.
+        String dailyNotificationIntervalString = sharedPreferences.getString("daily_suggestion", "");
+        // when this is the first user use this application, there is no user settings...
+        int dailyNotificationInterval = 15;
+        if (dailyNotificationIntervalString != "" ) {
+            dailyNotificationInterval = Integer.valueOf(dailyNotificationIntervalString.split(" ")[0]);
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -54,7 +70,7 @@ public class MainActivity extends AppCompatActivity
                     .setPersisted(true)
                     .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                     .setRequiresBatteryNotLow(true)
-                    .setPeriodic(15 * 60 * 1000)  //set the job work in schedule and the minimum is 15 mins for SDK 24 and above
+                    .setPeriodic(dailyNotificationInterval * 60 * 1000)  //set the job work in schedule and the minimum is 15 mins for SDK 24 and above
                     //set the task will do when the network is connected
                     .build();
 

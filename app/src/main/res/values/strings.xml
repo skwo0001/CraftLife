@@ -98,7 +98,7 @@
     </string-array>
 
     <string-array name="pref_art_places_suggestion_interval_values">
-        <item>1 Hours</item>
+        <item>1 Hour</item>
         <item>2 Hours</item>
         <item>5 Hours</item>
         <item>8 Hours</item>
