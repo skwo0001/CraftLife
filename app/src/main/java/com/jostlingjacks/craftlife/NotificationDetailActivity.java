@@ -115,7 +115,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
             Intent myIntent = new Intent(Intent.ACTION_SEND);
             myIntent.setType("text/plain");
             String shareSub = "Activity suggested by CraftLife";
-            String shareBody = "Hey! There is a " + getDescription() + " in " + getAddress() + ". Do you want to come with me?";
+            String shareBody = "Hey! " + getDescription() + " in " + getAddress() + ". Would you like to come with me?";
             myIntent.putExtra(Intent.EXTRA_SUBJECT,shareSub);
             myIntent.putExtra(Intent.EXTRA_TEXT,shareBody);
             startActivity(Intent.createChooser(myIntent, "Share using"));
