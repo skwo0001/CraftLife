@@ -142,6 +142,7 @@ public class SendRequest extends JobService {
     private void createNotification(JSONObject jsonObject) {
 
         String type= null, title= null, description= null, lat= null, lon= null, address= null, time = null;
+        int notification_id;
 
         NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "Channel", NotificationManager.IMPORTANCE_HIGH);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -168,13 +169,6 @@ public class SendRequest extends JobService {
         bundle.putString("address",address);
         bundle.putString("time",time);
 
-        String notiMsg = null;
-
-        notiMsg = title;
-        if (type == "Event") {
-            notiMsg = "There is a " + description + ". Would you want to have a look?";
-        }
-
         Intent resultIntent;
 
         if (address != null) {
@@ -183,7 +177,6 @@ public class SendRequest extends JobService {
             resultIntent = new Intent(this, NotificationRegularDetailActivity.class);
         }
         resultIntent.putExtras(bundle);
-        //resultIntent.putExtra("title",title);
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -200,6 +193,10 @@ public class SendRequest extends JobService {
                 .setAutoCancel(true)
                 .build();
 
-        notificationManager.notify(Tool.randomNumberGenerator(10000), notification);
+        if (type == "Regular") {
+            notification_id = 1;
+        } else
+            notification_id = 2;
+        notificationManager.notify(notification_id, notification);
     }
 }

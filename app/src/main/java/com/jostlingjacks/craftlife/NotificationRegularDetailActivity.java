@@ -40,12 +40,6 @@ public class NotificationRegularDetailActivity extends AppCompatActivity {
         } else if (title.toLowerCase().contains("walk")){
             actionImage.setVisibility(View.VISIBLE);
             actionImage.setImageResource(R.drawable.walking);
-        } else if (title.toLowerCase().contains("concert")){
-            actionImage.setVisibility(View.VISIBLE);
-            actionImage.setImageResource(R.drawable.stage);
-        }else if (title.toLowerCase().contains("art")){
-            actionImage.setVisibility(View.VISIBLE);
-            actionImage.setImageResource(R.drawable.art);
         } else if (title.toLowerCase().contains("stand up")){
             actionImage.setVisibility(View.VISIBLE);
             actionImage.setImageResource(R.drawable.coach);

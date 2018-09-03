@@ -255,6 +255,7 @@ public class MainActivity extends AppCompatActivity
     private void createNotification(JSONObject jsonObject) {
 
         String type= null, title= null, description= null, lat= null, lon= null, address= null, time = null;
+        int notification_id;
 
         NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "Channel", NotificationManager.IMPORTANCE_HIGH);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -281,20 +282,16 @@ public class MainActivity extends AppCompatActivity
         bundle.putString("address",address);
         bundle.putString("time",time);
 
-
-        if (address != null) {
-            title = "There is a " + description + ". Would you want to have a look?";
-        }
-
         Intent resultIntent;
 
         if (address != null) {
+            notification_id = 1;
             resultIntent = new Intent(this, NotificationDetailActivity.class);
         } else {
+            notification_id = 2;
             resultIntent = new Intent(this, NotificationRegularDetailActivity.class);
         }
         resultIntent.putExtras(bundle);
-        //resultIntent.putExtra("title",title);
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -305,12 +302,11 @@ public class MainActivity extends AppCompatActivity
                 .setContentText(description)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-//                .setChannelId(CHANNEL_ID)
                 .setColor(16757760)
                 .setOnlyAlertOnce(true)
                 .setAutoCancel(true)
                 .build();
 
-        notificationManager.notify(Tool.randomNumberGenerator(10000), notification);
+        notificationManager.notify(notification_id, notification);
     }
 }
