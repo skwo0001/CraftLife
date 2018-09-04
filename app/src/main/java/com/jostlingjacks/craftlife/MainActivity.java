@@ -13,12 +13,14 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
@@ -55,6 +57,20 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /**
+         * the following code is for getting the settings from user settings.
+         *
+         */
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        // daily_suggestion string is from pref_notification.xml file, reference to that.
+        String dailyNotificationIntervalString = sharedPreferences.getString("daily_suggestion", "");
+        // when this is the first user use this application, there is no user settings...
+        int dailyNotificationInterval = 15;
+        if (dailyNotificationIntervalString != "" ) {
+            dailyNotificationInterval = Integer.valueOf(dailyNotificationIntervalString.split(" ")[0]);
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,7 +104,7 @@ public class MainActivity extends AppCompatActivity
                     .setPersisted(true)
                     .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                     .setRequiresBatteryNotLow(true)
-                    .setPeriodic(15 * 60 * 1000)  //set the job work in schedule and the minimum is 15 mins for SDK 24 and above
+                    .setPeriodic(dailyNotificationInterval * 60 * 1000, dailyNotificationInterval * 60 * 1000)  //set the job work in schedule and the minimum is 15 mins for SDK 24 and above
                     //set the task will do when the network is connected
                     .build();
 
@@ -130,6 +146,9 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_home:
                 nextFragment = new MainFragment();
+                break;
+            case R.id.nav_settings:
+                nextFragment = new SettingsFragment();
                 break;
             case R.id.nav_aboutus:
                 nextFragment = new AboutUsFragment();

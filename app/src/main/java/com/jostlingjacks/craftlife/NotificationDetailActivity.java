@@ -11,6 +11,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.Date;
+
 
 public class NotificationDetailActivity extends AppCompatActivity {
 
@@ -48,6 +54,14 @@ public class NotificationDetailActivity extends AppCompatActivity {
 
         if (address != null || time != null)
         {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+            TemporalAccessor accessor = dateTimeFormatter.parse(time);
+            Date date = Date.from(Instant.from(accessor));
+            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+            time = sdf.format(date);
+
+            timeTextView.setText(time);
+
             addTV.setVisibility(View.VISIBLE);
             timeTextView.setVisibility(View.INVISIBLE);
         }
@@ -148,5 +162,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
 
         return details.getString("description");
     }
+
+
 
 }
