@@ -45,9 +45,6 @@
 
         <activity android:name=".TutorialActivity"></activity>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <activity
             android:name=".SettingsActivity"
@@ -58,7 +55,8 @@
                 android:value="com.jostlingjacks.craftlife.MainActivity" />
         </activity>
 
-        <activity android:name=".TutorialActivity"></activity>
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".RegistrationActivity"></activity>
     </application>
 
 </manifest>
