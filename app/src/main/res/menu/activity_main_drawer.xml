@@ -21,6 +21,7 @@
                 android:id="@+id/nav_tutorial"
                 android:icon="@drawable/ic_class_black_24dp"
                 android:title="Tutorial" />
+
         </menu>
 
     </item>

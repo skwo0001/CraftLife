@@ -49,6 +49,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".TutorialActivity"></activity>
+
     </application>
 
 </manifest>
