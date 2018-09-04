@@ -49,15 +49,6 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textView16"
-                android:layout_width="match_parent"
-                android:layout_height="78dp"
-                android:text="Just tell us if you did as we suggested or if you don't like we'll then show less (coming soon), we can guide you there and don't forget to share with friends! "
-                android:textSize="14sp"
-                tools:layout_editor_absoluteX="36dp"
-                tools:layout_editor_absoluteY="276dp" />
-
-            <TextView
                 android:id="@+id/textView15"
                 android:layout_width="match_parent"
                 android:layout_height="78dp"
@@ -65,6 +56,15 @@
                 android:textSize="14sp"
                 tools:layout_editor_absoluteX="36dp"
                 tools:layout_editor_absoluteY="183dp" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="78dp"
+                android:text="Just tell us if you did as we suggested or if you don't like we'll then show less (coming soon), we can guide you there and don't forget to share with friends! "
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="36dp"
+                tools:layout_editor_absoluteY="276dp" />
 
             <TextView
                 android:id="@+id/textView17"
