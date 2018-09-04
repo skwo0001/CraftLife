@@ -66,28 +66,23 @@ public class NotificationDetailActivity extends AppCompatActivity {
             timeTextView.setVisibility(View.INVISIBLE);
         }
 
-        if (title.toLowerCase().contains("water"))
+        if (title.toLowerCase().contains("gallery"))
         {
-            actionImage.setVisibility(View.VISIBLE);
-            actionImage.setImageResource(R.drawable.drinkwater);
-        } else if (title.toLowerCase().contains("walk")){
-            actionImage.setVisibility(View.VISIBLE);
-            actionImage.setImageResource(R.drawable.walking);
+            actionImage.setImageResource(R.drawable.gallery);
         } else if (title.toLowerCase().contains("concert")){
-            actionImage.setVisibility(View.VISIBLE);
             actionImage.setImageResource(R.drawable.stage);
         }else if (title.toLowerCase().contains("art")){
-            actionImage.setVisibility(View.VISIBLE);
+            int i = Tool.randomNumberGenerator(100);
+            if (i % 2 == 0){
+                actionImage.setImageResource(R.drawable.art);
+            } else {
+                actionImage.setImageResource(R.drawable.painter);
+            }
             actionImage.setImageResource(R.drawable.art);
-        } else if (title.toLowerCase().contains("stand")){
-            actionImage.setVisibility(View.VISIBLE);
-            actionImage.setImageResource(R.drawable.coach);
-        }else if (title.toLowerCase().contains("meditation")){
-            actionImage.setVisibility(View.VISIBLE);
-            actionImage.setImageResource(R.drawable.meditation);
-        } else if (title.toLowerCase().contains("window")){
-            actionImage.setVisibility(View.VISIBLE);
-            actionImage.setImageResource(R.drawable.curtain);
+        } else if (title.toLowerCase().contains("fountain")){
+            actionImage.setImageResource(R.drawable.fountains_2);
+        } else if (title.toLowerCase().contains("monument")){
+            actionImage.setImageResource(R.drawable.history);
         }
 
         titleTextView.setText(title);
@@ -129,15 +124,16 @@ public class NotificationDetailActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_share) {
             Intent myIntent = new Intent(Intent.ACTION_SEND);
             myIntent.setType("text/plain");
-            String shareSub = getName();
-            String shareBody = "Details: " + getDescription() + "\n Address: " + getAddress();
-            myIntent.putExtra(Intent.EXTRA_TEXT,shareBody);
+
+            String shareSub = "Activity suggested by CraftLife";
+            String shareBody = "Hey! " + getDescription() + " in " + getAddress() + ". Would you like to come with me?";
+
             myIntent.putExtra(Intent.EXTRA_SUBJECT,shareSub);
+            myIntent.putExtra(Intent.EXTRA_TEXT,shareBody);
             startActivity(Intent.createChooser(myIntent, "Share using"));
 
             return true;

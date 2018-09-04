@@ -25,11 +25,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="63dp"
-                android:background="#fbc02d"
-
-                android:text="CraftLife currently works best with Victorian work professionals. "
-                android:textAlignment="center"
-                android:textColor="@color/common_google_signin_btn_text_dark_default"
+                android:text="CraftLife currently works best with Victorian work professionals. 
                 android:textSize="18sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="36dp"
@@ -47,18 +43,9 @@
             <TextView
                 android:id="@+id/textView18"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="39dp"
                 android:text="Then, CraftLife is here for you.  "
                 android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/textView16"
-                android:layout_width="match_parent"
-                android:layout_height="78dp"
-                android:text="Just tell us if you did as we suggested or if you don't like we'll then show less (coming soon), we can guide you there and don't forget to share with friends! "
-                android:textSize="14sp"
-                tools:layout_editor_absoluteX="36dp"
-                tools:layout_editor_absoluteY="276dp" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -70,9 +57,18 @@
                 tools:layout_editor_absoluteY="183dp" />
 
             <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="78dp"
+                android:text="Just tell us if you did as we suggested or if you don't like we'll then show less (coming soon), we can guide you there and don't forget to share with friends! "
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="36dp"
+                tools:layout_editor_absoluteY="276dp" />
+
+            <TextView
                 android:id="@+id/textView17"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="39dp"
                 android:text="CraftLife can only be of assistance if your daily relaxation is inadequate."
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -83,7 +79,7 @@
             <TextView
                 android:id="@+id/textView19"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="39dp"
                 android:text="P.S. If symptoms persist please consult your psychological healthcare professional. "
                 android:textStyle="bold" />
         </LinearLayout>
@@ -95,7 +91,7 @@
         android:layout_height="48dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:background="#fbc02d"
         android:text="Start the Journey with CraftLife"
         android:textColor="@android:color/background_light"
