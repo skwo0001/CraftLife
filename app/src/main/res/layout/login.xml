@@ -77,19 +77,18 @@
     <Button
         android:id="@+id/button4"
         style="@android:style/Widget.Holo.Button.Borderless.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="251dp"
+        android:layout_height="49dp"
         android:layout_marginBottom="8dp"
+        android:background="#c8603f"
         android:text="Register"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.793"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.162" />
 
     <TextView
         android:id="@+id/textView8"
