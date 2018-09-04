@@ -11,12 +11,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.Date;
+
 
 public class NotificationDetailActivity extends AppCompatActivity {
 
     private Button button;
     private TextView titleTextView,  descTextView,  addressTextView,  timeTextView, addTV, timeTV;
     private ImageView actionImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,14 @@ public class NotificationDetailActivity extends AppCompatActivity {
 
         if (address != null || time != null)
         {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+            TemporalAccessor accessor = dateTimeFormatter.parse(time);
+            Date date = Date.from(Instant.from(accessor));
+            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+            time = sdf.format(date);
+
+            timeTextView.setText(time);
+
             addTV.setVisibility(View.VISIBLE);
             timeTextView.setVisibility(View.INVISIBLE);
         }
@@ -113,8 +128,10 @@ public class NotificationDetailActivity extends AppCompatActivity {
         if (id == R.id.action_share) {
             Intent myIntent = new Intent(Intent.ACTION_SEND);
             myIntent.setType("text/plain");
+
             String shareSub = "Activity suggested by CraftLife";
             String shareBody = "Hey! " + getDescription() + " in " + getAddress() + ". Would you like to come with me?";
+
             myIntent.putExtra(Intent.EXTRA_SUBJECT,shareSub);
             myIntent.putExtra(Intent.EXTRA_TEXT,shareBody);
             startActivity(Intent.createChooser(myIntent, "Share using"));
@@ -145,5 +162,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
 
         return details.getString("description");
     }
+
+
 
 }
