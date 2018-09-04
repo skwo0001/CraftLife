@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
                     .setPersisted(true)
                     .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                     .setRequiresBatteryNotLow(true)
-                    .setPeriodic(dailyNotificationInterval * 60 * 1000)  //set the job work in schedule and the minimum is 15 mins for SDK 24 and above
+                    .setPeriodic(dailyNotificationInterval * 60 * 1000, dailyNotificationInterval * 60 * 1000)  //set the job work in schedule and the minimum is 15 mins for SDK 24 and above
                     //set the task will do when the network is connected
                     .build();
 
