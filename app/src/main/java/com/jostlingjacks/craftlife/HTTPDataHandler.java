@@ -26,45 +26,46 @@ public class HTTPDataHandler {
     private static final String ITERATION_BASE_URI = "https://letian-bucket-test.herokuapp.com/";
 
 
-    public static String registerUser (UserInfo userInfo) throws IOException {
-        String url = "https://monash-ie-dev.herokuapp.com/auth/login/";
-        URL obj = new URL(url);
-        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+    public static String loginUser (UserInfo userInfo) {
+        String responseString = "";
+        URL url = null;
+        HttpURLConnection conn = null;
+        final String methodPath = "auth/login" ;
+        try{
+            Gson gson = new Gson();
+            String stringUserInfo = gson.toJson(userInfo);
+            url = new URL(ITERATION_BASE_URI + methodPath);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
 
-        //add reuqest header
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json");
-        con.setRequestProperty("Accept", "application/json");
-        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+            conn.setRequestProperty("Content-Type", "application/json");
+            //stringUserInfo = "{ \"email\": \"email_address@gmail.com\", \"password\": \"password\"}";
+            conn.setFixedLengthStreamingMode(stringUserInfo.getBytes().length);
 
-        String urlParameters = "auth/login/";
+            conn.getOutputStream().write(stringUserInfo.getBytes("UTF8"));
 
-        // Send post request
-        con.setDoOutput(true);
-        OutputStream outputStream = con.getOutputStream();
-        DataOutputStream wr = new DataOutputStream(outputStream);
-        wr.writeBytes(urlParameters);
-        wr.flush();
-        wr.close();
+            int responseCode = conn.getResponseCode();
 
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'POST' request to URL : " + url);
-        System.out.println("Post parameters : " + urlParameters);
-        System.out.println("Response Code : " + responseCode);
+            if (responseCode == HttpURLConnection.HTTP_ACCEPTED || responseCode == HttpURLConnection.HTTP_OK) {
+                //get the token back
+                Scanner inStream = new Scanner(conn.getInputStream()); //read the input stream and store it as string
+                while (inStream.hasNextLine())
+                {
+                    responseString += inStream.nextLine();
+                }
+            }
 
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
+            Log.i("errorrrrrrrr",new Integer(conn.getResponseCode()).toString());
 
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+        }catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            conn.disconnect();
         }
-        in.close();
-
-        //print result
-        return response.toString();
-
+        return responseString;
     }
 
     public static String signUpUser (UserInfo userInfo){
@@ -113,6 +114,7 @@ public class HTTPDataHandler {
             }
 
             Log.i("error",new Integer(conn.getResponseCode()).toString());
+
         } catch (Exception e) {
             e.printStackTrace();
             e.getMessage();
