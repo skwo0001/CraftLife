@@ -23,9 +23,12 @@ public class TestForFirstScreenActivity extends AppCompatActivity{
         startMainActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                HTTPDataHandler.createUser();
                 startActivity(new Intent(TestForFirstScreenActivity.this, MainActivity.class));
                 finish();
             }
         });
     }
+
+
 }
