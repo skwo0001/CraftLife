@@ -20,6 +20,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -51,9 +52,10 @@ import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = "MainActivity";
-    private  NotificationManager notificationManager;
+    private static final String TAG = "MainActivity" ;
+    private NotificationManager notificationManager;
     private LocationManager locationManager;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         String dailyNotificationIntervalString = sharedPreferences.getString("daily_suggestion", "");
         // when this is the first user use this application, there is no user settings...
         int dailyNotificationInterval = 15;
-        if (dailyNotificationIntervalString != "" ) {
+        if (dailyNotificationIntervalString != "") {
             dailyNotificationInterval = Integer.valueOf(dailyNotificationIntervalString.split(" ")[0]);
         }
 
@@ -98,8 +100,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //when the phone allow to access the location.
-        if (!runtime_permissions())
-        {
+        if (!runtime_permissions()) {
             ComponentName componentName = new ComponentName(this, SendRequest.class);
             JobInfo info = new JobInfo.Builder(123, componentName)
                     .setPersisted(true)
@@ -121,13 +122,31 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 2000);
         }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -183,19 +202,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        if (requestCode == 100){
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
 
 
-            }else {
+            } else {
                 runtime_permissions();
             }
         }
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void sendLiveRequest(){
+    public void sendLiveRequest() {
         new AsyncTask<Void, Void, JSONObject>() {
             @Override
             protected JSONObject doInBackground(Void... params) {
@@ -209,7 +228,7 @@ public class MainActivity extends AppCompatActivity
 
                 int i = Tool.randomNumberGenerator(100);
                 String jsonString = null;
-                if (i % 2 == 0){
+                if (i % 2 == 0) {
                     jsonString = HTTPDataHandler.getEventNotification(jsonObject);
                 } else {
                     jsonString = HTTPDataHandler.getRegularNotification(jsonObject);
@@ -223,7 +242,9 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
 
-                return jsonReply ;}
+                return jsonReply;
+            }
+
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             protected void onPostExecute(JSONObject jsonObject) {
@@ -248,9 +269,9 @@ public class MainActivity extends AppCompatActivity
             // for ActivityCompat#requestPermissions for more details.
             //return ;
         }
-        Location lastLocation =  locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
+        Location lastLocation = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
 
-        if (lastLocation == null){
+        if (lastLocation == null) {
             latitudeAndLongtidue[0] = -37.8770;
             latitudeAndLongtidue[1] = 145.0443;
         } else {
@@ -270,15 +291,15 @@ public class MainActivity extends AppCompatActivity
         String formattedTime = sdf.format(calendar.getTime());
         //put time and coordinates into json object
         jsonObject.put("time", formattedTime);
-        jsonObject.put("Latitude",latitudeAndLongtidue[0]);
+        jsonObject.put("Latitude", latitudeAndLongtidue[0]);
         jsonObject.put("Longtitude", latitudeAndLongtidue[1]);
 
-        return  jsonObject;
+        return jsonObject;
     }
 
     private void createNotification(JSONObject jsonObject) {
 
-        String type= null, title= null, description= null, lat= null, lon= null, address= null, time = null;
+        String type = null, title = null, description = null, lat = null, lon = null, address = null, time = null;
         int notification_id;
 
         NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "Channel", NotificationManager.IMPORTANCE_HIGH);
@@ -298,13 +319,13 @@ public class MainActivity extends AppCompatActivity
         }
 
         Bundle bundle = new Bundle();
-        bundle.putString("type",type);
-        bundle.putString("title",title);
-        bundle.putString("description",description);
-        bundle.putString("lat",lat);
-        bundle.putString("lon",lon);
-        bundle.putString("address",address);
-        bundle.putString("time",time);
+        bundle.putString("type", type);
+        bundle.putString("title", title);
+        bundle.putString("description", description);
+        bundle.putString("lat", lat);
+        bundle.putString("lon", lon);
+        bundle.putString("address", address);
+        bundle.putString("time", time);
 
         Intent resultIntent;
 
@@ -333,4 +354,5 @@ public class MainActivity extends AppCompatActivity
 
         notificationManager.notify(notification_id, notification);
     }
+
 }

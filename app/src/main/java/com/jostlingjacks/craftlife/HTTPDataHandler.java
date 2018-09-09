@@ -28,19 +28,61 @@ public class HTTPDataHandler {
     private static final String ITERATION_BASE_URI = "https://letian-bucket-test.herokuapp.com/";
 
 
+    public static String loginUser (UserInfo userInfo) {
+        String responseString = "";
+        URL url = null;
+        HttpURLConnection conn = null;
+        final String methodPath = "auth/login" ;
+        try{
+            Gson gson = new Gson();
+            String stringUserInfo = gson.toJson(userInfo);
+            url = new URL(ITERATION_BASE_URI + methodPath);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
 
-    public static String signUpUser (UserInfo userInfo) throws JSONException {
+            conn.setRequestProperty("Content-Type", "application/json");
+            //stringUserInfo = "{ \"email\": \"email_address@gmail.com\", \"password\": \"password\"}";
+            conn.setFixedLengthStreamingMode(stringUserInfo.getBytes().length);
+
+            conn.getOutputStream().write(stringUserInfo.getBytes("UTF8"));
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_ACCEPTED || responseCode == HttpURLConnection.HTTP_OK) {
+                //get the token back
+                Scanner inStream = new Scanner(conn.getInputStream()); //read the input stream and store it as string
+                while (inStream.hasNextLine())
+                {
+                    responseString += inStream.nextLine();
+                }
+            }
+
+            Log.i("errorrrrrrrr",new Integer(conn.getResponseCode()).toString());
+
+        }catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            conn.disconnect();
+        }
+        return responseString;
+    }
+
+    public static String signUpUser (UserInfo userInfo){
         //initialise
         String responseString = "";
         URL url = null;
         HttpURLConnection conn = null;
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("email", userInfo.getEmail_address());
-        jsonObject.put("password",userInfo.getPassword());
+
 
 
         final String methodPath="auth/register";
         try {
+            jsonObject.put("email", userInfo.getEmail());
+            jsonObject.put("password",userInfo.getPassword());
             String stringUserInfo = jsonObject.toString();
             url = new URL(ITERATION_BASE_URI + methodPath);
             //open the connection
@@ -123,6 +165,7 @@ public class HTTPDataHandler {
             }
 
             Log.i("error",new Integer(conn.getResponseCode()).toString());
+
         } catch (Exception e) {
             e.printStackTrace();
             e.getMessage();

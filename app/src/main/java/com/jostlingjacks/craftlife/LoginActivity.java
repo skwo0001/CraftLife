@@ -1,8 +1,12 @@
 package com.jostlingjacks.craftlife;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,10 +16,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    boolean doubleBackToExitPressedOnce = false;
 
     EditText emailInput,passwordInput;
     Button loginButton;
@@ -33,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = (Button) findViewById(R.id.btn_login);
         signupLink = (TextView) findViewById(R.id.link_signup);
 
+        // login button click listener...
         loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -53,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    // login method...
+    @SuppressLint("StaticFieldLeak")
     public void login() {
         Log.d(TAG, "Login");
 
@@ -69,19 +82,61 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
-        String email = emailInput.getText().toString();
-        String password = passwordInput.getText().toString();
+        final String email = emailInput.getText().toString();
+        final String password = passwordInput.getText().toString();
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
+        //Send the JSON Object to the API
+        new AsyncTask<Void, Void, JSONObject>() {
+            @Override
+            protected JSONObject doInBackground(Void... params) {
+                UserInfo userInfo = new UserInfo(email, password);
+                JSONObject jsonReply = null;
+                //Get the inout stream from http
+                String jsonString = HTTPDataHandler.loginUser(userInfo);
+
+                if (jsonString != ""){
+                    try {
+                        // when the string is not null, cinvert to JSON Object
+                        jsonReply = new JSONObject(jsonString.toString());
+                    }catch (JSONException e){
+                        e.printStackTrace();
                     }
-                }, 3000);
+                }
+                //the josn Object
+                return jsonReply;
+
+            }
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            protected void onPostExecute(JSONObject jsonObject) {
+                if (jsonObject != null){
+                    try {
+                        String message = jsonObject.getString("message");
+                        String status = jsonObject.getString("status");
+                        if (status.toLowerCase().contains("failed")){
+                            Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+                        }
+                        onLoginSuccess();
+                        progressDialog.dismiss();
+                        finish();
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    onLoginFailed();
+                    progressDialog.dismiss();
+                }
+
+            }
+        }.execute();
+
     }
+
+
+
+
+
 
 
     @Override
@@ -139,3 +194,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 }
 
+// { "email": "email_address@outlook.com", "password": "password"}
+// {
+//    "auth_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzY1NjYwMTEsImlhdCI6MTUzNjQ3OTU5MSwic3ViIjo1fQ.kskG-eD0hSnzAyuoblUgKAvz0CQuX1sh-38t5DYeOHk",
+//    "message": "Successfully registered",
+//    "status": "success"
+//}

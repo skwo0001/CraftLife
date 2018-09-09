@@ -2,24 +2,24 @@ package com.jostlingjacks.craftlife;
 
 public class UserInfo {
 
-    private String email_address;
+    private String email;
     private String password;
 
     public UserInfo(){
 
     }
 
-    public  UserInfo(String email_address, String password){
-        this.email_address = email_address;
+    public  UserInfo(String email, String password){
+        this.email = email;
         this.password = password;
     }
 
-    public String getEmail_address() {
-        return email_address;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmail_address(String email_address) {
-        this.email_address = email_address;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
