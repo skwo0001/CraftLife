@@ -144,7 +144,7 @@ public class WelcomeActivity extends AppCompatActivity {
     // only for test purpose
     private void startLoginActivity(){
         setFirstTimeStartStatus(false);
-        startActivity(new Intent(WelcomeActivity.this, TestForFirstScreenActivity.class));
+        startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
 
     }
 }

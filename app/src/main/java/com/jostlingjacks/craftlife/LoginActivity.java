@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,7 +24,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
         emailInput = (EditText) findViewById(R.id.emailET);
         passwordInput = (EditText) findViewById(R.id.passwordET);
@@ -100,9 +103,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess() {
-      //  loginButton.setEnabled(true);
+        loginButton.setEnabled(true);
         Intent main = new Intent(LoginActivity.this, MainActivity.class);
-        finish();
+        startActivity(main);
+        //finish();
     }
 
     public void onLoginFailed() {
@@ -123,9 +127,9 @@ public class LoginActivity extends AppCompatActivity {
             emailInput.setError(null);
         }
 
-        //set the requirement of the password with the range between 8 to 12, that contains both numeric and alphabetic characters
-        if (password.isEmpty() || password.length() < 8 || password.length() > 12 || password.matches("[a-zA-Z0-9]*")) {
-            passwordInput.setError("between 8 and 12 alphanumeric and numeric characters");
+        //set the requirement of the password with the range between 8 to 26, that contains both numeric and alphabetic characters
+        if (password.isEmpty() || password.length() < 8 || password.length() > 26 || !password.matches("[a-zA-Z0-9]*")) {
+            passwordInput.setError("between 8 and 26 alphanumeric and numeric characters");
             valid = false;
         } else {
             passwordInput.setError(null);
