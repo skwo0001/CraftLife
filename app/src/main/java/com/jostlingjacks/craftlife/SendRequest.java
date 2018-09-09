@@ -169,6 +169,7 @@ public class SendRequest extends JobService {
         bundle.putString("address",address);
         bundle.putString("time",time);
 
+
         Intent resultIntent;
 
         if (address != null) {
@@ -177,6 +178,7 @@ public class SendRequest extends JobService {
             resultIntent = new Intent(this, NotificationRegularDetailActivity.class);
         }
         resultIntent.putExtras(bundle);
+
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
