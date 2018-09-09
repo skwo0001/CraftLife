@@ -3,9 +3,11 @@ package com.jostlingjacks.craftlife;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -33,6 +35,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
@@ -82,24 +85,25 @@ public class RegistrationActivity extends AppCompatActivity {
         progressDialog.show();
 
         final String email = emailText.getText().toString();
-        final String password = passwordText.getText().toString();
+        String password = passwordText.getText().toString();
+        password = Tool.hashPw(password);
 
 
-        //Send the JSON Object to the API
+        //Send the User Object to the API
+        final String finalPassword = password;
         new AsyncTask<Void, Void, JSONObject>() {
             @Override
             protected JSONObject doInBackground(Void... params) {
-                UserInfo userinfo = new UserInfo(email,password);
+                UserInfo userinfo = new UserInfo(email, finalPassword);
                 JSONObject jsonReply = null;
+                try {
                 String jsonString = HTTPDataHandler.signUpUser(userinfo);
 
                 if (jsonString != "") {
-                    try {
                         jsonReply = new JSONObject(jsonString.toString());
-                    } catch (JSONException e) {
+                    }} catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
 
                 return jsonReply ;
             }
@@ -112,11 +116,27 @@ public class RegistrationActivity extends AppCompatActivity {
                         String message = jsonObject.getString("message");
                         String status = jsonObject.getString("status");
                         if (status.toLowerCase().contains("failed")){
+                            if (message.toLowerCase().contains("please sign in"))
+                            {
+                                Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+                                signupButton.setEnabled(true);
+                                progressDialog.dismiss();
+                                Intent login = new Intent(RegistrationActivity.this, LoginActivity.class);
+                                startActivity(login);
+
+                            }
+                            else {
+                                Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+                                signupButton.setEnabled(true);
+                                progressDialog.dismiss();
+                            }
+                        } else {
+                            String token = jsonObject.getString("auth_token");
                             Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
-                            signupButton.setEnabled(true);
+                            onRegisterSuccess();
+                            progressDialog.dismiss();
                         }
-                        onRegisterSuccess();
-                        progressDialog.dismiss();
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -136,8 +156,8 @@ public class RegistrationActivity extends AppCompatActivity {
     public void onRegisterSuccess() {
         signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
-        Intent main = new Intent(RegistrationActivity.this, MainActivity.class);
-        startActivity(main);
+        Intent login = new Intent(RegistrationActivity.this, LoginActivity.class);
+        startActivity(login);
     }
 
     public void onRegisterFailed() {
@@ -160,14 +180,14 @@ public class RegistrationActivity extends AppCompatActivity {
             emailText.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 8 || password.length() > 26 || !password.matches("[a-zA-Z0-9]*")) {
-            passwordText.setError("between 8 and 26 alphanumeric and numeric characters");
+        if (password.isEmpty() || password.length() < 8 || password.length() > 16 || !password.matches("[a-zA-Z0-9]*")) {
+            passwordText.setError("between 8 and 16 alphanumeric and numeric characters");
             valid = false;
         } else {
             passwordText.setError(null);
         }
 
-        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 8 || reEnterPassword.length() > 26 || !(reEnterPassword.equals(password))) {
+        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 8 || reEnterPassword.length() > 16 || !(reEnterPassword.equals(password))) {
             reEnterPasswordText.setError("Password Do not match");
             valid = false;
         } else {

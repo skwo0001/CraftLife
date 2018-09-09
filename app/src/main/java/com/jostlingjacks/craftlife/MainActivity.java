@@ -38,6 +38,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -136,6 +137,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -156,6 +158,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_tutorial:
                 nextFragment = new TutorialFragment();
                 break;
+            case R.id.nav_logout:
+                break;
+
         }
 
         FragmentManager fragmentManager = getFragmentManager();

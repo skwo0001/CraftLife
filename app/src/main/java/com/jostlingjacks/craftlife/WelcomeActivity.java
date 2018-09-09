@@ -145,6 +145,6 @@ public class WelcomeActivity extends AppCompatActivity {
     private void startLoginActivity(){
         setFirstTimeStartStatus(false);
         startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
-
+        finish();
     }
 }

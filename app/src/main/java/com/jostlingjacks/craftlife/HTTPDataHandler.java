@@ -3,7 +3,9 @@ package com.jostlingjacks.craftlife;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -26,56 +28,20 @@ public class HTTPDataHandler {
     private static final String ITERATION_BASE_URI = "https://letian-bucket-test.herokuapp.com/";
 
 
-    public static String registerUser (UserInfo userInfo) throws IOException {
-        String url = "https://monash-ie-dev.herokuapp.com/auth/login/";
-        URL obj = new URL(url);
-        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
-        //add reuqest header
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json");
-        con.setRequestProperty("Accept", "application/json");
-        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-
-        String urlParameters = "auth/login/";
-
-        // Send post request
-        con.setDoOutput(true);
-        OutputStream outputStream = con.getOutputStream();
-        DataOutputStream wr = new DataOutputStream(outputStream);
-        wr.writeBytes(urlParameters);
-        wr.flush();
-        wr.close();
-
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'POST' request to URL : " + url);
-        System.out.println("Post parameters : " + urlParameters);
-        System.out.println("Response Code : " + responseCode);
-
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-
-        //print result
-        return response.toString();
-
-    }
-
-    public static String signUpUser (UserInfo userInfo){
+    public static String signUpUser (UserInfo userInfo) throws JSONException {
         //initialise
         String responseString = "";
         URL url = null;
         HttpURLConnection conn = null;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("email", userInfo.getEmail_address());
+        jsonObject.put("password",userInfo.getPassword());
+
+
         final String methodPath="auth/register";
         try {
-            Gson gson =new Gson();
-            String stringUserInfo=gson.toJson(userInfo);
+            String stringUserInfo = jsonObject.toString();
             url = new URL(ITERATION_BASE_URI + methodPath);
             //open the connection
             conn = (HttpURLConnection) url.openConnection();
@@ -88,22 +54,14 @@ public class HTTPDataHandler {
             //set length of the data you want to send
 
 
-           // conn.setFixedLengthStreamingMode(stringUserInfo.getBytes().length + 2); //add HTTP headers
-            conn.setFixedLengthStreamingMode(61);
-
+           conn.setFixedLengthStreamingMode(stringUserInfo.getBytes().length); //add HTTP headers
 
             conn.setRequestProperty("Content-Type", "application/json");
-            //Send the POST out
-
-            stringUserInfo = "{ \"email\": \"email_address@gmail.com\", \"password\": \"password\"}";
-//            PrintWriter out= new PrintWriter(conn.getOutputStream());
-//            out.print(stringUserInfo);
-//            out.close();
             conn.getOutputStream().write(stringUserInfo.getBytes("UTF8"));
 
             int responseCode = conn.getResponseCode();
 
-            if (responseCode == HttpURLConnection.HTTP_ACCEPTED) {
+            if (responseCode == HttpURLConnection.HTTP_CREATED || responseCode == HttpURLConnection.HTTP_ACCEPTED) {
                 //get the token back
                 Scanner inStream = new Scanner(conn.getInputStream()); //read the input stream and store it as string
                 while (inStream.hasNextLine())
@@ -124,6 +82,58 @@ public class HTTPDataHandler {
         return responseString;
     }
 
+    public static String logoutUser(JSONObject jsonObject){
+        //initialise
+        String responseString = "";
+        URL url = null;
+        HttpURLConnection conn = null;
+
+
+        final String methodPath="auth/register";
+        try {
+//            Gson gson =new Gson();
+//            String stringUserInfo=gson.toJson(userInfo);
+            String stringUserInfo = jsonObject.toString();
+            url = new URL(ITERATION_BASE_URI + methodPath);
+            //open the connection
+            conn = (HttpURLConnection) url.openConnection();
+            //set the timeout
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
+            //set the connection method to POST
+            conn.setRequestMethod("POST"); //set the output to true
+            conn.setDoOutput(true);
+            //set length of the data you want to send
+
+
+            conn.setFixedLengthStreamingMode(stringUserInfo.getBytes().length); //add HTTP headers
+
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.getOutputStream().write(stringUserInfo.getBytes("UTF8"));
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_CREATED || responseCode == HttpURLConnection.HTTP_ACCEPTED) {
+                //get the token back
+                Scanner inStream = new Scanner(conn.getInputStream()); //read the input stream and store it as string
+                while (inStream.hasNextLine())
+                {
+                    responseString += inStream.nextLine();
+                }
+            }
+
+            Log.i("error",new Integer(conn.getResponseCode()).toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getMessage();
+
+        } finally {
+            conn.disconnect();
+        }
+
+        return responseString;
+
+    }
     public static String getEventNotification (JSONObject jsonObject) {
         final String methodPath = "Event/";
         //initialise

@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text="Few minutes with us, we change the rest of your day!"
         android:textColor="@color/white"
-        android:paddingBottom="20dp"
+        android:paddingBottom="55dp"
         android:textSize="20sp"
         android:textStyle="bold" />
 
