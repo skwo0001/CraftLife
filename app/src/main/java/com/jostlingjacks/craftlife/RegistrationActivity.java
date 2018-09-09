@@ -86,7 +86,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         final String email = emailText.getText().toString();
         String password = passwordText.getText().toString();
-        password = Tool.hashPw(password);
+        //password = Tool.hashPw(password);
 
 
         //Send the User Object to the API

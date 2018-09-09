@@ -76,12 +76,13 @@ public class HTTPDataHandler {
         URL url = null;
         HttpURLConnection conn = null;
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("email", userInfo.getEmail_address());
-        jsonObject.put("password",userInfo.getPassword());
+
 
 
         final String methodPath="auth/register";
         try {
+            jsonObject.put("email", userInfo.getEmail());
+            jsonObject.put("password",userInfo.getPassword());
             String stringUserInfo = jsonObject.toString();
             url = new URL(ITERATION_BASE_URI + methodPath);
             //open the connection
