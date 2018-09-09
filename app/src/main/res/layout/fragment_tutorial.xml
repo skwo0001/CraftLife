@@ -28,6 +28,8 @@
                 android:text="CraftLife currently works best with Victorian work professionals."
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:background="#fbc02d"
+                android:textAlignment="center"
                 tools:layout_editor_absoluteX="36dp"
                 tools:layout_editor_absoluteY="16dp" />
 

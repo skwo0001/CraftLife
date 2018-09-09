@@ -32,6 +32,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         if(!isFirstTimeStartApp()) {
             startLoginActivity();
+            //startMainActivity();
             finish();
         }
 
@@ -48,8 +49,8 @@ public class WelcomeActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startLoginActivity();
+                //startMainActivity();
             }
         });
 
@@ -62,6 +63,8 @@ public class WelcomeActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(currentPage);
                 } else {
                     startLoginActivity();
+                    //startMainActivity();
+
                 }
             }
         });
@@ -123,9 +126,9 @@ public class WelcomeActivity extends AppCompatActivity {
             dotstv[page].setTextColor(Color.parseColor("#ffffff"));
         }
     }
-    private void startLoginActivity(){
+    private void startMainActivity(){
         setFirstTimeStartStatus(false);
-        startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+        startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
         finish();
     }
     private void setStatusBarTransparent(){
@@ -135,6 +138,13 @@ public class WelcomeActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
+
+    }
+
+    // only for test purpose
+    private void startLoginActivity(){
+        setFirstTimeStartStatus(false);
+        startActivity(new Intent(WelcomeActivity.this, TestForFirstScreenActivity.class));
 
     }
 }
