@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -176,6 +177,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_tutorial:
                 nextFragment = new TutorialFragment();
                 break;
+            case R.id.nav_logout:
+                break;
+
         }
 
         FragmentManager fragmentManager = getFragmentManager();

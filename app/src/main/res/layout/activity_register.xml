@@ -9,17 +9,23 @@
     android:paddingRight="24dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ImageView
+        android:layout_width="319dp"
+        android:layout_height="86dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/app_logo" />
+
     <!-- Name Label -->
     <TextView
         android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:paddingTop="10dp"
         android:text="Sign Up"
-        android:paddingTop="38dp"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="40sp" />
+        android:textSize="30sp" />
 
 
 
@@ -29,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:paddingRight="4dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="40dp"
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/imageView3"
