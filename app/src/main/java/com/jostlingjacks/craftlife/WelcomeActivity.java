@@ -31,7 +31,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if(!isFirstTimeStartApp()) {
-            startMainActivity();
+            startLoginActivity();
             finish();
         }
 
@@ -49,7 +49,7 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startMainActivity();
+                startLoginActivity();
             }
         });
 
@@ -61,7 +61,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     //move to next page
                     viewPager.setCurrentItem(currentPage);
                 } else {
-                    startMainActivity();
+                    startLoginActivity();
                 }
             }
         });
@@ -123,9 +123,9 @@ public class WelcomeActivity extends AppCompatActivity {
             dotstv[page].setTextColor(Color.parseColor("#ffffff"));
         }
     }
-    private void startMainActivity(){
+    private void startLoginActivity(){
         setFirstTimeStartStatus(false);
-        startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+        startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
         finish();
     }
     private void setStatusBarTransparent(){
