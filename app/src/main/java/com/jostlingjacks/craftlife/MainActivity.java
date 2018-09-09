@@ -96,9 +96,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //when the phone allow to access the location.
         if (!runtime_permissions())
         {
-
             ComponentName componentName = new ComponentName(this, SendRequest.class);
             JobInfo info = new JobInfo.Builder(123, componentName)
                     .setPersisted(true)

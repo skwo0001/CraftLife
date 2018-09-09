@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/back_reg">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="86dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/app_logo" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Few minutes with us, we change the rest of your day!"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!--  Username Label -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="50dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <!--  Username Label -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
+            android:paddingRight="4dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/imageView5"
+                android:paddingTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_email" />
+
+            <EditText
+                android:id="@+id/emailET"
+                android:layout_width="288dp"
+                android:layout_height="wrap_content"
+                android:hint=" Email"
+                android:inputType="textEmailAddress" />
+        </LinearLayout>
+
+        <!--  Password Label -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingRight="4dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/imageView6"
+                android:paddingTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="41dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_lock" />
+
+            <EditText
+                android:id="@+id/passwordET"
+                android:layout_width="288dp"
+                android:layout_height="wrap_content"
+                android:hint=" Password"
+                android:inputType="textPassword" />
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/side_nav_bar"
+            android:padding="12dp"
+            android:text="Login"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textStyle="bold" />
+
+        <TextView android:id="@+id/link_signup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="No account yet? Create one"
+            android:gravity="center"
+            android:textSize="16dip"/>
+    </LinearLayout>
+
+</ScrollView>

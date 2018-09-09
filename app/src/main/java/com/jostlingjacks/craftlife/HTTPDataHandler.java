@@ -9,6 +9,8 @@ import java.util.Scanner;
 public class HTTPDataHandler {
     private static final String BASE_URI = "https://monash-ie-dev.herokuapp.com/api/v1/";
 
+
+    //public static JSONObject registration
     public static String getEventNotification (JSONObject jsonObject) {
         final String methodPath = "Event/";
         //initialise

@@ -15,12 +15,14 @@
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -31,7 +33,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".NotificationDetailActivity" />
+
         <activity android:name=".NotificationRegularDetailActivity" />
 
         <service
@@ -55,8 +59,18 @@
                 android:value="com.jostlingjacks.craftlife.MainActivity" />
         </activity>
 
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".RegistrationActivity"></activity>
+        <activity android:name=".LoginActivity">
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".RegistrationActivity">
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

@@ -49,6 +49,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
         addTV = (TextView)findViewById(R.id.address);
         timeTV = (TextView) findViewById(R.id.time);
         actionImage = (ImageView) findViewById(R.id.imageAction);
+        actionImage.setImageResource(R.drawable.event);
         //mMapView = (MapView)findViewById(R.id.mapView);
 
 
@@ -83,6 +84,12 @@ public class NotificationDetailActivity extends AppCompatActivity {
             actionImage.setImageResource(R.drawable.fountains_2);
         } else if (title.toLowerCase().contains("monument")){
             actionImage.setImageResource(R.drawable.history);
+        }else if (title.toLowerCase().contains("theatre")){
+            actionImage.setImageResource(R.drawable.theatre);
+        }else if (title.toLowerCase().contains("facility")){
+            actionImage.setImageResource(R.drawable.exercise);
+        }else if (title.toLowerCase().contains("garden")){
+            actionImage.setImageResource(R.drawable.park);
         }
 
         titleTextView.setText(title);
