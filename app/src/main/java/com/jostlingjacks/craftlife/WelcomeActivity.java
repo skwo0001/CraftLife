@@ -28,10 +28,12 @@ public class WelcomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
-
+        getSupportActionBar().hide();
         if(!isFirstTimeStartApp()) {
-            startMainActivity();
+            startLoginActivity();
+            //startMainActivity();
             finish();
         }
 
@@ -48,8 +50,8 @@ public class WelcomeActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                startMainActivity();
+                startLoginActivity();
+                //startMainActivity();
             }
         });
 
@@ -61,7 +63,9 @@ public class WelcomeActivity extends AppCompatActivity {
                     //move to next page
                     viewPager.setCurrentItem(currentPage);
                 } else {
-                    startMainActivity();
+                    startLoginActivity();
+                    //startMainActivity();
+
                 }
             }
         });
@@ -136,5 +140,12 @@ public class WelcomeActivity extends AppCompatActivity {
             window.setStatusBarColor(Color.TRANSPARENT);
         }
 
+    }
+
+    // only for test purpose
+    private void startLoginActivity(){
+        setFirstTimeStartStatus(false);
+        startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+        finish();
     }
 }

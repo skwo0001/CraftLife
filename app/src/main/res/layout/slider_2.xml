@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Just stand up and take deep breathe may help you lot."
+        android:text="Just standing up and taking a deep breathe may help you lot."
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="20dp" />

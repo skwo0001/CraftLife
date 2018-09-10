@@ -7,10 +7,10 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="350dp"
-        android:layout_height="70dp"
+        android:layout_width="384dp"
+        android:layout_height="182dp"
         android:layout_gravity="center"
-        android:src="@drawable/notification_sample" />
+        android:src="@drawable/chat" />
 
     <TextView
         android:layout_width="match_parent"

@@ -15,15 +15,20 @@
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeActivity">
+
+        <activity android:name=".WelcomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
+
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,8 +36,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NotificationDetailActivity" />
-        <activity android:name=".NotificationRegularDetailActivity" />
+
+        <activity android:name=".NotificationDetailActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".NotificationRegularDetailActivity"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".SendRequest"
@@ -43,20 +52,29 @@
             android:resource="@array/preloaded_fonts" />
 
 
-        <activity android:name=".TutorialActivity"></activity>
+        <activity android:name=".TutorialActivity"
+            android:screenOrientation="portrait"></activity>
 
 
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jostlingjacks.craftlife.MainActivity" />
         </activity>
 
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".RegistrationActivity"></activity>
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".RegistrationActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".TestForFirstScreenActivity"
+            android:screenOrientation="portrait"></activity>
+
     </application>
 
 </manifest>
