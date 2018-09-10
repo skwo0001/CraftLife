@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="50dp"
-    android:paddingLeft="24dp"
-    android:background="@drawable/back_register"
-    android:paddingRight="24dp"
+    android:background="@drawable/background"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
@@ -20,13 +18,22 @@
         android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         android:paddingTop="10dp"
         android:text="Sign Up"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="30sp" />
 
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingLeft="24dp"
+        android:background="@color/white"
+        android:paddingRight="24dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <!--  Email Label -->
@@ -124,5 +131,7 @@
         android:text="Already a member? Login"
         android:gravity="center"
         android:textSize="16dip"/>
+    </LinearLayout>
+
 
 </LinearLayout>

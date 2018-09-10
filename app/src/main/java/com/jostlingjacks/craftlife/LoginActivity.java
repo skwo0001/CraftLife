@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (jsonString != ""){
                     try {
-                        // when the string is not null, cinvert to JSON Object
+                        // when the string is not null, convert to JSON Object
                         jsonReply = new JSONObject(jsonString.toString());
                     }catch (JSONException e){
                         e.printStackTrace();
@@ -182,9 +182,9 @@ public class LoginActivity extends AppCompatActivity {
             emailInput.setError(null);
         }
 
-        //set the requirement of the password with the range between 8 to 26, that contains both numeric and alphabetic characters
-        if (password.isEmpty() || password.length() < 8 || password.length() > 26 || !password.matches("[a-zA-Z0-9]*")) {
-            passwordInput.setError("between 8 and 26 alphanumeric and numeric characters");
+        //set the requirement of the password with the range between 8 to 16, that contains both numeric and alphabetic characters
+        if (password.isEmpty() || password.length() < 8 || password.length() > 16 || !password.matches("[a-zA-Z0-9]*")) {
+            passwordInput.setError("between 8 and 16 alphanumeric and numeric characters");
             valid = false;
         } else {
             passwordInput.setError(null);
