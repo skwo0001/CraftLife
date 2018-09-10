@@ -31,7 +31,7 @@
         android:key="daily_suggestion"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
-        android:title="@string/pref_daily_suggestion_interval" />
+        android:title="@string/pref_regular_suggestion_interval" />
 
     <ListPreference
         android:defaultValue="1 Hour"
@@ -42,6 +42,15 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_art_place_suggestion_interval" />
 
+
+    <ListPreference
+        android:defaultValue="1 Hour"
+        android:entries="@array/pref_event_suggestion_interval_values"
+        android:entryValues="@array/pref_event_suggestion_interval_values"
+        android:key="event"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/pref_event_suggestion_interval" />
 
 
 </PreferenceScreen>

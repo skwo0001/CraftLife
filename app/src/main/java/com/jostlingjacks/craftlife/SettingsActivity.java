@@ -35,8 +35,6 @@ import java.util.List;
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
-
-
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -225,6 +223,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("daily_suggestion"));
             bindPreferenceSummaryToValue(findPreference("art_suggestion"));
+            bindPreferenceSummaryToValue(findPreference("event"));
         }
 
         @Override
