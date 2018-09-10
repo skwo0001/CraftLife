@@ -67,7 +67,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/noti_title"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.437"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -141,7 +141,7 @@
         android:layout_width="317dp"
         android:layout_height="48dp"
         android:layout_marginBottom="14dp"
-        android:background="#fbc02d"
+        android:background="@drawable/middledarkcard"
         android:fontFamily="sans-serif"
         android:onClick="backMain"
         android:text="OK, I get it."

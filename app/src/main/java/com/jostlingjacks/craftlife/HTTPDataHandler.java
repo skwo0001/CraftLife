@@ -27,7 +27,6 @@ public class HTTPDataHandler {
     private static final String BASE_URI = "https://monash-ie-dev.herokuapp.com/api/v1/";
     private static final String ITERATION_BASE_URI = "https://letian-bucket-test.herokuapp.com/";
 
-
     public static String loginUser (UserInfo userInfo) {
         String responseString = "";
         URL url = null;
@@ -124,18 +123,16 @@ public class HTTPDataHandler {
         return responseString;
     }
 
-    public static String logoutUser(JSONObject jsonObject){
+    public static String logoutUser(String token){
         //initialise
         String responseString = "";
         URL url = null;
         HttpURLConnection conn = null;
 
 
-        final String methodPath="auth/register";
+        final String methodPath="auth/logout";
         try {
-//            Gson gson =new Gson();
-//            String stringUserInfo=gson.toJson(userInfo);
-            String stringUserInfo = jsonObject.toString();
+            token = "Bearer " + token;
             url = new URL(ITERATION_BASE_URI + methodPath);
             //open the connection
             conn = (HttpURLConnection) url.openConnection();
@@ -147,15 +144,12 @@ public class HTTPDataHandler {
             conn.setDoOutput(true);
             //set length of the data you want to send
 
-
-            conn.setFixedLengthStreamingMode(stringUserInfo.getBytes().length); //add HTTP headers
-
             conn.setRequestProperty("Content-Type", "application/json");
-            conn.getOutputStream().write(stringUserInfo.getBytes("UTF8"));
+            conn.addRequestProperty("Authorization",token);
 
             int responseCode = conn.getResponseCode();
 
-            if (responseCode == HttpURLConnection.HTTP_CREATED || responseCode == HttpURLConnection.HTTP_ACCEPTED) {
+            if (responseCode == HttpURLConnection.HTTP_OK) {
                 //get the token back
                 Scanner inStream = new Scanner(conn.getInputStream()); //read the input stream and store it as string
                 while (inStream.hasNextLine())

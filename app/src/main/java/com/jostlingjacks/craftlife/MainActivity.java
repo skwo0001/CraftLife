@@ -178,6 +178,54 @@ public class MainActivity extends AppCompatActivity
                 nextFragment = new TutorialFragment();
                 break;
             case R.id.nav_logout:
+//                new AsyncTask<Void, Void, JSONObject>() {
+//                    @Override
+//                    protected JSONObject doInBackground(Void... params) {
+//                        JSONObject jsonReply = null;
+//                        //Get the token from share Preferences
+//                        String token = "";
+//                        String jsonString = HTTPDataHandler.logoutUser(token);
+//
+//                        if (jsonString != ""){
+//                            try {
+//                                // when the string is not null, convert to JSON Object
+//                                jsonReply = new JSONObject(jsonString.toString());
+//                            }catch (JSONException e){
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                        //the josn Object
+//                        return jsonReply;
+//
+//                    }
+//                    @RequiresApi(api = Build.VERSION_CODES.O)
+//                    @Override
+//                    protected void onPostExecute(JSONObject jsonObject) {
+//                        if (jsonObject != null){
+//                            try {
+//                                String message = jsonObject.getString("message");
+//                                String status = jsonObject.getString("status");
+//                                if (status.toLowerCase().contains("failed")){
+//                                    Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+//                                } else {
+//                                    Intent main = new Intent(MainActivity.this, LoginActivity.class);
+//                                    startActivity(main);
+//                                }
+//
+//                            }catch (JSONException e){
+//                                e.printStackTrace();
+//                            }
+//
+//                        } else {
+//                            Toast.makeText(getBaseContext(), "Logout failed!", Toast.LENGTH_LONG).show();
+//                        }
+//
+//                    }
+//                }.execute();
+
+                Toast.makeText(getBaseContext(), "Logout Successful!", Toast.LENGTH_LONG).show();
+                Intent main = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(main);
                 break;
 
         }
