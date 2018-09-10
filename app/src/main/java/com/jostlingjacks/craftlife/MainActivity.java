@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity
                 nextFragment = new MainFragment();
                 break;
             case R.id.nav_settings:
-                nextFragment = new SettingsFragment();
+                nextFragment = new SettingFragment();
                 break;
             case R.id.nav_aboutus:
                 nextFragment = new AboutUsFragment();
