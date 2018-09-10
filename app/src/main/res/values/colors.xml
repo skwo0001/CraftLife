@@ -15,4 +15,9 @@
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
     <color name="white">#ffffff</color>
+
+    <color name="light">#FF9553</color>
+    <color name="middleLight">#FB7E41</color>
+    <color name="middleDark">#F86830</color>
+    <color name="dark">#f4511e</color>
 </resources>
