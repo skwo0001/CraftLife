@@ -3,6 +3,7 @@ package com.jostlingjacks.craftlife;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,11 @@ import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+/**
+ * this contains shared preferences that allows to
+ * TODO: this
+ */
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -42,6 +48,28 @@ public class LoginActivity extends AppCompatActivity {
         passwordInput = (EditText) findViewById(R.id.passwordET);
         loginButton = (Button) findViewById(R.id.btn_login);
         signupLink = (TextView) findViewById(R.id.link_signup);
+
+        /**
+         * get intent from the previous activity if successfully registered...
+         */
+        String loginInfo[] = getIntentExtraFromRegisterActivity();
+        // if the length of loginInfo is not 1, thenloginInfo has info from register activity...
+        if (loginInfo.length != 1){
+            // from register activity...
+            emailInput.setText(loginInfo[0]);
+            passwordInput.setText(loginInfo[1]);
+        }
+        // since then if the two texts input fields are empty, then get the from the shared preferences...
+        if (emailInput.getText().toString().trim() != "" && passwordInput.getText().toString().trim() != ""){
+            // the text input fields are now from shared preferences...
+            SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+            String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+            String password = userInfoSharedPreferences.getString("UserPassword", "");
+            emailInput.setText(emailAddress);
+            passwordInput.setText(password);
+        }
+
+
 
         // login button click listener...
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -191,6 +219,18 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private String[] getIntentExtraFromRegisterActivity(){
+        Intent intent = new Intent();
+        String emailAddress = intent.getStringExtra("emailAddress");
+        String password = intent.getStringExtra("password");
+        if (emailAddress != ""  && password != ""){
+            String[] loginInfo = new String[] {"",""};
+            loginInfo[0] = emailAddress;
+            loginInfo[1] = password;
+        }
+        return new String[]{""};
     }
 }
 

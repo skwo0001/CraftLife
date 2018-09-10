@@ -25,6 +25,14 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * in this activity, Shared Preferences will be stored
+ */
+
+/**
+ * TODO list:
+ * Shared preferences on 10/Sept/2019
+ */
 public class RegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
@@ -130,7 +138,12 @@ public class RegistrationActivity extends AppCompatActivity {
                                 signupButton.setEnabled(true);
                                 progressDialog.dismiss();
                             }
+                            /**
+                             * the user registered successed from here...
+                             */
                         } else {
+                            // store users password and email from here...
+                            storeSharedPreferencesWhenSuccessfullyRegistered(emailText.getText().toString(), passwordText.getText().toString());
                             String token = jsonObject.getString("auth_token");
                             Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
                             onRegisterSuccess();
@@ -158,6 +171,9 @@ public class RegistrationActivity extends AppCompatActivity {
         signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         Intent login = new Intent(RegistrationActivity.this, LoginActivity.class);
+        // if successfully registered, the email and password text should pass to the intent and read from the next activity.
+        login.putExtra("emailAddress", emailText.getText().toString());
+        login.putExtra("password", passwordText.getText().toString());
         startActivity(login);
     }
 
@@ -196,6 +212,17 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private void storeSharedPreferencesWhenSuccessfullyRegistered(String newEmailAddress, String newPassword){
+        SharedPreferences registerPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+        SharedPreferences.Editor editor = registerPreferences.edit();
+        // the key is, for example: email_address@outlook.com123456jhdata, data of new email address
+        // and new password are stored by given each a new line.
+        editor.putString("UserEmailAddress", newEmailAddress);
+        editor.putString("UserPassword", newPassword);
+        editor.commit();
+
     }
 
 }
