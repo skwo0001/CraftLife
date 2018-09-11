@@ -393,7 +393,37 @@ public class MainActivity extends AppCompatActivity
     private void logoutCurrentUser(){
         Intent main = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(main);
+
+        /**
+         * TODO: sahdfasjhdflkjsdaflhsadhlkjsadfklhj
+         */
+
         finish();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
