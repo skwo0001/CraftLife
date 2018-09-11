@@ -39,6 +39,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -98,6 +99,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // get the user info shared preference.
+        SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+
+        // once the user logs in, the name shold be displayed in the navigation drawer..
+        this.showUserInfoInNaviHeader(navigationView, userInfoSharedPreferences);
 
         //when the phone allow to access the location.
         if (!runtime_permissions()) {
@@ -163,75 +170,42 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Fragment nextFragment = null;
-        switch (id) {
-            case R.id.nav_home:
-                nextFragment = new MainFragment();
-                break;
-            case R.id.nav_settings:
-                nextFragment = new SettingFragment();
-                break;
-            case R.id.nav_aboutus:
-                nextFragment = new AboutUsFragment();
-                break;
-            case R.id.nav_tutorial:
-                nextFragment = new TutorialFragment();
-                break;
-            case R.id.nav_logout:
-//                new AsyncTask<Void, Void, JSONObject>() {
-//                    @Override
-//                    protected JSONObject doInBackground(Void... params) {
-//                        JSONObject jsonReply = null;
-//                        //Get the token from share Preferences
-//                        String token = "";
-//                        String jsonString = HTTPDataHandler.logoutUser(token);
-//
-//                        if (jsonString != ""){
-//                            try {
-//                                // when the string is not null, convert to JSON Object
-//                                jsonReply = new JSONObject(jsonString.toString());
-//                            }catch (JSONException e){
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                        //the josn Object
-//                        return jsonReply;
-//
-//                    }
-//                    @RequiresApi(api = Build.VERSION_CODES.O)
-//                    @Override
-//                    protected void onPostExecute(JSONObject jsonObject) {
-//                        if (jsonObject != null){
-//                            try {
-//                                String message = jsonObject.getString("message");
-//                                String status = jsonObject.getString("status");
-//                                if (status.toLowerCase().contains("failed")){
-//                                    Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
-//                                } else {
-//                                    Intent main = new Intent(MainActivity.this, LoginActivity.class);
-//                                    startActivity(main);
-//                                }
-//
-//                            }catch (JSONException e){
-//                                e.printStackTrace();
-//                            }
-//
-//                        } else {
-//                            Toast.makeText(getBaseContext(), "Logout failed!", Toast.LENGTH_LONG).show();
-//                        }
-//
-//                    }
-//                }.execute();
+        if (id == R.id.nav_logout){
 
-                Toast.makeText(getBaseContext(), "Logout Successful!", Toast.LENGTH_LONG).show();
-                Intent main = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(main);
-                break;
+            SharedPreferences registerPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+            SharedPreferences.Editor editor = registerPreferences.edit();
+            // the key is, for example: email_address@outlook.com123456jhdata, data of new email address
+            // and new password are stored by given each a new line.
+            editor.putString("UserEmailAddress", "");
+            editor.putString("UserPassword", "");
+            editor.commit();
 
+            Toast.makeText(getBaseContext(), "Logout Successful!", Toast.LENGTH_LONG).show();
+            Intent main = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(main);
+        } else {
+
+            Fragment nextFragment = null;
+            switch (id) {
+                case R.id.nav_home:
+                    nextFragment = new MainFragment();
+                    break;
+                case R.id.nav_settings:
+                    nextFragment = new SettingFragment();
+                    break;
+                case R.id.nav_aboutus:
+                    nextFragment = new AboutUsFragment();
+                    break;
+                case R.id.nav_tutorial:
+                    nextFragment = new TutorialFragment();
+                    break;
+
+
+            }
+
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment).commit();
         }
-
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -401,6 +375,25 @@ public class MainActivity extends AppCompatActivity
                 .build();
 
         notificationManager.notify(notification_id, notification);
+    }
+
+    private void showUserInfoInNaviHeader(NavigationView navigationView, SharedPreferences userInfoSharedPreferences){
+        View headerView = navigationView.getHeaderView(0);
+        TextView welcomeTextView = (TextView) headerView.findViewById(R.id.header_title_navigation_drawer_textview);
+        welcomeTextView.setText("Welcome!");
+        TextView navUsername = (TextView) headerView.findViewById(R.id.header_subtitle_navigation_drawer_textview);
+        /**
+         * TODO: the shared preferences can acutally put into a class variable.
+         * TODO: Done!!!
+         */
+        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+        navUsername.setText(emailAddress);
+    }
+
+    private void logoutCurrentUser(){
+        Intent main = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(main);
+        finish();
     }
 
 }

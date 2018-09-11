@@ -59,7 +59,7 @@ public class HTTPDataHandler {
                 }
             }
 
-            Log.i("errorrrrrrrr",new Integer(conn.getResponseCode()).toString());
+            Log.i("error",new Integer(conn.getResponseCode()).toString());
 
         }catch (Exception e){
             e.printStackTrace();
@@ -248,8 +248,6 @@ public class HTTPDataHandler {
         }
         return textResult;
     }
-
-
 
 }
 

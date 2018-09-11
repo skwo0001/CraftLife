@@ -144,6 +144,19 @@ public class LoginActivity extends AppCompatActivity {
                         if (status.toLowerCase().contains("failed")){
                             Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
                         }
+
+                        /**
+                         * put the storing sharedPreference of token here....
+                         */
+                        SharedPreferences registerPreference = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+                        String emailAddress = registerPreference.getString("UserEmailAddress", "");
+
+                        SharedPreferences logInPreferences = getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = logInPreferences.edit();
+                        String authToken = jsonObject.getString("auth_token");
+                        editor.putString(emailAddress+"AuthToken", authToken);
+                        editor.commit();
+
                         onLoginSuccess();
                         progressDialog.dismiss();
                         finish();
@@ -161,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
+//{"auth_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzY3NDUwMzUsImlhdCI6MTUzNjY1ODYxNSwic3ViIjoyMX0.4Pvy9ldutcCxdrsih4IGPaRKFt5T_AHMcTshmI-mYqM","message":"Successfully logged In","status":"success"}
 
 
 
@@ -233,6 +246,7 @@ public class LoginActivity extends AppCompatActivity {
         return new String[]{""};
     }
 }
+
 
 // { "email": "email_address@outlook.com", "password": "password"}
 // {

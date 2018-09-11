@@ -30,10 +30,12 @@
         android:entryValues="@array/pref_daily_suggestion_interval_values"
         android:key="daily_suggestion"
         android:negativeButtonText="@null"
+        android:id="@+id/pref_daily_suggestion_interval_values"
         android:positiveButtonText="@null"
         android:title="@string/pref_regular_suggestion_interval" />
 
     <ListPreference
+        android:id="@+id/pref_art_places_suggestion_interval_values"
         android:defaultValue="1 Hour"
         android:entries="@array/pref_art_places_suggestion_interval_values"
         android:entryValues="@array/pref_art_places_suggestion_interval_values"

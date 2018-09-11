@@ -21,6 +21,7 @@
         app:srcCompat="@drawable/man" />
 
     <TextView
+        android:id="@+id/header_title_navigation_drawer_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -29,7 +30,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/header_subtitle_navigation_drawer_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nav_header_subtitle" />
