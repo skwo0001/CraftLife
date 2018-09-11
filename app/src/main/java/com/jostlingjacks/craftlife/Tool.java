@@ -1,8 +1,12 @@
 package com.jostlingjacks.craftlife;
 
+import android.content.SharedPreferences;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class Tool {
 
@@ -32,4 +36,6 @@ public class Tool {
 
         return pw;
     }
+
+
 }
