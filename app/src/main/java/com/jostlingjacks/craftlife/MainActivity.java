@@ -163,27 +163,35 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Fragment nextFragment = null;
-        switch (id) {
-            case R.id.nav_home:
-                nextFragment = new MainFragment();
-                break;
-            case R.id.nav_settings:
-                nextFragment = new SettingFragment();
-                break;
-            case R.id.nav_aboutus:
-                nextFragment = new AboutUsFragment();
-                break;
-            case R.id.nav_tutorial:
-                nextFragment = new TutorialFragment();
-                break;
-            case R.id.nav_logout:
+        if (id == R.id.nav_logout){
+            Toast.makeText(getBaseContext(), "Logout Successful!", Toast.LENGTH_LONG).show();
+            Intent main = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(main);
+        } else {
+
+            Fragment nextFragment = null;
+            switch (id) {
+                case R.id.nav_home:
+                    nextFragment = new MainFragment();
+                    break;
+                case R.id.nav_settings:
+                    nextFragment = new SettingFragment();
+                    break;
+                case R.id.nav_aboutus:
+                    nextFragment = new AboutUsFragment();
+                    break;
+                case R.id.nav_tutorial:
+                    nextFragment = new TutorialFragment();
+                    break;
+                case R.id.nav_documentation:
+                    nextFragment = new DocumentFragment();
+                    //case R.id.nav_logout:
 //                new AsyncTask<Void, Void, JSONObject>() {
 //                    @Override
 //                    protected JSONObject doInBackground(Void... params) {
 //                        JSONObject jsonReply = null;
 //                        //Get the token from share Preferences
-//                        String token = "";
+//                        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MzY3MjMwNDIsImlhdCI6MTUzNjYzNjYyMiwic3ViIjoxN30.EQCZabK744ydhZPgNIfN1PlF5kvj0sIMC-qisxQWYno";
 //                        String jsonString = HTTPDataHandler.logoutUser(token);
 //
 //                        if (jsonString != ""){
@@ -223,15 +231,14 @@ public class MainActivity extends AppCompatActivity
 //                    }
 //                }.execute();
 
-                Toast.makeText(getBaseContext(), "Logout Successful!", Toast.LENGTH_LONG).show();
-                Intent main = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(main);
-                break;
 
+                    break;
+
+            }
+
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment).commit();
         }
-
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -298,6 +305,9 @@ public class MainActivity extends AppCompatActivity
             protected void onPostExecute(JSONObject jsonObject) {
 
                 createNotification(jsonObject);
+               // Fragment fragment = getFragmentManager().findFragmentById(R.layout.fragment_home);
+               // Bundle bundle = new Bundle();
+
                 Log.d("jsonObject", jsonObject.toString());
 
             }

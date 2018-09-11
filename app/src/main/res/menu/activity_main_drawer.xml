@@ -20,6 +20,11 @@
                 android:id="@+id/nav_aboutus"
                 android:icon="@drawable/ic_info_black_24dp"
                 android:title="About Us" />
+
+            <item
+                android:id="@+id/nav_documentation"
+                android:icon="@drawable/ic_library_books"
+                android:title="Document" />
         </menu>
 
     </item>

@@ -54,7 +54,7 @@ public class SettingFragment extends PreferenceFragment {
         /**
          *  this loads the resources from pref_notification xml file...
          */
-        addPreferencesFromResource(R.xml.pref_notification);
+   //     addPreferencesFromResource(R.xml.pref_notification);
 
         startButton = (Button) view.findViewById(R.id.button_starttesting);
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -92,10 +92,10 @@ public class SettingFragment extends PreferenceFragment {
             }
         });
 
-        Preference dailyPreference = findPreference("daily_suggestion");
-        String key = dailyPreference.getKey();
-        CharSequence value = dailyPreference.getSummary();
-        String value1 = value.toString();
+//        Preference dailyPreference = findPreference("daily_suggestion");
+//        String key = dailyPreference.getKey();
+//        CharSequence value = dailyPreference.getSummary();
+//        String value1 = value.toString();
 
 
 

@@ -144,7 +144,6 @@ public class RegistrationActivity extends AppCompatActivity {
                         } else {
                             // store users password and email from here...
                             storeSharedPreferencesWhenSuccessfullyRegistered(emailText.getText().toString(), passwordText.getText().toString());
-                            String token = jsonObject.getString("auth_token");
                             Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
                             onRegisterSuccess();
                             progressDialog.dismiss();
@@ -204,7 +203,14 @@ public class RegistrationActivity extends AppCompatActivity {
             passwordText.setError(null);
         }
 
-        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 8 || reEnterPassword.length() > 16 || !(reEnterPassword.equals(password))) {
+        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 8 || reEnterPassword.length() > 16 ) {
+            reEnterPasswordText.setError("between 8 and 16 alphanumeric and numeric characters");
+            valid = false;
+        } else {
+            reEnterPasswordText.setError(null);
+        }
+
+        if (!(reEnterPassword.equals(password))) {
             reEnterPasswordText.setError("Password Do not match");
             valid = false;
         } else {
