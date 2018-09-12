@@ -152,6 +152,12 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/art_event_on_map_button"
+        android:layout_width="300dp"
+        android:layout_height="37dp"
+        android:text="Find it on map"/>
+
 
 
 

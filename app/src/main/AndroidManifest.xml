@@ -75,6 +75,8 @@
         <activity android:name=".TestForFirstScreenActivity"
             android:screenOrientation="portrait"></activity>
 
+        <activity android:name=".MapActivity"></activity>
+
     </application>
 
 </manifest>

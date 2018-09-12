@@ -21,6 +21,7 @@ import java.util.Date;
 public class NotificationDetailActivity extends AppCompatActivity {
 
     private Button button;
+    private Button artEventOnMapButton;
     private TextView titleTextView,  descTextView,  addressTextView,  timeTextView, addTV, timeTV;
     private ImageView actionImage;
 
@@ -108,6 +109,14 @@ public class NotificationDetailActivity extends AppCompatActivity {
                 goBack();
             }
         });
+
+        artEventOnMapButton = (Button) findViewById(R.id.art_event_on_map_button);
+        artEventOnMapButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                goToMapActivity();
+            }
+        });
     }
 
     public void goBack() {
@@ -115,6 +124,21 @@ public class NotificationDetailActivity extends AppCompatActivity {
         //startActivity(intent);
         finish();
         //moveTaskToBack(true);
+    }
+
+    public void goToMapActivity(){
+        Intent intent = new Intent(this, MapActivity.class);
+
+        // have to make sure that don't give the intent an null value to prevent the app crashing...
+        if (getAddress() != null) {
+            intent.putExtra("ArtAddress", getAddress());
+            intent.putExtra("ArtName", getName());
+            intent.putExtra("ArtDescription", getDescription());
+        } else {
+            intent.putExtra("ArtAddress", "U1 52 Panorama St Clayton VIC");  // the address is for testing...
+        }
+
+        startActivity(intent);
     }
 
     @Override
@@ -169,7 +193,5 @@ public class NotificationDetailActivity extends AppCompatActivity {
 
         return details.getString("description");
     }
-
-
 
 }
