@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">CraftLife</string>
+    <string name="access_token">pk.eyJ1IjoieGxpbjAwMDMiLCJhIjoiY2pseXp6b3N4MXU2ZTN2cW5ydGZ0dDlqZiJ9.X5WB-IZ9xpgfIcjKVS1cEQ</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title"></string>
@@ -88,6 +89,7 @@
     <string name="pref_regular_suggestion_interval">Regular Suggestion</string>
     <string name="pref_art_place_suggestion_interval">Art Places Suggestion</string>
     <string name="pref_event_suggestion_interval">Events Suggestion</string>
+    <string name="take_me_to_the_art_place">take me to the art place</string>
 
     <string-array name="pref_daily_suggestion_interval_values">
         <item>15 Minutes</item>
