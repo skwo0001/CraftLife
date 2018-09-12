@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity
     private NotificationManager notificationManager;
     private LocationManager locationManager;
     boolean doubleBackToExitPressedOnce = false;
+    private DataBaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +104,11 @@ public class MainActivity extends AppCompatActivity
         // get the user info shared preference.
         SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
 
-        // once the user logs in, the name shold be displayed in the navigation drawer..
+        // once the user logs in, the name should be displayed in the navigation drawer..
         this.showUserInfoInNaviHeader(navigationView, userInfoSharedPreferences);
+
+       // db = new DataBaseHelper(this);
+       // db.createUser(userInfoSharedPreferences.getString("UserEmailAddress", ""));
 
         //when the phone allow to access the location.
         if (!runtime_permissions()) {

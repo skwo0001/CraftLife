@@ -109,14 +109,6 @@ android:layout_height="match_parent">
     app:layout_constraintStart_toStartOf="parent"
     app:srcCompat="@drawable/seo" />
 
-<ImageView
-    android:id="@+id/imageView18"
-    android:layout_width="32dp"
-    android:layout_height="32dp"
-    android:layout_marginEnd="24dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="200dp"
-    app:srcCompat="@drawable/category" />
 
 
 </android.support.constraint.ConstraintLayout>
