@@ -1,82 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView android:id="@+id/scrollView2"
-    android:fitsSystemWindows="true"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:fitsSystemWindows="true"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="20dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/yellowcard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
 
-            <TextView
-                android:id="@+id/textView3"
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="174dp"
+            android:layout_height="142dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/documents" />
+
+        <ScrollView
+            android:layout_width="375dp"
+            android:layout_height="354dp"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            android:paddingBottom="20dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="63dp"
-                android:text="CraftLife currently works best with Victorian work professionals."
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                tools:layout_editor_absoluteX="36dp"
-                tools:layout_editor_absoluteY="16dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Are you bored of work or have you ever found it is hard to execute simple things to take care of yourself? "
-                android:textSize="14sp"
-                tools:layout_editor_absoluteX="34dp"
-                tools:layout_editor_absoluteY="79dp" />
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="63dp"
+                    android:text="CraftLife currently works best with Victorian work professionals."
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="36dp"
+                    tools:layout_editor_absoluteY="16dp" />
 
-            <TextView
-                android:id="@+id/textView18"
-                android:layout_width="match_parent"
-                android:layout_height="39dp"
-                android:text="Then, CraftLife is here for you.  "
-                android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="Are you bored of work or have you ever found it is hard to execute simple things to take care of yourself? "
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    tools:layout_editor_absoluteX="34dp"
+                    tools:layout_editor_absoluteY="79dp" />
 
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="match_parent"
-                android:layout_height="78dp"
-                android:text="It is a notification and suggestion based app. We give you daily suggestions and fascinating art things around you to keep you relaxed.   "
-                android:textSize="14sp"
-                tools:layout_editor_absoluteX="36dp"
-                tools:layout_editor_absoluteY="183dp" />
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="match_parent"
+                    android:layout_height="39dp"
+                    android:textColor="@color/white"
+                    android:text="Then, CraftLife is here for you.  "
+                    android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/textView16"
-                android:layout_width="match_parent"
-                android:layout_height="78dp"
-                android:text="Just tell us if you did as we suggested or if you don't like we'll then show less (coming soon), we can guide you there and don't forget to share with friends! "
-                android:textSize="14sp"
-                tools:layout_editor_absoluteX="36dp"
-                tools:layout_editor_absoluteY="276dp" />
+                <TextView
+                    android:id="@+id/textView28"
+                    android:layout_width="match_parent"
+                    android:layout_height="78dp"
+                    android:text="It is a notification and suggestion based app. We give you daily suggestions and fascinating art things around you to keep you relaxed.   "
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    tools:layout_editor_absoluteX="36dp"
+                    tools:layout_editor_absoluteY="183dp" />
 
-            <TextView
-                android:id="@+id/textView17"
-                android:layout_width="match_parent"
-                android:layout_height="39dp"
-                android:text="CraftLife can only be of assistance if your daily relaxation is inadequate."
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="36dp"
-                tools:layout_editor_absoluteY="379dp"
-                tools:text="CraftLife can only be of assistance if your daily relaxation is inadequate." />
+                <TextView
+                    android:id="@+id/textView29"
+                    android:layout_width="match_parent"
+                    android:layout_height="78dp"
+                    android:textColor="@color/white"
+                    android:text="Just tell us if you did as we suggested or if you don't like we'll then show less (coming soon), we can guide you there and don't forget to share with friends! "
+                    android:textSize="14sp"
+                    tools:layout_editor_absoluteX="36dp"
+                    tools:layout_editor_absoluteY="276dp" />
 
-            <TextView
-                android:id="@+id/textView19"
-                android:layout_width="match_parent"
-                android:layout_height="39dp"
-                android:text="P.S. If symptoms persist please consult your psychological healthcare professional. "
-                android:textStyle="bold" />
-        </LinearLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/textView30"
+                    android:layout_width="match_parent"
+                    android:layout_height="39dp"
+                    android:text="CraftLife can only be of assistance if your daily relaxation is inadequate."
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    tools:layout_editor_absoluteX="36dp"
+                    tools:layout_editor_absoluteY="379dp"/>
+
+                <TextView
+                    android:id="@+id/textView31"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/white"
+                    android:layout_height="39dp"
+                    android:text="P.S. If symptoms persist please consult your psychological healthcare professional. "
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </ScrollView>
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

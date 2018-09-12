@@ -199,6 +199,9 @@ public class MainActivity extends AppCompatActivity
                 case R.id.nav_tutorial:
                     nextFragment = new TutorialFragment();
                     break;
+                case R.id.nav_documentation:
+                    nextFragment = new DocumentFragment();
+                    break;
 
 
             }
