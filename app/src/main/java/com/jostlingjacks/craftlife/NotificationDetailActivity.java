@@ -21,7 +21,8 @@ import java.util.Date;
 public class NotificationDetailActivity extends AppCompatActivity {
 
     private Button button;
-    private TextView titleTextView,  descTextView,  addressTextView,  timeTextView, addTV, timeTV;
+    private TextView titleTextView,  descTextView,  addressTextView,  timeTextView;
+    private ImageView addressImg, timeImg;
     private ImageView actionImage;
 
 
@@ -46,8 +47,8 @@ public class NotificationDetailActivity extends AppCompatActivity {
         descTextView = (TextView) findViewById(R.id.noti_desc);
         addressTextView = (TextView) findViewById(R.id.noti_add);
         timeTextView = (TextView) findViewById(R.id.noti_time);
-        addTV = (TextView)findViewById(R.id.address);
-        timeTV = (TextView) findViewById(R.id.time);
+        addressImg = (ImageView) findViewById(R.id.addressImg);
+        timeImg = (ImageView) findViewById(R.id.timeImg);
         actionImage = (ImageView) findViewById(R.id.imageAction);
         actionImage.setImageResource(R.drawable.event);
         //mMapView = (MapView)findViewById(R.id.mapView);
@@ -63,7 +64,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
 
             timeTextView.setText(time);
 
-            addTV.setVisibility(View.VISIBLE);
+            addressImg.setVisibility(View.VISIBLE);
             timeTextView.setVisibility(View.INVISIBLE);
         }
 

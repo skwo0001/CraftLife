@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:paddingBottom="10dp"
+    android:paddingBottom="20dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="20dp">
@@ -19,8 +19,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
 
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="0dp">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -35,19 +35,25 @@
 
         <ScrollView
             android:layout_width="375dp"
-            android:layout_height="354dp"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            android:layout_height="370dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:paddingBottom="20dp"
-            tools:layout_editor_absoluteX="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
             tools:ignore="MissingConstraints">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:orientation="vertical" >
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textView"
@@ -76,8 +82,8 @@
                     android:id="@+id/textView27"
                     android:layout_width="match_parent"
                     android:layout_height="39dp"
-                    android:textColor="@color/white"
                     android:text="Then, CraftLife is here for you.  "
+                    android:textColor="@color/white"
                     android:textSize="14sp" />
 
                 <TextView
@@ -85,8 +91,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="78dp"
                     android:text="It is a notification and suggestion based app. We give you daily suggestions and fascinating art things around you to keep you relaxed.   "
-                    android:textSize="14sp"
                     android:textColor="@color/white"
+                    android:textSize="14sp"
                     tools:layout_editor_absoluteX="36dp"
                     tools:layout_editor_absoluteY="183dp" />
 
@@ -94,8 +100,8 @@
                     android:id="@+id/textView29"
                     android:layout_width="match_parent"
                     android:layout_height="78dp"
-                    android:textColor="@color/white"
                     android:text="Just tell us if you did as we suggested or if you don't like we'll then show less (coming soon), we can guide you there and don't forget to share with friends! "
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     tools:layout_editor_absoluteX="36dp"
                     tools:layout_editor_absoluteY="276dp" />
@@ -105,19 +111,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="39dp"
                     android:text="CraftLife can only be of assistance if your daily relaxation is inadequate."
+                    android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@color/white"
                     tools:layout_editor_absoluteX="36dp"
-                    tools:layout_editor_absoluteY="379dp"/>
+                    tools:layout_editor_absoluteY="379dp" />
 
                 <TextView
                     android:id="@+id/textView31"
                     android:layout_width="match_parent"
-                    android:textColor="@color/white"
                     android:layout_height="39dp"
                     android:text="P.S. If symptoms persist please consult your psychological healthcare professional. "
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView32"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/textView34"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/textView33"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </ScrollView>
     </android.support.constraint.ConstraintLayout>
