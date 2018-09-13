@@ -151,10 +151,24 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences registerPreference = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
                         String emailAddress = registerPreference.getString("UserEmailAddress", "");
 
+                        /**
+                         * if there is nothing in the registerPreference
+                         * UserEmailAddress is empty... (existing email)
+                         */
+                        if (emailAddress == ""){
+                            emailAddress = email;
+                        }
+
                         SharedPreferences logInPreferences = getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
                         SharedPreferences.Editor editor = logInPreferences.edit();
                         String authToken = jsonObject.getString("auth_token");
                         editor.putString(emailAddress+"AuthToken", authToken);
+                        editor.putString("CURRENT_USER_EMAIL", emailAddress);
+                        editor.commit();
+
+                        editor = registerPreference.edit();
+                        editor.putString("UserEmailAddress", emailAddress);
+                        editor.putString("UserPassword", password);
                         editor.commit();
 
                         onLoginSuccess();

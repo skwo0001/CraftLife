@@ -44,7 +44,9 @@ import com.mapbox.mapboxsdk.style.light.Position;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
+import com.mapbox.services.android.navigation.ui.v5.route.OnRouteSelectionChangeListener;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
+import com.mapbox.services.android.navigation.v5.route.RouteListener;
 //import com.mapbox.services.android.navigation.ui.v5.NavigationActivity;
 //import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 //import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
@@ -89,6 +91,8 @@ public class MapActivity  extends AppCompatActivity implements OnMapReadyCallbac
         mapView.getMapAsync(this);
 
         startNavigationButton = findViewById(R.id.takeMeToTheArtPlaceButton);
+        startNavigationButton.setEnabled(false);
+        startNavigationButton.setVisibility(View.INVISIBLE);
 
         startNavigationButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -118,6 +122,7 @@ public class MapActivity  extends AppCompatActivity implements OnMapReadyCallbac
 
 
     }
+
 
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
@@ -163,6 +168,8 @@ public class MapActivity  extends AppCompatActivity implements OnMapReadyCallbac
                             navigationMapRoute = new NavigationMapRoute(null, mapView, map);
                         }
                         navigationMapRoute.addRoute(currentRoute);
+                        startNavigationButton.setEnabled(true);
+                        startNavigationButton.setVisibility(View.VISIBLE);
 
                     }
                     @Override
