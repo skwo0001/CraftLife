@@ -24,7 +24,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
     private TextView titleTextView,  descTextView,  addressTextView,  timeTextView;
     private ImageView addressImg, timeImg;
     private Button artEventOnMapButton;
-    private TextView titleTextView,  descTextView,  addressTextView,  timeTextView, addTV, timeTV;
+
     private ImageView actionImage;
 
 
