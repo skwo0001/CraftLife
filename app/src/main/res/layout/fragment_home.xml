@@ -33,7 +33,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
                 android:layout_weight="1"
-                android:text="Regular Suggestion"
+                android:text="Daily Suggestion"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,8 +41,8 @@
 
             <ImageView
                 android:id="@+id/imageView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -103,8 +103,8 @@
 
             <ImageView
                 android:id="@+id/imageView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -155,8 +155,8 @@
 
             <ImageView
                 android:id="@+id/imageView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -169,7 +169,7 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="12dp"
             android:text="Latest Notification"
             android:textColor="@color/dark"
             android:textSize="24sp"

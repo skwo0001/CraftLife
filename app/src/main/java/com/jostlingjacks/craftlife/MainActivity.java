@@ -107,8 +107,9 @@ public class MainActivity extends AppCompatActivity
         // once the user logs in, the name should be displayed in the navigation drawer..
         this.showUserInfoInNaviHeader(navigationView, userInfoSharedPreferences);
 
-       // db = new DataBaseHelper(this);
-       // db.createUser(userInfoSharedPreferences.getString("UserEmailAddress", ""));
+        db = new DataBaseHelper(this);
+        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+        //db.createUser();
 
         //when the phone allow to access the location.
         if (!runtime_permissions()) {

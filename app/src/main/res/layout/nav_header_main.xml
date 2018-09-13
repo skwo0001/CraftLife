@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="68dp"
-            android:layout_height="62dp"
+            android:layout_height="68dp"
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/nav_header_desc"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/profile" />
+            app:srcCompat="@drawable/man" />
     </android.support.constraint.ConstraintLayout>
 
     <TextView

@@ -24,7 +24,6 @@ public class NotificationDetailActivity extends AppCompatActivity {
     private TextView titleTextView,  descTextView,  addressTextView,  timeTextView;
     private ImageView addressImg, timeImg;
     private Button artEventOnMapButton;
-    private TextView titleTextView,  descTextView,  addressTextView,  timeTextView, addTV, timeTV;
     private ImageView actionImage;
 
 
@@ -45,6 +44,9 @@ public class NotificationDetailActivity extends AppCompatActivity {
         String time = details.getString("time");
 
 
+
+        artEventOnMapButton = (Button) findViewById(R.id.art_event_on_map_button);
+        button = (Button) findViewById(R.id.getbutton);
         titleTextView = (TextView) findViewById(R.id.noti_title);
         descTextView = (TextView) findViewById(R.id.noti_desc);
         addressTextView = (TextView) findViewById(R.id.noti_add);
@@ -67,6 +69,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
             timeTextView.setText(time);
 
             addressImg.setVisibility(View.VISIBLE);
+            artEventOnMapButton.setVisibility(View.VISIBLE);
             timeTextView.setVisibility(View.INVISIBLE);
         }
 
@@ -104,7 +107,6 @@ public class NotificationDetailActivity extends AppCompatActivity {
         //timeTextView.setText(time);
 
 
-        button = (Button) findViewById(R.id.getbutton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +114,6 @@ public class NotificationDetailActivity extends AppCompatActivity {
             }
         });
 
-        artEventOnMapButton = (Button) findViewById(R.id.art_event_on_map_button);
         artEventOnMapButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

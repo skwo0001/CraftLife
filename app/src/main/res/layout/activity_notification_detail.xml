@@ -25,22 +25,22 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:paddingBottom="80dp"
-        android:layout_height="wrap_content"
+        android:layout_height="334dp"
+        android:layout_marginTop="12dp"
         android:background="@color/white"
         android:orientation="vertical"
+        android:paddingBottom="80dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:layout_marginTop="12dp"
         android:paddingTop="15dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
             android:paddingRight="4dp">
 
             <TextView
@@ -81,10 +81,11 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="0dp"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
             android:paddingRight="4dp">
@@ -93,8 +94,8 @@
                 android:id="@+id/addressImg"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginEnd="24dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="24dp"
                 android:layout_marginStart="16dp"
                 android:visibility="invisible"
                 app:srcCompat="@drawable/map" />
@@ -105,8 +106,31 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"
                 android:textIsSelectable="true"
-                android:textSize="18sp"
-                tools:layout_editor_absoluteX="70dp" />
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            android:paddingRight="4dp">
+
+            <Button
+                android:id="@+id/art_event_on_map_button"
+                android:layout_width="115dp"
+                android:layout_height="37dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginStart="225dp"
+                android:background="@drawable/mylightcard"
+                android:text="Find it on map"
+                android:textAllCaps="false"
+
+                android:textColor="@color/white"
+                android:visibility="invisible" />
+
         </LinearLayout>
 
 
@@ -121,8 +145,8 @@
             <ImageView
                 android:id="@+id/timeImg"
                 android:layout_width="32dp"
-                android:layout_gravity="center_vertical"
                 android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="16dp"
                 android:visibility="invisible"
@@ -156,11 +180,7 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/art_event_on_map_button"
-        android:layout_width="300dp"
-        android:layout_height="37dp"
-        android:text="Find it on map"/>
+
 
 
 </LinearLayout>
