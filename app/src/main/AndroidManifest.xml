@@ -72,9 +72,6 @@
         <activity android:name=".RegistrationActivity"
             android:screenOrientation="portrait"></activity>
 
-        <activity android:name=".TestForFirstScreenActivity"
-            android:screenOrientation="portrait"></activity>
-
         <activity android:name=".MapActivity"></activity>
 
         <activity android:name=".VideoActivity" android:screenOrientation="landscape"></activity>

@@ -25,7 +25,10 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
+        android:background="@drawable/layout_border"
         android:text="@string/take_me_to_the_art_place"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         mapbox:layout_constraintBottom_toBottomOf="parent"
         mapbox:layout_constraintEnd_toEndOf="parent"
         mapbox:layout_constraintStart_toStartOf="parent" />
