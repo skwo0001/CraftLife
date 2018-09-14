@@ -37,11 +37,13 @@ public class SendRequest extends JobService {
 
     private  NotificationManager notificationManager;
     private LocationManager locationManager;
+    private DataBaseHelper db;
 
     //Start the job
     @SuppressLint("StaticFieldLeak")
     @Override
     public boolean onStartJob(JobParameters params) {
+        db = new DataBaseHelper(this);
         try {
             Log.d("jsonObject", prepareCoordinatesAndTimeJSONObject(getLastLocation()).toString());
 
@@ -168,6 +170,15 @@ public class SendRequest extends JobService {
         bundle.putString("lon",lon);
         bundle.putString("address",address);
         bundle.putString("time",time);
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf2 = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+        String formatedate = sdf2.format(calendar.getTime());
+
+        SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+
+        db.addSuggestion(type, title,description,address,time,emailAddress,formatedate);
 
 
         Intent resultIntent;

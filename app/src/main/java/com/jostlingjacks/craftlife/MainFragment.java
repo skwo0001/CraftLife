@@ -40,6 +40,7 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
         event_detail = (TextView) vHome.findViewById(R.id.event_detail);
 
         regularHome = (ConstraintLayout) vHome.findViewById(R.id.regular_home);
+        artLocationHome = (ConstraintLayout) vHome.findViewById(R.id.location_home);
 
         //get the email from shared preference
         SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
@@ -51,41 +52,60 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
             reg_detail.setText(regResult);
         }
         // get the result to show the latest notification
-        String s = readRecentData(emailAddress, "regular");
-        String[] result = s.split(",");
-        final String title = result[0];
-        final String details = result[1];
-        final String address = result[2];
-        final String time = result[3];
+        String regular = readRecentData(emailAddress, "regular");
+        if (regular != ""){
+            String[] result = regular.split("#");
+            final String title = result[0];
+            final String details = result[1];
+            final String address = result[2];
+            final String time = result[3];
 
-        regularHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               Intent notificationDetail = new Intent(context,NotificationRegularDetailActivity.class);
-               Bundle bundle = new Bundle();
-               bundle.putString("title",title);
-               bundle.putString("description",details);
-               bundle.putString("address",address);
-               bundle.putString("time",time);
-               notificationDetail.putExtras(bundle);
-               startActivity(notificationDetail);
+            regularHome.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent notificationDetail = new Intent(context,NotificationRegularDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title",title);
+                    bundle.putString("description",details);
+                    bundle.putString("address",address);
+                    bundle.putString("time",time);
+                    notificationDetail.putExtras(bundle);
+                    startActivity(notificationDetail);
 
-            }
-        });
-//        artLocationHome = (ConstraintLayout) vHome.findViewById(R.id.location_home);
-//        artLocationHome.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent notificationDetail = new Intent(context,NotificationDetailActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("title",title);
-//               bundle.putString("description",details);
-//               bundle.putString("address",address);
-//               bundle.putString("time",time);
-//               notificationDetail.putExtras(bundle);
-//                startActivity(notificationDetail);
-//            }
-//        });
+                }
+            });
+        }
+
+
+        String locationResult = showRegular(readRecentData(emailAddress,"Arts event"));
+        if (locationResult != "")
+        {
+            location_detail.setText(locationResult);
+        }
+        String location = readRecentData(emailAddress, "Arts event");
+        if (location != ""){
+            String[] result = location.split("#");
+            final String title = result[0];
+            final String details = result[1];
+            final String address = result[2];
+            final String time = result[3];
+
+            artLocationHome.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent notificationDetail = new Intent(context,NotificationDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title",title);
+                    bundle.putString("description",details);
+                    bundle.putString("address",address);
+                    bundle.putString("time",time);
+                    notificationDetail.putExtras(bundle);
+                    startActivity(notificationDetail);
+
+                }
+            });
+        }
+
 //        eventHome = (ConstraintLayout) vHome.findViewById(R.id.event_home);
 //        eventHome.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -110,7 +130,7 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
         String s = "";
         if (c.moveToLast()){
             //return title,details,address and time
-            s = ( c.getString(0))+ ", " + c.getString(1)+ ", " + c.getString(2)+ ", " + c.getString(3);
+            s = ( c.getString(0))+ "#" + c.getString(1)+ "#" + c.getString(2)+ "#" + c.getString(3);
         }
 
         return  s;
@@ -121,13 +141,13 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
         String show = "";
         if (s != "")
         {
-            String[] result = s.split(",");
+            String[] result = s.split("#");
             String title = result[0];
             String details = result[1];
             String address = result[2];
             String time = result[3];
 
-            show = "Title : " + title + "\n" + "Details: " + details;
+            show = title ;
         }else{
             show = s;
         }
