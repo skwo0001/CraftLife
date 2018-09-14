@@ -10,6 +10,7 @@ import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -80,7 +81,6 @@ public class SendRequest extends JobService {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             protected void onPostExecute(JSONObject jsonObject) {
-
                 createNotification(jsonObject);
                 Log.d("jsonObject", jsonObject.toString());
 
