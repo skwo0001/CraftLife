@@ -46,7 +46,11 @@ import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.ui.v5.route.OnRouteSelectionChangeListener;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
+import com.mapbox.mapboxsdk.style.layers.Layer;
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.services.android.navigation.v5.route.RouteListener;
+import android.view.View;
+import android.graphics.Color;
 //import com.mapbox.services.android.navigation.ui.v5.NavigationActivity;
 //import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
 //import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
@@ -138,6 +142,17 @@ public class MapActivity  extends AppCompatActivity implements OnMapReadyCallbac
         destinationMarker.setTitle(artName);
         destinationMarker.setSnippet(artDescription);
 
+
+        /**
+         * styling layers
+         */
+        final Layer waterLayer = mapboxMap.getLayer("water");
+        mapboxMap.getLayer("");
+        if (waterLayer != null) {
+            waterLayer.setProperties(PropertyFactory.fillColor(Color.parseColor("#f57f17"))
+            );
+        }
+
         getRoute(originPosition, destinationPosition);
     }
 
@@ -160,6 +175,7 @@ public class MapActivity  extends AppCompatActivity implements OnMapReadyCallbac
                             return;
                         }
                         currentRoute = response.body().routes().get(0);
+
 
                         //initisal the route
                         if (navigationMapRoute != null){
@@ -361,6 +377,5 @@ public class MapActivity  extends AppCompatActivity implements OnMapReadyCallbac
 
         return resLatLng;
     }
-
 
 }
