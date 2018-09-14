@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity
 
         db = new DataBaseHelper(this);
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
-        //db.createUser();
+
 
         //when the phone allow to access the location.
         if (!runtime_permissions()) {
@@ -158,8 +158,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -207,8 +205,6 @@ public class MainActivity extends AppCompatActivity
                 case R.id.nav_documentation:
                     nextFragment = new DocumentFragment();
                     break;
-
-
             }
 
             FragmentManager fragmentManager = getFragmentManager();
@@ -357,6 +353,14 @@ public class MainActivity extends AppCompatActivity
         bundle.putString("address", address);
         bundle.putString("time", time);
 
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf2 = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+        String formatedate = sdf2.format(calendar.getTime());
+
+        SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+
+        db.addSuggestion(type, title,description,address,time,emailAddress,formatedate);
         Intent resultIntent;
 
         if (address != null) {
@@ -383,6 +387,11 @@ public class MainActivity extends AppCompatActivity
                 .build();
 
         notificationManager.notify(notification_id, notification);
+
+
+
+
+
     }
 
     private void showUserInfoInNaviHeader(NavigationView navigationView, SharedPreferences userInfoSharedPreferences){
