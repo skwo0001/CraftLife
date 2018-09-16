@@ -52,26 +52,30 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
         }
         // get the result to show the latest notification
         String s = readRecentData(emailAddress, "regular");
-        String[] result = s.split(",");
-        final String title = result[0];
-        final String details = result[1];
-        final String address = result[2];
-        final String time = result[3];
+        if (s != "") {
+            String[] result = s.split(",");
+            final String title = result[0];
+            final String details = result[1];
+            final String address = result[2];
+            final String time = result[3];
 
-        regularHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               Intent notificationDetail = new Intent(context,NotificationRegularDetailActivity.class);
-               Bundle bundle = new Bundle();
-               bundle.putString("title",title);
-               bundle.putString("description",details);
-               bundle.putString("address",address);
-               bundle.putString("time",time);
-               notificationDetail.putExtras(bundle);
-               startActivity(notificationDetail);
+            regularHome.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent notificationDetail = new Intent(context,NotificationRegularDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title",title);
+                    bundle.putString("description",details);
+                    bundle.putString("address",address);
+                    bundle.putString("time",time);
+                    notificationDetail.putExtras(bundle);
+                    startActivity(notificationDetail);
 
-            }
-        });
+                }
+            });
+        }
+
+
 //        artLocationHome = (ConstraintLayout) vHome.findViewById(R.id.location_home);
 //        artLocationHome.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -100,6 +104,8 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
 //                startActivity(notificationDetail);
 //            }
 //        });
+
+
 
         return vHome;
     }
@@ -151,9 +157,8 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
     @Override
     public void onRollback() {
         Log.e("MainFragment", "Error");
+
     }
-
-
 
 
 

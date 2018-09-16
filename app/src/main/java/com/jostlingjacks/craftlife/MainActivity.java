@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteTransactionListener;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -22,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.service.notification.NotificationListenerService;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
@@ -204,6 +206,9 @@ public class MainActivity extends AppCompatActivity
                     break;
                 case R.id.nav_documentation:
                     nextFragment = new DocumentFragment();
+                    break;
+                case R.id.nav_to_do_list:
+                    nextFragment = new ToDoListFragment();
                     break;
             }
 
@@ -412,4 +417,6 @@ public class MainActivity extends AppCompatActivity
         startActivity(main);
         finish();
     }
+
+
 }

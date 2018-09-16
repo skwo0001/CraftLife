@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteTransactionListener;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
@@ -71,6 +72,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+
+
     public boolean addSuggestion(String type, String title, String details, String address, String time, String email, String notiTime) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -86,6 +89,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert(SUGGESTION_TABLE, null, values);
         db.close();
         return true;
+
     }
 
 
