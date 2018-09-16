@@ -15,16 +15,15 @@
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".WelcomeActivity"
+        <activity
+            android:name=".WelcomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                <action android:name="android.intent.action.MAIN"></action>
-                <category android:name="android.intent.category.LAUNCHER"></category>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -36,12 +35,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".NotificationDetailActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".NotificationRegularDetailActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".NotificationDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".NotificationRegularDetailActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".SendRequest"
@@ -51,31 +50,30 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-
-        <activity android:name=".TutorialActivity"
-            android:screenOrientation="portrait"></activity>
-
-
+        <activity
+            android:name=".TutorialActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jostlingjacks.craftlife.MainActivity" />
         </activity>
-
-        <activity android:name=".LoginActivity"
-            android:screenOrientation="portrait"></activity>
-
-        <activity android:name=".RegistrationActivity"
-            android:screenOrientation="portrait"></activity>
-
-        <activity android:name=".MapActivity"></activity>
-
-        <activity android:name=".VideoActivity" android:screenOrientation="landscape"></activity>
-
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RegistrationActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".MapActivity" />
+        <activity
+            android:name=".VideoActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".EditToDoFieldActivity" />
+        <activity android:name=".EditToDoItemActivity"></activity>
     </application>
 
 </manifest>

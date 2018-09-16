@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteTransactionListener;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -22,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.service.notification.NotificationListenerService;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
@@ -37,6 +39,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     private LocationManager locationManager;
     boolean doubleBackToExitPressedOnce = false;
     private DataBaseHelper db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +113,7 @@ public class MainActivity extends AppCompatActivity
 
         db = new DataBaseHelper(this);
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
-        //db.createUser();
+
 
         //when the phone allow to access the location.
         if (!runtime_permissions()) {
@@ -130,6 +134,7 @@ public class MainActivity extends AppCompatActivity
                 Log.d(TAG, "Job scheduling failed");
             }
         }
+
     }
 
     @Override
@@ -158,14 +163,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
 
     @SuppressLint("StaticFieldLeak")
@@ -207,8 +204,9 @@ public class MainActivity extends AppCompatActivity
                 case R.id.nav_documentation:
                     nextFragment = new DocumentFragment();
                     break;
-
-
+                case R.id.nav_to_do_list:
+                    nextFragment = new ToDoListFragment();
+                    break;
             }
 
             FragmentManager fragmentManager = getFragmentManager();
@@ -357,6 +355,14 @@ public class MainActivity extends AppCompatActivity
         bundle.putString("address", address);
         bundle.putString("time", time);
 
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf2 = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+        String formatedate = sdf2.format(calendar.getTime());
+
+        SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+
+        db.addSuggestion(type, title,description,address,time,emailAddress,formatedate);
         Intent resultIntent;
 
         if (address != null) {
@@ -383,6 +389,11 @@ public class MainActivity extends AppCompatActivity
                 .build();
 
         notificationManager.notify(notification_id, notification);
+
+
+
+
+
     }
 
     private void showUserInfoInNaviHeader(NavigationView navigationView, SharedPreferences userInfoSharedPreferences){
@@ -403,4 +414,8 @@ public class MainActivity extends AppCompatActivity
         startActivity(main);
         finish();
     }
+
+
+
+
 }
