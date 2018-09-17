@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/one_hour_event_suggestion"
+        android:title="1 hour"></item>
+
+    <item
+        android:id="@+id/two_hours_event_suggestion"
+        android:title="2 hours"></item>
+
+    <item
+        android:id="@+id/three_hours_event_suggestion"
+        android:title="3 hours"></item>
+
+    <item
+        android:id="@+id/four_hours_event_suggestion"
+        android:title="4 hours"></item>
+
+    <item
+        android:id="@+id/five_hours_event_suggestion"
+        android:title="5 hours"></item>
+
+</menu>

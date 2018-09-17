@@ -9,11 +9,14 @@ import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.prefs.Preferences;
@@ -56,7 +59,6 @@ public class SettingFragment extends PreferenceFragment {
         ListView listViewPref_daily_suggestion_interval_values = (ListView) view.findViewById(R.id.pref_daily_suggestion_interval_values);
         ListView listViewPref_art_places_suggestion_interval_values = (ListView) view.findViewById(R.id.pref_art_places_suggestion_interval_values);
 
-
         startButton = (Button) view.findViewById(R.id.button_starttesting);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,12 +68,28 @@ public class SettingFragment extends PreferenceFragment {
             }
         });
 
+        /**
+         * TODO: this is the daily suggestion card (fuck the mentors)
+         */
         regularCard = (ConstraintLayout) view.findViewById(R.id.linearLayout);
         regularCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(context, SettingsActivity.class);
-                startActivity(startIntent);
+//                Intent startIntent = new Intent(context, SettingsActivity.class);
+//                startActivity(startIntent);
+
+                final PopupMenu popupMenu = new PopupMenu(context, regularCard);
+                popupMenu.getMenuInflater().inflate(R.menu.daily_suggestion_interval, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
+                        return true;
+                    }
+                });
+
+
             }
         });
 

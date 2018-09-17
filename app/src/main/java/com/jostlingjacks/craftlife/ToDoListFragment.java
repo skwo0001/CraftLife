@@ -7,14 +7,17 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MotionEventCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -122,7 +125,7 @@ public class ToDoListFragment extends Fragment {
 
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+            public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
                         Log.d("this", "onMenuItemClick: clicked item " + index + "position: " + position);
@@ -137,20 +140,6 @@ public class ToDoListFragment extends Fragment {
             }
         });
 
-
-
-
-//        addNewToDoButton = (FloatingActionButton) toDoListView.findViewById(R.id.addNewInTheToDoListFloatingButton);
-//        addNewToDoButton.setVisibility(View.GONE);
-//        addNewToDoButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent();
-//                intent.setClass(getActivity(), EditToDoFieldActivity.class);
-//                startActivityForResult(intent,  Tool.INTENT_REQUEST_CODE);
-//            }
-//        });
-
         /**
          * get shared preference...
          */
@@ -158,10 +147,34 @@ public class ToDoListFragment extends Fragment {
         SharedPreferences logInPreferences = getActivity().getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
         fileName = logInPreferences.getString("CURRENT_USER_EMAIL", "") + "ToDo.txt";
 
-
+        // load everything from todo list.
         this.loadToDoListFromFile();
 
+        // if the todo list is empty add something into it...
+        if (arrayList.isEmpty()){
+            addDefaultToDoListItems(arrayList);
+            arrayAdapter.notifyDataSetChanged();
+        }else{
+
+        }
+
+        // set SwipeListener
+
+        listView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
+            @Override
+            public void onSwipeStart(int position) {
+                // swipe start
+            }
+            @Override
+            public void onSwipeEnd(int position) {
+                // swipe end
+            }
+
+        });
+        listView.smoothCloseMenu();
         setHasOptionsMenu(true);
+
+
         return toDoListView;
 
     }
@@ -217,8 +230,6 @@ public class ToDoListFragment extends Fragment {
 
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -234,9 +245,29 @@ public class ToDoListFragment extends Fragment {
     }
 
     private void deleteItemInListView(int position){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                listView.smoothCloseMenu();
+            }
+        }, 1000);
         arrayList.remove(position);
+        listView.smoothCloseMenu();
         arrayAdapter.notifyDataSetChanged();
         saveToDoListToFile();
+    }
+
+    /**
+     * this method MUST be called when the list is empty, or it will crash or delete user's own items...
+     * @param arrayList the user to-do list arraylist...
+     */
+    private void addDefaultToDoListItems(ArrayList<String> arrayList){
+        arrayList.add(0, "Sample item: Buy some milk");
+        arrayList.add(1, "Sample item: Wash my clothes after work");
+        arrayList.add(2, "Sample item: Buy sushi");
+        arrayList.add(3, "Sample item: Get my parcel back from post office");
+        //arrayList.add(4, "");
+        arrayList.add(4, "Just don't keep your list empty :)");
     }
 
 
