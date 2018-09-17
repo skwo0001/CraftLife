@@ -211,8 +211,6 @@ public class ToDoListFragment extends Fragment {
 
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -245,8 +243,4 @@ public class ToDoListFragment extends Fragment {
         arrayList.add(4, "");
         arrayList.add(5, "Just don't keep your list empty :)");
     }
-
-
-
-
 }
