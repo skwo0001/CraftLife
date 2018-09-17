@@ -8,17 +8,20 @@
         android:layout_height="0dp"
         android:layout_weight="6"
         android:id="@+id/addToDo"
-        android:hint="Write your message"
+        android:hint="Add your To-Do List item"
         android:textSize="20sp"
         android:gravity="top"/>
 
     <Button
         android:id="@+id/saveToDoBtn"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/layout_border"
         android:text="save"
-        android:textSize="15sp"
-        />
+        android:textColor="@color/white"
+        android:textSize="15sp" />
 
 </LinearLayout>
