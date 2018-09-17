@@ -7,14 +7,17 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MotionEventCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -122,7 +125,7 @@ public class ToDoListFragment extends Fragment {
 
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+            public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
                         Log.d("this", "onMenuItemClick: clicked item " + index + "position: " + position);
@@ -155,7 +158,23 @@ public class ToDoListFragment extends Fragment {
 
         }
 
+        // set SwipeListener
+
+        listView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
+            @Override
+            public void onSwipeStart(int position) {
+                // swipe start
+            }
+            @Override
+            public void onSwipeEnd(int position) {
+                // swipe end
+            }
+
+        });
+        listView.smoothCloseMenu();
         setHasOptionsMenu(true);
+
+
         return toDoListView;
 
     }
@@ -226,7 +245,14 @@ public class ToDoListFragment extends Fragment {
     }
 
     private void deleteItemInListView(int position){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                listView.smoothCloseMenu();
+            }
+        }, 1000);
         arrayList.remove(position);
+        listView.smoothCloseMenu();
         arrayAdapter.notifyDataSetChanged();
         saveToDoListToFile();
     }
@@ -240,7 +266,9 @@ public class ToDoListFragment extends Fragment {
         arrayList.add(1, "Sample item: Wash my clothes after work");
         arrayList.add(2, "Sample item: Buy sushi");
         arrayList.add(3, "Sample item: Get my parcel back from post office");
-        arrayList.add(4, "");
-        arrayList.add(5, "Just don't keep your list empty :)");
+        //arrayList.add(4, "");
+        arrayList.add(4, "Just don't keep your list empty :)");
     }
+
+
 }
