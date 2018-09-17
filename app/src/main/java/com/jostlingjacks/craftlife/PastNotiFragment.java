@@ -12,6 +12,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -62,6 +65,8 @@ public class PastNotiFragment extends Fragment {
 
             }
         });
+
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -87,6 +92,27 @@ public class PastNotiFragment extends Fragment {
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.commit();
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        getActivity().getMenuInflater().inflate(R.menu.refresh_menu, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                Fragment fragment = new PastNotiFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame,fragment).commit();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
 
 
 }

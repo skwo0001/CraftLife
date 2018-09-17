@@ -1,6 +1,8 @@
 package com.jostlingjacks.craftlife;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,8 +11,12 @@ import android.database.sqlite.SQLiteTransactionListener;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,6 +29,7 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
     Context context;
     private ConstraintLayout regularHome ,artLocationHome, eventHome;
     private TextView reg_detail, location_detail, event_detail;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private DataBaseHelper db;
 
     @Nullable
@@ -121,9 +128,29 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
 //            }
 //        });
 
+        setHasOptionsMenu(true);
         return vHome;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        getActivity().getMenuInflater().inflate(R.menu.refresh_menu, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                Fragment fragment = new MainFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame,fragment).commit();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
 
     public String readRecentData(String email, String type){
         Cursor c = db.getRecentRegularSuggestion(email,type);
