@@ -96,7 +96,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         //select title,details,address,time from suggestion s where s.email = email and s.type = type;
         Cursor mCursor = db.query(SUGGESTION_TABLE,new String[] {T2_COL_3,T2_COL_4,T2_COL_5,T2_COL_6,T2_COL_7}, T2_COL_2 + "=? and "  + T2_COL_3+"=?", new String[] {email,type},
-                null,null,T2_COL_8 + " DESC",null);
+                null,null,T2_COL_8 + " DESC");
 
         if (mCursor != null){
             mCursor.moveToFirst();

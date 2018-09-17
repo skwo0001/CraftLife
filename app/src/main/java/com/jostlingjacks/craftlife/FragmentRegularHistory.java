@@ -8,14 +8,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -26,7 +22,7 @@ public class FragmentRegularHistory extends Fragment{
     RecyclerView recyclerView;
     TextView msg;
     private DataBaseHelper db;
-    private SuggestionAdapter suggestionAdapter;
+    private RegularSuggestionAdapter regularSuggestionAdapter;
 
     @Nullable
     @Override
@@ -53,9 +49,9 @@ public class FragmentRegularHistory extends Fragment{
             recyclerView.setVisibility(View.GONE);
         }
         else {
-            suggestionAdapter = new SuggestionAdapter(context, getAllDaily(emailAddress, "regular"));
+            regularSuggestionAdapter = new RegularSuggestionAdapter(context, getAllDaily(emailAddress, "regular"));
 
-            recyclerView.setAdapter(suggestionAdapter);
+            recyclerView.setAdapter(regularSuggestionAdapter);
 
         }
         return view;

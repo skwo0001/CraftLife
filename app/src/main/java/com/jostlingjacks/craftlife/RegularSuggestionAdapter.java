@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.SuggestionViewHolder> {
+public class RegularSuggestionAdapter extends RecyclerView.Adapter<RegularSuggestionAdapter.SuggestionViewHolder> {
 
     private Context mContext;
     private Cursor mCursor;
 
-    public SuggestionAdapter(Context context, Cursor cursor){
+    public RegularSuggestionAdapter(Context context, Cursor cursor){
         mContext = context;
         mCursor = cursor;
 
@@ -23,14 +23,14 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
 
     public class SuggestionViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView titleText, detailsText, addressText;
+        public TextView titleText;
+        public TextView detailsText;
         public ImageView iconImg;
 
         public SuggestionViewHolder( View itemView) {
             super(itemView);
             titleText = itemView.findViewById(R.id.titleList);
             detailsText = itemView.findViewById(R.id.detailsList);
-            addressText = itemView.findViewById(R.id.addressList);
             iconImg = itemView.findViewById(R.id.historyIcon);
         }
     }
@@ -39,7 +39,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
     @Override
     public SuggestionViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.addresslistitem, viewGroup, false);
+        View view = inflater.inflate(R.layout.regularlistitem, viewGroup, false);
 
         return new SuggestionViewHolder(view);
     }
@@ -52,28 +52,31 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
 
         String title = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_4));
         String detail = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_5));
-        String address = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_6));
         String type = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_3));
 
         suggestionViewHolder.titleText.setText(title);
         suggestionViewHolder.detailsText.setText(detail);
-        suggestionViewHolder.addressText.setText(address);
 
-
-        if (type.toLowerCase().contains("art")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.placeholder_3);
-        } else {
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.calendar4);
+        if (title.toLowerCase().contains("water"))
+        {
+            suggestionViewHolder.iconImg.setImageResource(R.drawable.drinkwater);
+        } else if (title.toLowerCase().contains("walk")){
+            suggestionViewHolder.iconImg.setImageResource(R.drawable.walking);
+        } else if (title.toLowerCase().contains("stand up")){
+            suggestionViewHolder.iconImg.setImageResource(R.drawable.coach);
+        }else if (title.toLowerCase().contains("meditation")){
+            suggestionViewHolder.iconImg.setImageResource(R.drawable.meditation);
+        } else if (title.toLowerCase().contains("window")){
+            suggestionViewHolder.iconImg.setImageResource(R.drawable.curtain);
         }
+
     }
 
 
     @Override
     public int getItemCount() {
 
-        int i = mCursor.getCount();
-
-        if (mCursor.getCount() < 5) {
+       if (mCursor.getCount() < 5) {
             return mCursor.getCount();
         } else {
             return 5;
