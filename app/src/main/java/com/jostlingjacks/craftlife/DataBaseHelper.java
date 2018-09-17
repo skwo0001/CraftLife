@@ -157,7 +157,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(T1_COL_4, interval);
-        db.update(SETTING_TABLE,values,T1_COL_2+"="+email + "and " + T2_COL_3 +"="+ type,null);
+
+        db.update(SETTING_TABLE,values,T1_COL_2+" =? and " + T2_COL_3 +" =? ",new String[] {email,type});
         db.close();
         return true;
     }

@@ -42,7 +42,7 @@ public class SettingFragment extends PreferenceFragment {
         context = view.getContext();
         db = new DataBaseHelper(context);
         SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
-        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+        final String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
 
         reg_interval = (TextView) view.findViewById(R.id.regular_setting);
         location_interval = (TextView) view.findViewById(R.id.location_setting);
@@ -75,10 +75,6 @@ public class SettingFragment extends PreferenceFragment {
         regularCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent startIntent = new Intent(context, SettingsActivity.class);
-//                startActivity(startIntent);
-
-
 
                 final PopupMenu popupMenu = new PopupMenu(context, regularCard);
                 popupMenu.getMenuInflater().inflate(R.menu.daily_suggestion_interval, popupMenu.getMenu());
@@ -86,10 +82,10 @@ public class SettingFragment extends PreferenceFragment {
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
 
                         reg_interval.setText(menuItem.getTitle());
-
+                        db.updateSetting(emailAddress,"regular",menuItem.getTitle().toString());
                         return true;
                     }
                 });
@@ -109,9 +105,10 @@ public class SettingFragment extends PreferenceFragment {
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
 
                         location_interval.setText(menuItem.getTitle());
+                        db.updateSetting(emailAddress,"art location",menuItem.getTitle().toString());
 
                         return true;
                     }
@@ -131,9 +128,10 @@ public class SettingFragment extends PreferenceFragment {
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
+                       // Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
 
                         event_interval.setText(menuItem.getTitle());
+                        db.updateSetting(emailAddress,"event",menuItem.getTitle().toString());
 
                         return true;
                     }
@@ -141,12 +139,6 @@ public class SettingFragment extends PreferenceFragment {
                 popupMenu.show();
             }
         });
-
-//        Preference dailyPreference = findPreference("daily_suggestion");
-//        String key = dailyPreference.getKey();
-//        CharSequence value = dailyPreference.getSummary();
-        //dailyPreference.
-
 
         return view;
 
