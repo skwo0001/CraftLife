@@ -137,20 +137,6 @@ public class ToDoListFragment extends Fragment {
             }
         });
 
-
-
-
-//        addNewToDoButton = (FloatingActionButton) toDoListView.findViewById(R.id.addNewInTheToDoListFloatingButton);
-//        addNewToDoButton.setVisibility(View.GONE);
-//        addNewToDoButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent();
-//                intent.setClass(getActivity(), EditToDoFieldActivity.class);
-//                startActivityForResult(intent,  Tool.INTENT_REQUEST_CODE);
-//            }
-//        });
-
         /**
          * get shared preference...
          */
@@ -158,8 +144,16 @@ public class ToDoListFragment extends Fragment {
         SharedPreferences logInPreferences = getActivity().getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
         fileName = logInPreferences.getString("CURRENT_USER_EMAIL", "") + "ToDo.txt";
 
-
+        // load everything from todo list.
         this.loadToDoListFromFile();
+
+        // if the todo list is empty add something into it...
+        if (arrayList.isEmpty()){
+            addDefaultToDoListItems(arrayList);
+            arrayAdapter.notifyDataSetChanged();
+        }else{
+
+        }
 
         setHasOptionsMenu(true);
         return toDoListView;
@@ -238,6 +232,21 @@ public class ToDoListFragment extends Fragment {
         arrayAdapter.notifyDataSetChanged();
         saveToDoListToFile();
     }
+
+    /**
+     * this method MUST be called when the list is empty, or it will crash or delete user's own items...
+     * @param arrayList the user to-do list arraylist...
+     */
+    private void addDefaultToDoListItems(ArrayList<String> arrayList){
+        arrayList.add(0, "Sample item: Buy some milk");
+        arrayList.add(1, "Sample item: Wash my clothes after work");
+        arrayList.add(2, "Sample item: Buy sushi");
+        arrayList.add(3, "Sample item: Get my parcel back from post office");
+        arrayList.add(4, "");
+        arrayList.add(5, "Just don't keep your list empty :)");
+    }
+
+
 
 
 }
