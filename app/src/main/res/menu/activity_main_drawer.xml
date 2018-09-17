@@ -9,6 +9,10 @@
             android:icon="@drawable/ic_home_black_24dp"
             android:title="Home" />
         <item
+            android:id="@+id/nav_to_do_list"
+            android:icon="@drawable/app_logo"
+            android:title="Daily Planner"/>
+        <item
             android:id="@+id/nav_pastnoti"
             android:icon="@drawable/ic_history"
             android:title="Past Notification" />

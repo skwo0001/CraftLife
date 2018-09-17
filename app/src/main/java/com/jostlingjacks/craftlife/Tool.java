@@ -10,6 +10,16 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Tool {
 
+    public final static int INTENT_REQUEST_CODE = 1;
+    public final static String INTENT_TO_DO_MESSAGE_FIELD = "message_field";
+    public final static int INTENT_RESULT_CODE = 1;
+    public final static int INTENT_REQUEST_CODE_TWO = 2;
+    public final static int INTENT_RESULT_CODE_TWO = 2;
+    public final static String INTENT_TO_DO_MESSAGE_DATA = "message_data";
+    public final static String INTENT_TO_DO_ITEM_POSITION = "item_position";
+    public final static String INTENT_TO_DO_CHANGED_MESSAGE = "changed_message";
+
+
     public static int randomNumberGenerator(int upperBound) {
         Random rand = new Random();
         return rand.nextInt(upperBound) + 1;

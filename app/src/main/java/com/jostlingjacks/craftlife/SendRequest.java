@@ -92,7 +92,6 @@ public class SendRequest extends JobService {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             protected void onPostExecute(JSONObject jsonObject) {
-                //Using the jsonObject the send the notification
                 createNotification(jsonObject);
                 Log.d("jsonObject", jsonObject.toString());
 
