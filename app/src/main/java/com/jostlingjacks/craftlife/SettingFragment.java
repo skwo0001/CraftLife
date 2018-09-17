@@ -78,6 +78,8 @@ public class SettingFragment extends PreferenceFragment {
 //                Intent startIntent = new Intent(context, SettingsActivity.class);
 //                startActivity(startIntent);
 
+
+
                 final PopupMenu popupMenu = new PopupMenu(context, regularCard);
                 popupMenu.getMenuInflater().inflate(R.menu.daily_suggestion_interval, popupMenu.getMenu());
 
@@ -85,10 +87,13 @@ public class SettingFragment extends PreferenceFragment {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
+
+                        reg_interval.setText(menuItem.getTitle());
+
                         return true;
                     }
                 });
-
+            popupMenu.show();
 
             }
         });
@@ -97,8 +102,21 @@ public class SettingFragment extends PreferenceFragment {
         artLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(context, SettingsActivity.class);
-                startActivity(startIntent);
+
+                final PopupMenu popupMenu = new PopupMenu(context, artLocation);
+                popupMenu.getMenuInflater().inflate(R.menu.art_location_suggestion_interval, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
+
+                        location_interval.setText(menuItem.getTitle());
+
+                        return true;
+                    }
+                });
+                popupMenu.show();
             }
         });
 
@@ -106,8 +124,21 @@ public class SettingFragment extends PreferenceFragment {
         eventCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(context, SettingsActivity.class);
-                startActivity(startIntent);
+
+                final PopupMenu popupMenu = new PopupMenu(context, regularCard);
+                popupMenu.getMenuInflater().inflate(R.menu.event_suggestion_interval, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
+
+                        event_interval.setText(menuItem.getTitle());
+
+                        return true;
+                    }
+                });
+                popupMenu.show();
             }
         });
 
