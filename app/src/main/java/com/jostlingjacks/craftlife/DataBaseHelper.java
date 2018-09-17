@@ -18,6 +18,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     //Table Names
     public static final String SUGGESTION_TABLE = "Suggestion";
+    public static final String SETTING_TABLE = "Setting";
+
+    public static final String T1_COL_1 = "setting_id";
+    public static final String T1_COL_2 = "email";
+    public static final String T1_COL_3 = "type";
+    public static final String T1_COL_4 = "interval";
 
     public static final String T2_COL_1 = "suggestion_id";
     public static final String T2_COL_2 = "email";
@@ -35,9 +41,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             + T2_COL_2 + " TEXT, "+ T2_COL_3 + " TEXT, " + T2_COL_4 + " TEXT, " + T2_COL_5 + " TEXT, "
             + T2_COL_6 + " TEXT, " + T2_COL_7  + " TEXT, " + T2_COL_8 + " TEXT) ";
 
+    public static final String CREATE_SETTING_TABLE = "CREATE TABLE " + SETTING_TABLE + "(" + T1_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + T1_COL_2 + " TEXT, "+ T1_COL_3 + " TEXT, " + T1_COL_4 + " TEXT) ";
 
     //sql of dropping the table
     public static final String DROP_SUGGESTION = "DROP TABLE IF EXISTS " + SUGGESTION_TABLE;
+    public static final String DROP_SETTING = "DROP TABLE IF EXISTS " + SETTING_TABLE;
 
     public DataBaseHelper(Context context){
         super(context, DATABASE_NAME,null,DATABASE_VERSION);
@@ -46,6 +55,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_SUGGESTION_TABLE);
+        db.execSQL(CREATE_SETTING_TABLE);
     }
 
     @Override
@@ -53,6 +63,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         //on upgrade deop older tables
         db.execSQL(DROP_SUGGESTION);
+        db.execSQL(DROP_SETTING);
 
         onCreate(db);
     }
@@ -75,7 +86,45 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public boolean addSetting(String email, String type, String interval) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
 
+        values.put(T1_COL_2, email);
+        values.put(T1_COL_3, type);
+        values.put(T1_COL_4, interval);
+
+        db.insert(SETTING_TABLE, null, values);
+        db.close();
+        return true;
+    }
+
+    public Cursor getSetting(String email, String type) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //select title,details,address,time from suggestion s where s.email = email and s.type = type;
+        Cursor mCursor = db.query(SETTING_TABLE,new String[] {T1_COL_4}, T1_COL_2 + "=? and "  + T1_COL_3+"=?", new String[] {email,type},
+                null,null,null,null);
+        if (mCursor != null){
+            mCursor.moveToLast();
+        }
+        return mCursor;
+    }
+
+    public Boolean getSettingRepeat(String email,String type) throws SQLException{
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //select title,details,address,time from suggestion s where s.email = email and s.type = type;
+        Cursor mCursor = db.query(SETTING_TABLE,new String[] {T1_COL_4}, T1_COL_2 + "=? and "  + T1_COL_3+"=?", new String[] {email,type},
+                null,null,null,null);
+        if (mCursor.getCount() <= 0){
+            mCursor.close();
+            return false;
+        }
+
+        mCursor.close();
+        return true;
+    }
 
     public Cursor getRecentRegularSuggestion(String email,String type){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -104,4 +153,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return mCursor;
     }
 
+    public boolean updateSetting(String email, String type, String interval){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(T1_COL_4, interval);
+        db.update(SETTING_TABLE,values,T1_COL_2+"="+email + "and " + T2_COL_3 +"="+ type,null);
+        db.close();
+        return true;
+    }
 }

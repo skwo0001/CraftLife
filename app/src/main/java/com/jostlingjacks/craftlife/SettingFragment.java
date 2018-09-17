@@ -2,6 +2,8 @@ package com.jostlingjacks.craftlife;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
@@ -16,6 +18,8 @@ import android.widget.TextView;
 
 import java.util.prefs.Preferences;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class SettingFragment extends PreferenceFragment {
 
     private View view;
@@ -23,6 +27,7 @@ public class SettingFragment extends PreferenceFragment {
     private Button startButton;
     private ConstraintLayout regularCard ,artLocation, eventCard;
     private TextView reg_interval, location_interval, event_interval;
+    private DataBaseHelper db;
 
     @Nullable
     @Override
@@ -30,13 +35,20 @@ public class SettingFragment extends PreferenceFragment {
 
 
         //Find the value in shared preferences
-
-
         view = inflater.inflate(R.layout.fragment_setting, container,false);
         context = view.getContext();
+        db = new DataBaseHelper(context);
+        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+
         reg_interval = (TextView) view.findViewById(R.id.regular_setting);
         location_interval = (TextView) view.findViewById(R.id.location_setting);
         event_interval = (TextView) view.findViewById(R.id.event_setting);
+
+        reg_interval.setText(getSetting(emailAddress,"regular"));
+        location_interval.setText(getSetting(emailAddress,"art location"));
+        event_interval.setText(getSetting(emailAddress,"event"));
+
 
         /**
          *  this loads the resources from pref_notification xml file...
@@ -91,6 +103,15 @@ public class SettingFragment extends PreferenceFragment {
 
     }
 
+    public String getSetting(String email, String type){
+        Cursor c = db.getSetting(email,type);
+        String s = "";
+        if (c.moveToLast()){
+            //return title,details,address and time
+            s =  c.getString(0);
+        }
+        return  s;
+    }
 
 
 }
