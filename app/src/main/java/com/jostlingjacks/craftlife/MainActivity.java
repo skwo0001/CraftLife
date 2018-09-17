@@ -28,7 +28,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -49,7 +48,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
+import java.util.Date;
 
 import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID;
 
@@ -134,7 +137,6 @@ public class MainActivity extends AppCompatActivity
                 Log.d(TAG, "Job scheduling failed");
             }
         }
-
     }
 
     @Override
@@ -163,8 +165,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-
     @SuppressLint("StaticFieldLeak")
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -191,6 +191,9 @@ public class MainActivity extends AppCompatActivity
             switch (id) {
                 case R.id.nav_home:
                     nextFragment = new MainFragment();
+                    break;
+                case R.id.nav_pastnoti:
+                    nextFragment = new PastNotiFragment();
                     break;
                 case R.id.nav_settings:
                     nextFragment = new SettingFragment();
@@ -390,10 +393,6 @@ public class MainActivity extends AppCompatActivity
 
         notificationManager.notify(notification_id, notification);
 
-
-
-
-
     }
 
     private void showUserInfoInNaviHeader(NavigationView navigationView, SharedPreferences userInfoSharedPreferences){
@@ -414,8 +413,4 @@ public class MainActivity extends AppCompatActivity
         startActivity(main);
         finish();
     }
-
-
-
-
 }

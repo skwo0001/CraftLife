@@ -1,5 +1,7 @@
 package com.jostlingjacks.craftlife;
 
+//Using job service to do the background work
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -26,7 +28,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
+import java.util.Date;
 
 import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID;
 
@@ -37,11 +43,13 @@ public class SendRequest extends JobService {
 
     private  NotificationManager notificationManager;
     private LocationManager locationManager;
+    private DataBaseHelper db;
 
     //Start the job
     @SuppressLint("StaticFieldLeak")
     @Override
     public boolean onStartJob(JobParameters params) {
+        db = new DataBaseHelper(this);
         try {
             Log.d("jsonObject", prepareCoordinatesAndTimeJSONObject(getLastLocation()).toString());
 
@@ -56,11 +64,13 @@ public class SendRequest extends JobService {
                 JSONObject jsonObject = null;
                 JSONObject jsonReply = null;
                 try {
+                    //get the jsonObject, date and location
                     jsonObject = prepareCoordinatesAndTimeJSONObject(getLastLocation());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
+                //Randomly send the request to different api
                 int i = Tool.randomNumberGenerator(100);
                 String jsonString = null;
                 if (i % 2 == 0){
@@ -71,6 +81,7 @@ public class SendRequest extends JobService {
 
                 if (jsonString != "") {
                     try {
+                        //To get the reply from the request and make it to JSONObject
                         jsonReply = new JSONObject(jsonString.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -139,6 +150,7 @@ public class SendRequest extends JobService {
         return  jsonObject;
     }
 
+    //Using the JSONObject to create the notification and also store the data to sqlite
     private void createNotification(JSONObject jsonObject) {
 
         String type= null, title= null, description= null, lat= null, lon= null, address= null, time = null;
@@ -167,8 +179,17 @@ public class SendRequest extends JobService {
         bundle.putString("lat",lat);
         bundle.putString("lon",lon);
         bundle.putString("address",address);
+
         bundle.putString("time",time);
 
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf2 = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+        String formatedate = sdf2.format(calendar.getTime());
+
+        SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+
+        db.addSuggestion(type, title,description,address,time,emailAddress,formatedate);
 
         Intent resultIntent;
 
