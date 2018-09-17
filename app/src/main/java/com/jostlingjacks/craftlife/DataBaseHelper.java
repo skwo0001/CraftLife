@@ -144,6 +144,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public Cursor getSuggestions(String email,String type){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //select title,details,address,time from suggestion s where s.email = email and s.type = type;
+        Cursor mCursor = db.query(SUGGESTION_TABLE,new String[] {T2_COL_3,T2_COL_4,T2_COL_5,T2_COL_6,T2_COL_7}, T2_COL_2 + "=? and "  + T2_COL_3+"=?", new String[] {email,type},
+                null,null,T2_COL_8 + " DESC",null);
+
+        if (mCursor != null){
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+
     public boolean deleteCheck(int rowId) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(CHECK_TABLE, T1_COL_1 + "=" + rowId,null);

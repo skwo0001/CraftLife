@@ -112,7 +112,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|right"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal"
             android:paddingRight="4dp">
@@ -122,8 +121,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginStart="225dp"
+                android:layout_gravity="end"
+                android:layout_marginStart="235dp"
                 android:background="@drawable/mylightcard"
                 android:text="Find it on map"
                 android:textAllCaps="false"

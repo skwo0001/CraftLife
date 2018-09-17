@@ -147,7 +147,7 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
             String address = result[2];
             String time = result[3];
 
-            show = title ;
+            show = "Type: " + title ;
         }else{
             show = s;
         }

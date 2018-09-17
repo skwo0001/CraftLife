@@ -58,9 +58,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="18dp"
+                android:layout_marginRight="8dp"
                 android:text="No recent daily suggestion"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -85,7 +86,7 @@
                 android:layout_marginTop="16dp"
                 android:text="No recent art location suggestion"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
@@ -109,6 +110,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginRight="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0"
@@ -149,8 +151,9 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:text="No recent event suggestion"
+                android:layout_marginRight="8dp"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView13" />
 

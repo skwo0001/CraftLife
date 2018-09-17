@@ -8,6 +8,10 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="Home" />
+        <item
+            android:id="@+id/nav_pastnoti"
+            android:icon="@drawable/ic_history"
+            android:title="Past Notification" />
     </group>
     <item android:title="Application">
         <menu>
@@ -24,7 +28,7 @@
             <item
                 android:id="@+id/nav_documentation"
                 android:icon="@drawable/ic_library_books"
-                android:title="Document" />
+                android:title="About CraftLife" />
         </menu>
 
     </item>

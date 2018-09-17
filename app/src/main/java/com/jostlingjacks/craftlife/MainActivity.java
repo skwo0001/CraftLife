@@ -26,7 +26,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -46,7 +45,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
+import java.util.Date;
 
 import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID;
 
@@ -122,6 +125,7 @@ public class MainActivity extends AppCompatActivity
                     //set the task will do when the network is connected
                     .build();
 
+
             JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
             int resultCode = scheduler.schedule(info);
             if (resultCode == JobScheduler.RESULT_SUCCESS) {
@@ -166,7 +170,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    @SuppressLint("StaticFieldLeak")
+    @SuppressLint({"StaticFieldLeak", "RestrictedApi"})
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -193,6 +197,9 @@ public class MainActivity extends AppCompatActivity
                 case R.id.nav_home:
                     nextFragment = new MainFragment();
                     break;
+                case R.id.nav_pastnoti:
+                    nextFragment = new PastNotiFragment();
+                    break;
                 case R.id.nav_settings:
                     nextFragment = new SettingFragment();
                     break;
@@ -205,6 +212,7 @@ public class MainActivity extends AppCompatActivity
                 case R.id.nav_documentation:
                     nextFragment = new DocumentFragment();
                     break;
+
             }
 
             FragmentManager fragmentManager = getFragmentManager();
@@ -387,11 +395,6 @@ public class MainActivity extends AppCompatActivity
                 .build();
 
         notificationManager.notify(notification_id, notification);
-
-
-
-
-
     }
 
     private void showUserInfoInNaviHeader(NavigationView navigationView, SharedPreferences userInfoSharedPreferences){
