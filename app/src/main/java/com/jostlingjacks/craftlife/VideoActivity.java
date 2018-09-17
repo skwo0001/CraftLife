@@ -11,7 +11,7 @@ import com.google.android.youtube.player.YouTubePlayerView;
 
 public class VideoActivity extends YouTubeBaseActivity{
     private final String API_KEY = "AIzaSyAHY396fAO-Yp_5avhVJuw9K750YWilXPs";
-    private final String VIDEO_CODE = "gCTkEazURBY";
+    private final String VIDEO_CODE = "JtwQ-FB7qbc";
     YouTubePlayerView player;
     private boolean doubleBackToExitPressedOnce = false;
     @Override
