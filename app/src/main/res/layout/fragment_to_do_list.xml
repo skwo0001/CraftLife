@@ -17,7 +17,7 @@
         <com.baoyz.swipemenulistview.SwipeMenuListView
             android:id="@+id/listViewToDoList"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="530dp"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="16dp"/>
 

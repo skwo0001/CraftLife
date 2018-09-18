@@ -116,7 +116,15 @@ public class MainActivity extends AppCompatActivity
 
         db = new DataBaseHelper(this);
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
-
+        if (!db.getSettingRepeat(emailAddress,"regular")){
+            db.addSetting(emailAddress,"regular","15 minutes");
+        }
+        if (!db.getSettingRepeat(emailAddress,"art location")) {
+            db.addSetting(emailAddress, "art location", "1 hour");
+        }
+        if (!db.getSettingRepeat(emailAddress,"event")) {
+            db.addSetting(emailAddress,"event","2 hour");
+        }
 
         //when the phone allow to access the location.
         if (!runtime_permissions()) {
