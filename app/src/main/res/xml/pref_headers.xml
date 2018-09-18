@@ -7,10 +7,14 @@
         android:icon="@drawable/ic_info_black_24dp"
         android:title="@string/pref_header_general" />
 
-    <header
+    <!--
+        the following segment should be ignored becuase now we have a different logic of showing noti. settings...
+    -->
+
+    <!--header
         android:fragment="com.jostlingjacks.craftlife.SettingsActivity$NotificationPreferenceFragment"
         android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/pref_header_notifications" />
+        android:title="@string/pref_header_notifications" /-->
 
     <header
         android:fragment="com.jostlingjacks.craftlife.SettingsActivity$DataSyncPreferenceFragment"

@@ -122,19 +122,12 @@ public class SettingFragment extends PreferenceFragment {
                         Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
 
                         event_interval.setText(menuItem.getTitle());
-
                         return true;
                     }
                 });
                 popupMenu.show();
             }
         });
-
-//        Preference dailyPreference = findPreference("daily_suggestion");
-//        String key = dailyPreference.getKey();
-//        CharSequence value = dailyPreference.getSummary();
-        //dailyPreference.
-
 
         return view;
 
