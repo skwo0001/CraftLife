@@ -124,9 +124,9 @@
                 android:layout_gravity="end"
                 android:layout_marginStart="235dp"
                 android:background="@drawable/mylightcard"
+                android:textColor="@color/colorPrimary"
                 android:text="Find it on map"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
                 android:visibility="invisible" />
 
         </LinearLayout>
@@ -167,7 +167,7 @@
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="14dp"
-        android:background="@drawable/middledarkcard"
+        android:background="@drawable/middledarkcard1"
         android:fontFamily="sans-serif"
         android:onClick="backMain"
         android:text="OK, I get it."

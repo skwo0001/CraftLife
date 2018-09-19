@@ -17,9 +17,9 @@
         <shape
             android:shape="rectangle">
             <!-- Set the background color of your layout here -->
-            <stroke android:width="2dp" android:color="@color/middleLight" />
+            <stroke android:width="2dp" android:color="@color/middleDark" />
             <corners android:radius="10dp" />
-            <solid android:color="@color/white" />
+            <solid android:color="@color/middleDark" />
         </shape>
     </item>
 

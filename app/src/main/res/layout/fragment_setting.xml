@@ -28,7 +28,6 @@
             android:layout_marginTop="4dp"
             android:layout_weight="1"
             android:text="Daily Suggestion"
-            android:textColor="@color/white"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,7 +40,6 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
             android:text="Every"
-            android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +54,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="TextView"
-            android:textColor="@color/white"
             android:textSize="26sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView21"
@@ -95,7 +92,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="TextView"
-            android:textColor="@color/white"
             android:textSize="26sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView22"
@@ -110,7 +106,6 @@
             android:layout_marginTop="4dp"
             android:layout_weight="1"
             android:text="Art Location Suggestion"
-            android:textColor="@color/white"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -123,7 +118,6 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
             android:text="Every"
-            android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +133,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/placeholder2" />
+            app:srcCompat="@drawable/placeholder_2" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -161,7 +155,6 @@
             android:layout_marginBottom="16dp"
             android:layout_marginStart="8dp"
             android:text="TextView"
-            android:textColor="@color/white"
             android:textSize="26sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView23" />
@@ -174,7 +167,6 @@
             android:layout_marginTop="4dp"
             android:layout_weight="1"
             android:text="Event Suggestion"
-            android:textColor="@color/white"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -188,7 +180,6 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
             android:text="Every"
-            android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -13,7 +13,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     //Set up the SQLite database
     //Database Name
     public static final String DATABASE_NAME = "craftlife";
-    //Database Version is 9
+    //Database Version i
     private static final int DATABASE_VERSION = 9;
 
     //Table Names

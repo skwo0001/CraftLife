@@ -75,6 +75,7 @@ public class RegularSuggestionAdapter extends RecyclerView.Adapter<RegularSugges
 
     @Override
     public int getItemCount() {
+        int i = mCursor.getCount();
 
        if (mCursor.getCount() < 5) {
             return mCursor.getCount();
