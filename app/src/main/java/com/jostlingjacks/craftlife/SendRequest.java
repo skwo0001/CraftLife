@@ -215,8 +215,8 @@ public class SendRequest extends JobService {
 
         // the button of adding information to the to do list.
         Intent addToToDoListIntent = new Intent(this, NotificationReceiver.class);
-        addToToDoListIntent.putExtra("addToToDoList", title + " " + description);
-        PendingIntent addToToDoListPendingIntent = PendingIntent.getBroadcast(this, 0, addToToDoListIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        addToToDoListIntent.putExtra("addToToDoList", "Title: " + title + " \t" + "Description:  " + description + "\t Address: " +address);
+        PendingIntent addToToDoListPendingIntent = PendingIntent.getBroadcast(this, 0, addToToDoListIntent, PendingIntent.FLAG_ONE_SHOT);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentIntent(resultPendingIntent)
@@ -239,5 +239,6 @@ public class SendRequest extends JobService {
         } else
             notification_id = 2;
         notificationManager.notify(notification_id, notification);
+        notificationManager.cancel(notification_id);
     }
 }
