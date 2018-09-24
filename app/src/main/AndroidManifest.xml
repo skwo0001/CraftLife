@@ -74,6 +74,7 @@
             android:screenOrientation="landscape" />
         <activity android:name=".EditToDoFieldActivity" />
         <activity android:name=".EditToDoItemActivity"></activity>
+        <receiver android:name=".NotificationReceiver" />
     </application>
 
 </manifest>
