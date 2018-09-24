@@ -51,7 +51,7 @@ public class SendRequest extends JobService {
     public boolean onStartJob(JobParameters params) {
         db = new DataBaseHelper(this);
         try {
-            Log.d("jsonObject", prepareCoordinatesAndTimeJSONObject(getLastLocation()).toString());
+            Log.d("jsonObject",getLastLocation().toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -65,7 +65,7 @@ public class SendRequest extends JobService {
                 JSONObject jsonReply = null;
                 try {
                     //get the jsonObject, date and location
-                    jsonObject = prepareCoordinatesAndTimeJSONObject(getLastLocation());
+                    jsonObject = getLastLocation();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -109,7 +109,8 @@ public class SendRequest extends JobService {
     }
 
 
-    public Double[] getLastLocation() {
+    public JSONObject getLastLocation() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
         Double[] latitudeAndLongtidue = new Double[2];
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -131,19 +132,6 @@ public class SendRequest extends JobService {
             latitudeAndLongtidue[0] = lastLocation.getLatitude();
             latitudeAndLongtidue[1] = lastLocation.getLongitude();
         }
-
-        return latitudeAndLongtidue;
-    }
-
-    private static JSONObject prepareCoordinatesAndTimeJSONObject(Double[] latitudeAndLongtidue) throws JSONException {
-        //prepare json object
-        JSONObject jsonObject = new JSONObject();
-        //prepare time
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-        String formattedTime = sdf.format(calendar.getTime());
-        //put time and coordinates into json object
-        jsonObject.put("time", formattedTime);
         jsonObject.put("Latitude",latitudeAndLongtidue[0]);
         jsonObject.put("Longtitude", latitudeAndLongtidue[1]);
 
@@ -189,7 +177,7 @@ public class SendRequest extends JobService {
         SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
 
-        db.addSuggestion(type, title,description,address,time,emailAddress,formatedate);
+        db.addSuggestion(type, title,description,address,time,emailAddress,formatedate,null);
 
         Intent resultIntent;
 
@@ -202,6 +190,11 @@ public class SendRequest extends JobService {
 
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
+        broadcastIntent.putExtra("toastMessage","message" );
+        PendingIntent actionIntent = PendingIntent.getBroadcast(this,
+                0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentIntent(resultPendingIntent)

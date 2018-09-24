@@ -1,18 +1,22 @@
 package com.jostlingjacks.craftlife;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class NotificationRegularDetailActivity extends AppCompatActivity {
     private Button button;
     private TextView titleTextView,  descTextView;
     private ImageView actionImage;
-
+    private LinearLayout resultLL,questionTV, pullLL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,16 +25,20 @@ public class NotificationRegularDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle details = intent.getExtras();
 
-
         String type = details.getString("type");
         String title = details.getString("title");
         String description  = details.getString("description");
 
-
-
         titleTextView = (TextView) findViewById(R.id.noti_title);
         descTextView = (TextView) findViewById(R.id.noti_desc);
+        questionTV = (LinearLayout) findViewById(R.id.question);
         actionImage = (ImageView) findViewById(R.id.imageAction);
+        resultLL = (LinearLayout) findViewById(R.id.resultLL);
+        pullLL = (LinearLayout) findViewById(R.id.pull);
+
+        questionTV.setVisibility(View.GONE);
+        pullLL.setVisibility(View.GONE);
+        resultLL.setVisibility(View.GONE);
 
 
         if (title.toLowerCase().contains("water"))

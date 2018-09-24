@@ -78,11 +78,9 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
                     bundle.putString("time",time);
                     notificationDetail.putExtras(bundle);
                     startActivity(notificationDetail);
-
                 }
             });
         }
-
 
         String locationResult = showRegular(readRecentData(emailAddress,"Arts event"));
         if (locationResult != "")

@@ -59,8 +59,9 @@
                 android:id="@+id/register_email"
                 android:layout_width="288dp"
                 android:layout_height="51dp"
+                android:paddingLeft="10dp"
                 android:background="@drawable/textview_border"
-                android:hint=" Email"
+                android:hint="Email"
                 android:inputType="textEmailAddress" />
         </LinearLayout>
 
@@ -86,7 +87,8 @@
                 android:layout_width="288dp"
                 android:layout_height="51dp"
                 android:background="@drawable/textview_border"
-                android:hint=" Password"
+                android:hint="Password"
+                android:paddingLeft="10dp"
                 android:inputType="textPassword" />
         </LinearLayout>
 
@@ -112,7 +114,8 @@
                 android:layout_width="288dp"
                 android:layout_height="51dp"
                 android:background="@drawable/textview_border"
-                android:hint=" Re-enter Password"
+                android:hint="Re-enter Password"
+                android:paddingLeft="10dp"
                 android:inputType="textPassword" />
         </LinearLayout>
 

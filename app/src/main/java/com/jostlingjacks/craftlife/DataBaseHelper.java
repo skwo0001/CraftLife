@@ -14,7 +14,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     //Database Name
     public static final String DATABASE_NAME = "craftlife";
     //Database Version i
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
 
     //Table Names
     public static final String SUGGESTION_TABLE = "Suggestion";
@@ -33,13 +33,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String T2_COL_6 = "address";
     public static final String T2_COL_7 = "time";
     public static final String T2_COL_8 = "notifying_time";
-
+    public static final String T2_COL_9 = "options";
 
     //The SQL of create SUGGESTION_TABLE
     public static final String CREATE_SUGGESTION_TABLE = "CREATE TABLE "
             + SUGGESTION_TABLE + "(" + T2_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + T2_COL_2 + " TEXT, "+ T2_COL_3 + " TEXT, " + T2_COL_4 + " TEXT, " + T2_COL_5 + " TEXT, "
-            + T2_COL_6 + " TEXT, " + T2_COL_7  + " TEXT, " + T2_COL_8 + " TEXT) ";
+            + T2_COL_6 + " TEXT, " + T2_COL_7  + " TEXT, " + T2_COL_8 + " TEXT, " + T2_COL_9 + " TEXT) ";
 
     public static final String CREATE_SETTING_TABLE = "CREATE TABLE " + SETTING_TABLE + "(" + T1_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + T1_COL_2 + " TEXT, "+ T1_COL_3 + " TEXT, " + T1_COL_4 + " TEXT) ";
@@ -68,7 +68,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addSuggestion(String type, String title, String details, String address, String time, String email, String notiTime) {
+    public boolean addSuggestion(String type, String title, String details, String address, String time, String email, String notiTime, Boolean options) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -79,6 +79,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         values.put(T2_COL_6, address);
         values.put(T2_COL_7, time);
         values.put(T2_COL_8, notiTime);
+        values.put(T2_COL_9, options);
+
 
         db.insert(SUGGESTION_TABLE, null, values);
         db.close();
@@ -140,11 +142,38 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public Cursor getSuggestions(String email,String type){
+    public Cursor getOptions (String email, String title){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //select title,details,address,time from suggestion s where s.email = email and s.type = type;
+        Cursor mCursor = db.query(SUGGESTION_TABLE,new String[] {T2_COL_1,T2_COL_9}, T2_COL_2 + "=? and "  + T2_COL_4+"=?", new String[] {email,title},
+                null,null,null,null);
+        if (mCursor != null){
+            mCursor.moveToLast();
+        }
+
+        return mCursor;
+
+    }
+
+    public Cursor getRegularSuggestions(String email, String type){
         SQLiteDatabase db = this.getReadableDatabase();
 
         //select title,details,address,time from suggestion s where s.email = email and s.type = type;
         Cursor mCursor = db.query(SUGGESTION_TABLE,new String[] {T2_COL_3,T2_COL_4,T2_COL_5,T2_COL_6,T2_COL_7}, T2_COL_2 + "=? and "  + T2_COL_3+"=?", new String[] {email,type},
+                null,null,T2_COL_8 + " DESC");
+
+        if (mCursor != null){
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+
+    public Cursor getSuggestions(String email, String type){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //select title,details,address,time from suggestion s where s.email = email and s.type = type;
+        Cursor mCursor = db.query(SUGGESTION_TABLE,new String[] {T2_COL_3,T2_COL_4,T2_COL_5,T2_COL_6,T2_COL_7,T2_COL_9}, T2_COL_2 + "=? and "  + T2_COL_3+"=?", new String[] {email,type},
                 null,null,T2_COL_8 + " DESC");
 
         if (mCursor != null){
@@ -158,8 +187,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(T1_COL_4, interval);
 
-        db.update(SETTING_TABLE,values,T1_COL_2+" =? and " + T2_COL_3 +" =? ",new String[] {email,type});
+        db.update(SETTING_TABLE,values,T1_COL_2+" =? and " + T1_COL_3 +" =? ",new String[] {email,type});
         db.close();
         return true;
     }
+
+    public boolean updateOption(String id, String option){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(T2_COL_9, option);
+
+        db.update(SUGGESTION_TABLE,values,T2_COL_1+" =? " ,new String[] {id});
+        db.close();
+        return true;
+    }
+
+
 }
