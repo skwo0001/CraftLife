@@ -54,6 +54,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         } else if (noResponseActionClicked != null){
             /**
              * TODO: Joanna please update here to receive the response, when the user clicked the no option.
+             * TODO: Help me to get Frank! He's mine!
              * noResponseActionClicked variable here would be "0"
              */
             String response = noResponseActionClicked; // "0"
