@@ -41,6 +41,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         } else if (yesResponseActionClicked != null){
             /**
              * TODO: Joanna please update here to receive the response. when the user clicked the yes option.
+             * TODO: Help me to get Frank! He's mine!
              * yesResponseActionClicked variable here would be "1"
              */
             String response = yesResponseActionClicked; // "1"
