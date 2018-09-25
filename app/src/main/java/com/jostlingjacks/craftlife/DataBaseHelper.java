@@ -87,7 +87,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-
     public boolean addSetting(String email, String type, String interval) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -145,7 +144,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public Cursor getOptions (String email, String title){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        //select title,details,address,time from suggestion s where s.email = email and s.type = type;
+        //select id and option from suggestion s where s.email = email and s.title = title;
         Cursor mCursor = db.query(SUGGESTION_TABLE,new String[] {T2_COL_1,T2_COL_9}, T2_COL_2 + "=? and "  + T2_COL_4+"=?", new String[] {email,title},
                 null,null,null,null);
         if (mCursor != null){
@@ -153,7 +152,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
         return mCursor;
+    }
 
+    //get the suggestion_id
+    public Cursor getSuggestionID (String email, String title, String details, String address){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //select id from suggestion s where s.email = email and s.title = title and s.details = details and s.address = address;
+        Cursor mCursor = db.query(SUGGESTION_TABLE,new String[] {T2_COL_1}, T2_COL_2 + "=? and "  + T2_COL_4+"=? and " + T2_COL_5+"=? and " + T2_COL_6+"=? ", new String[] {email,title,details,address},
+                null,null,null,null);
+        if (mCursor != null){
+            mCursor.moveToLast();
+        }
+
+        return mCursor;
     }
 
     public Cursor getRegularSuggestions(String email, String type){
