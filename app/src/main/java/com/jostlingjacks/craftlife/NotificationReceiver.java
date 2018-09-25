@@ -1,5 +1,6 @@
 package com.jostlingjacks.craftlife;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,22 +16,57 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
+    private NotificationManager notificationManager;
+
     String toDoText;
     String fileName;
     ArrayList<String> toDoListArrayList;
 
+    String notificationTitle;
+    String notificationDescription;
+    String notificationArtAddress;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String addToToDoListMessage = intent.getStringExtra("addToToDoList");
+        String yesResponseActionClicked = intent.getStringExtra("yesAction");
+        String noResponseActionClicked = intent.getStringExtra("noAction");
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         // if addToToDoListMessage is not null, then it is from the notification message...
         if (addToToDoListMessage != null) {
             // initialise the list
             toDoListArrayList = new ArrayList<>();
             addToToDoList(addToToDoListMessage, context);
+        } else if (yesResponseActionClicked != null){
+            /**
+             * TODO: Joanna please update here to receive the response. when the user clicked the yes option.
+             * yesResponseActionClicked variable here would be "1"
+             */
+            String response = yesResponseActionClicked; // "1"
+            /**
+             * TODo: also get the data you want from below:
+             */
+            notificationTitle = intent.getStringExtra("title");
+            notificationDescription = intent.getStringExtra("description");
+            notificationArtAddress = intent.getStringExtra("address");
+        } else if (noResponseActionClicked != null){
+            /**
+             * TODO: Joanna please update here to receive the response, when the user clicked the no option.
+             * noResponseActionClicked variable here would be "0"
+             */
+            String response = noResponseActionClicked; // "0"
+            /**
+             * TODo: also get the data you want from below:
+             */
+            notificationTitle = intent.getStringExtra("title");
+            notificationDescription = intent.getStringExtra("description");
+            notificationArtAddress = intent.getStringExtra("address");
         }
 
-
+        // cancel this notification activity...
+        notificationManager.cancel(1);
+        notificationManager.cancel(2);
 
     }
 

@@ -152,7 +152,7 @@ public class SendRequest extends JobService {
     }
 
     //Using the JSONObject to create the notification and also store the data to sqlite
-    private void createNotification(JSONObject jsonObject) {
+    public void createNotification(JSONObject jsonObject) {
 
         String type= null, title= null, description= null, lat= null, lon= null, address= null, time = null;
         int notification_id;
@@ -205,40 +205,63 @@ public class SendRequest extends JobService {
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent yesAnswerIntent = new Intent(this, NotificationReceiver.class);
-        yesAnswerIntent.putExtra("NOTIFICATION_ID_1", 1);
+        yesAnswerIntent.putExtra("yesAction", "1");
+        yesAnswerIntent.putExtra("title", title.toLowerCase());
+        yesAnswerIntent.putExtra("description", description);
+        yesAnswerIntent.putExtra("address", address);
         PendingIntent yesPendingIntent = PendingIntent.getBroadcast(this, 1, yesAnswerIntent, PendingIntent.FLAG_ONE_SHOT);
 
 
         Intent noAnswerIntent = new Intent(this, NotificationReceiver.class);
-        noAnswerIntent.putExtra("NOTIFICATION_ID_1", 1);
-        PendingIntent noPendingIntent = PendingIntent.getBroadcast(this, 1, noAnswerIntent, PendingIntent.FLAG_ONE_SHOT);
+        noAnswerIntent.putExtra("noAction", "0");
+        noAnswerIntent.putExtra("title", title.toLowerCase());
+        noAnswerIntent.putExtra("description", description);
+        noAnswerIntent.putExtra("address", address);
+        PendingIntent noPendingIntent = PendingIntent.getBroadcast(this, 2, noAnswerIntent, PendingIntent.FLAG_ONE_SHOT);
 
         // the button of adding information to the to do list.
         Intent addToToDoListIntent = new Intent(this, NotificationReceiver.class);
-        addToToDoListIntent.putExtra("addToToDoList", "Title: " + title + " \t" + "Description:  " + description + "\t Address: " +address);
-        PendingIntent addToToDoListPendingIntent = PendingIntent.getBroadcast(this, 0, addToToDoListIntent, PendingIntent.FLAG_ONE_SHOT);
+        addToToDoListIntent.putExtra("addToToDoList", "Go " + title.toLowerCase() + " at " + address);
+        PendingIntent addToToDoListPendingIntent = PendingIntent.getBroadcast(this, 3, addToToDoListIntent, PendingIntent.FLAG_ONE_SHOT);
 
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentIntent(resultPendingIntent)
-                .setSmallIcon(R.drawable.app_logo)
-                .setContentTitle(title)
-                .setContentText(description)
-                .addAction(R.drawable.ic_yes, "Okay, I'll go", yesPendingIntent)
-                .addAction(R.drawable.ic_no, "show me less", noPendingIntent)
-                .addAction(R.drawable.ic_no, "Add To To-do List", addToToDoListPendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-//                .setChannelId(CHANNEL_ID)
-                .setColor(16757760)
-                .setOnlyAlertOnce(true)
-                .setAutoCancel(true)
-                .build();
-
-        if (type == "Regular") {
+        // now keeps the notification
+        Notification notification;
+        if (type.toLowerCase().equals("Regular".toLowerCase())) {
             notification_id = 1;
         } else
             notification_id = 2;
+
+        if (notification_id == 1) {
+            notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setContentIntent(resultPendingIntent)
+                    .setSmallIcon(R.drawable.app_logo)
+                    .setContentTitle(title)
+                    .setContentText(description)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+//                .setChannelId(CHANNEL_ID)
+                    .setColor(16757760)
+                    .setOnlyAlertOnce(true)
+                    .setAutoCancel(true)
+                    .build();
+        } else {
+            notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setContentIntent(resultPendingIntent)
+                    .setSmallIcon(R.drawable.app_logo)
+                    .setContentTitle(title)
+                    .setContentText(description)
+                    .addAction(R.drawable.ic_yes, "Okay, I'll go", yesPendingIntent)
+                    .addAction(R.drawable.ic_no, "show me less", noPendingIntent)
+                    .addAction(R.drawable.ic_no, "Add To To-do List", addToToDoListPendingIntent)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+//                .setChannelId(CHANNEL_ID)
+                    .setColor(16757760)
+                    .setOnlyAlertOnce(true)
+                    .setAutoCancel(true)
+                    .build();
+        }
+
         notificationManager.notify(notification_id, notification);
-        notificationManager.cancel(notification_id);
     }
 }
