@@ -224,7 +224,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
 
             return true;
         }
-        
+
         if (id == R.id.action_addtodo) {
             /**
              * TODO: Oliver please update here to add the things to to-do list
