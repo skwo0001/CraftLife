@@ -225,10 +225,24 @@ public class NotificationDetailActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.action_addtodo) {
+            /**
+             * TODO: Oliver please update here to add the things to to-do list
+             * you can just call the getNotiTitle() and getAddress() to have the value of title and address
+             */
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
     public String getName(){
+        Intent intent = getIntent();
+        Bundle details = intent.getExtras();
+
+        return details.getString("title");
+    }
+
+    public String getNotiTitle(){
         Intent intent = getIntent();
         Bundle details = intent.getExtras();
 
