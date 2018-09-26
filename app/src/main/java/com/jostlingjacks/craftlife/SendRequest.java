@@ -15,6 +15,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -228,6 +230,7 @@ public class SendRequest extends JobService {
                     .setContentText(description)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .setLargeIcon(this.resolveNotificationIcon(title))
 //                .setChannelId(CHANNEL_ID)
                     .setColor(16757760)
                     .setOnlyAlertOnce(true)
@@ -241,7 +244,8 @@ public class SendRequest extends JobService {
                     .setContentText(description)
                     .addAction(R.drawable.ic_yes, "Okay, I'll go", yesPendingIntent)
                     .addAction(R.drawable.ic_no, "show me less", noPendingIntent)
-                    .addAction(R.drawable.ic_no, "Add To Daily Planner", addToToDoListPendingIntent)
+                    .addAction(R.drawable.ic_no, "Add To To-do List", addToToDoListPendingIntent)
+                    .setLargeIcon(this.resolveNotificationIcon(title))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
 //                .setChannelId(CHANNEL_ID)
@@ -252,5 +256,50 @@ public class SendRequest extends JobService {
         }
 
         notificationManager.notify(notification_id, notification);
+    }
+
+    /**
+     * this method appears twices!!
+     * @param title this is the title of the notification
+     * @return returns the bitmap and used by the setLargeIcon() by Notification Builder...
+     */
+    private Bitmap resolveNotificationIcon(String title){
+        if (title.toLowerCase().contains("water"))
+        {
+            return BitmapFactory.decodeResource(this.getResources(), R.drawable.drinkwater);
+        } else if (title.toLowerCase().contains("walk")){
+            return BitmapFactory.decodeResource(this.getResources(), R.drawable.walking);
+        } else if (title.toLowerCase().contains("stand up")){
+            return BitmapFactory.decodeResource(this.getResources(), R.drawable.coach);
+        }else if (title.toLowerCase().contains("meditation")){
+            return BitmapFactory.decodeResource(this.getResources(), R.drawable.meditation);
+        } else if (title.toLowerCase().contains("window")){
+            return BitmapFactory.decodeResource(this.getResources(), R.drawable.curtain);
+        } else if (title.toLowerCase().contains("gallery"))
+        {
+            return BitmapFactory.decodeResource(this.getResources(), R.drawable.gallery);
+        } else if (title.toLowerCase().contains("concert")){
+            return BitmapFactory.decodeResource(this.getResources(), R.drawable.stage);
+        }else if (title.toLowerCase().contains("art")){
+            int i = Tool.randomNumberGenerator(100);
+            if (i % 2 == 0){
+                return BitmapFactory.decodeResource(this.getResources(), R.drawable.art);
+            } else {
+                return BitmapFactory.decodeResource(this.getResources(), R.drawable.painter);
+            }
+        } else if (title.toLowerCase().contains("fountain")){
+            return BitmapFactory.decodeResource(this.getResources(), R.drawable.fountains_2);
+        } else if (title.toLowerCase().contains("monument")){
+            return BitmapFactory.decodeResource(this.getResources(), R.drawable.history);
+        }else if (title.toLowerCase().contains("theatre")){
+            return BitmapFactory.decodeResource(this.getResources(), R.drawable.theatre);
+        }else if (title.toLowerCase().contains("garden")){
+            return BitmapFactory.decodeResource(this.getResources(), R.drawable.park);
+        }else if (title.toLowerCase().contains("facility")){
+            return BitmapFactory.decodeResource(this.getResources(), R.drawable.exercise);
+        }
+
+        // maybe curtain is the default value
+        return BitmapFactory.decodeResource(this.getResources(), R.drawable.curtain);
     }
 }
