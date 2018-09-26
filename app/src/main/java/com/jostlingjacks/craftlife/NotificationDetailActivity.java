@@ -1,5 +1,6 @@
 package com.jostlingjacks.craftlife;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -14,12 +15,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.GregorianCalendar;
 
 
@@ -32,6 +38,10 @@ public class NotificationDetailActivity extends AppCompatActivity {
     private ImageView actionImage, resultImg;
     private DataBaseHelper db;
     private LinearLayout resultLL, yesLL, noLL,questionTV,pullLL;
+
+    // varables that can do add-to-do list related things...
+    private String fileName;
+    private ArrayList<String> toDoListArrayList;
 
 
     @Override
@@ -231,7 +241,12 @@ public class NotificationDetailActivity extends AppCompatActivity {
             /**
              * TODO: Oliver please update here to add the things to to-do list
              * you can just call the getNotiTitle() and getAddress() to have the value of title and address
+             * Done...
              */
+            toDoListArrayList = new ArrayList<>();
+
+            addToToDoList("Go " + getNotiTitle().toLowerCase()
+                    + " at " + getAddress() + ".", this);
         }
 
         if (id == R.id.action_addtocalendar){
@@ -259,6 +274,65 @@ public class NotificationDetailActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void addToToDoList(String message, Context context){
+        SharedPreferences logInPreferences = context.getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
+        fileName = logInPreferences.getString("CURRENT_USER_EMAIL", "") + "ToDo.txt";
+        // load previous data into the arrayList.
+        loadToDoListFromFile(context);
+
+        // check existence of existing item..
+        if (checkSameItemInTheToDoList(toDoListArrayList, message) ){
+            // has same item
+            Toast toast = Toast.makeText(this, "You have a same item in the to-do list haven't finished yet.", Toast.LENGTH_LONG);
+            toast.show();
+        } else {
+            // does not have same item...
+            writeNewItemToArrayList(toDoListArrayList, message);
+            writeToFile(context, toDoListArrayList);
+            Toast toast = Toast.makeText(this, "CraftLife: We just added this place to your to-do list", Toast.LENGTH_LONG);
+            toast.show();
+        }
+    }
+
+    public void loadToDoListFromFile(Context context){
+        try {
+            Scanner sc = new Scanner(context.openFileInput(fileName));
+            while (sc.hasNextLine()){
+                String data = sc.nextLine();
+                toDoListArrayList.add(data);
+            }
+            sc.close();
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkSameItemInTheToDoList(ArrayList<String> arrayListToBeChecked, String wordsToBeChecked){
+        for (String toDoListItem: arrayListToBeChecked) {
+            if (toDoListItem.equals(wordsToBeChecked)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void writeNewItemToArrayList(ArrayList<String> arrayList, String message){
+        arrayList.add(message);
+    }
+
+    public void writeToFile(Context context, ArrayList<String> arrayList){
+        try {
+            PrintWriter printWriter = new PrintWriter(context.openFileOutput(fileName, MODE_PRIVATE));
+            for (String data: arrayList){
+                printWriter.println(data);
+            }
+            printWriter.close();
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+
 
     public String getName(){
         Intent intent = getIntent();
