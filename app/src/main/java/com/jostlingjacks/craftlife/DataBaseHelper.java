@@ -14,7 +14,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     //Database Name
     public static final String DATABASE_NAME = "craftlife";
     //Database Version i
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
 
     //Table Names
     public static final String SUGGESTION_TABLE = "Suggestion";

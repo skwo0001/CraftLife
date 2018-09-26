@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity
         // once the user logs in, the name should be displayed in the navigation drawer..
         this.showUserInfoInNaviHeader(navigationView, userInfoSharedPreferences);
 
+
         db = new DataBaseHelper(this);
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
         if (!db.getSettingRepeat(emailAddress,"regular")){
@@ -394,7 +395,7 @@ public class MainActivity extends AppCompatActivity
         yesAnswerIntent.putExtra("title", title);
         yesAnswerIntent.putExtra("description", description);
         yesAnswerIntent.putExtra("address", address);
-        PendingIntent yesPendingIntent = PendingIntent.getBroadcast(this, 1, yesAnswerIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent yesPendingIntent = PendingIntent.getBroadcast(this, 1, yesAnswerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         Intent noAnswerIntent = new Intent(this, NotificationReceiver.class);
@@ -403,12 +404,12 @@ public class MainActivity extends AppCompatActivity
         noAnswerIntent.putExtra("title", title);
         noAnswerIntent.putExtra("description", description);
         noAnswerIntent.putExtra("address", address);
-        PendingIntent noPendingIntent = PendingIntent.getBroadcast(this, 2, noAnswerIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent noPendingIntent = PendingIntent.getBroadcast(this, 2, noAnswerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // the button of adding information to the to do list.
         Intent addToToDoListIntent = new Intent(this, NotificationReceiver.class);
         addToToDoListIntent.putExtra("addToToDoList", "Go " + title.toLowerCase() + " at " + address);
-        PendingIntent addToToDoListPendingIntent = PendingIntent.getBroadcast(this, 3, addToToDoListIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent addToToDoListPendingIntent = PendingIntent.getBroadcast(this, 3, addToToDoListIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // now keeps the notification
         Notification notification;

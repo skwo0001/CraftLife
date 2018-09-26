@@ -43,6 +43,10 @@ public class NotificationReceiver extends BroadcastReceiver {
             // initialise the list
             toDoListArrayList = new ArrayList<>();
             addToToDoList(addToToDoListMessage, context);
+            // when added to to-do list, show a message saying, yes added.
+            Toast toast = Toast.makeText(context, "CraftLife: We just added this place to your to-do list", Toast.LENGTH_LONG);
+            toast.show();
+
         } else if (yesResponseActionClicked != null){
             /**
              * TODO: Joanna please update here to receive the response. when the user clicked the yes option.
@@ -58,6 +62,8 @@ public class NotificationReceiver extends BroadcastReceiver {
             email = intent.getStringExtra("email");
             String suggestionId = getNotificationId(email,notificationTitle,notificationArtAddress);
             db.updateOption(suggestionId,yesResponseActionClicked);
+            Toast toast = Toast.makeText(context, "CraftLife: We'll give you more related suggestions.", Toast.LENGTH_LONG);
+            toast.show();
 
 
         } else if (noResponseActionClicked != null){
@@ -75,6 +81,8 @@ public class NotificationReceiver extends BroadcastReceiver {
             email = intent.getStringExtra("email");
             String suggestionId = getNotificationId(email,notificationTitle,notificationArtAddress);
             db.updateOption(suggestionId,noResponseActionClicked);
+            Toast toast = Toast.makeText(context, "CraftLife: Thank you, We'll show less, and make suggestions more relevant.", Toast.LENGTH_LONG);
+            toast.show();
         }
 
         // cancel this notification activity...
