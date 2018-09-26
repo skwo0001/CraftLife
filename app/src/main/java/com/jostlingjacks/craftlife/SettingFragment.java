@@ -154,5 +154,4 @@ public class SettingFragment extends PreferenceFragment {
         return  s;
     }
 
-
 }

@@ -49,8 +49,6 @@ public class FragmentLocationHistory extends Fragment {
             recyclerView.setVisibility(View.GONE);
         }
         else {
-
-
             suggestionAdapter = new SuggestionAdapter(context, getAllLocation(emailAddress, "Arts event"));
 
             recyclerView.setAdapter(suggestionAdapter);

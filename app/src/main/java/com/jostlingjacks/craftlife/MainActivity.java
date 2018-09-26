@@ -375,8 +375,7 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
 
-        db.addSuggestion(type, title,description,address,time,emailAddress,formatedate);
-
+        db.addSuggestion(type, title,description,address,time,emailAddress,formatedate,null);
         Intent resultIntent;
 
         if (address != null) {
@@ -391,7 +390,8 @@ public class MainActivity extends AppCompatActivity
 
         Intent yesAnswerIntent = new Intent(this, NotificationReceiver.class);
         yesAnswerIntent.putExtra("yesAction", "1");
-        yesAnswerIntent.putExtra("title", title.toLowerCase());
+        yesAnswerIntent.putExtra("email", emailAddress);
+        yesAnswerIntent.putExtra("title", title);
         yesAnswerIntent.putExtra("description", description);
         yesAnswerIntent.putExtra("address", address);
         PendingIntent yesPendingIntent = PendingIntent.getBroadcast(this, 1, yesAnswerIntent, PendingIntent.FLAG_ONE_SHOT);
@@ -399,7 +399,8 @@ public class MainActivity extends AppCompatActivity
 
         Intent noAnswerIntent = new Intent(this, NotificationReceiver.class);
         noAnswerIntent.putExtra("noAction", "0");
-        noAnswerIntent.putExtra("title", title.toLowerCase());
+        noAnswerIntent.putExtra("email", emailAddress);
+        noAnswerIntent.putExtra("title", title);
         noAnswerIntent.putExtra("description", description);
         noAnswerIntent.putExtra("address", address);
         PendingIntent noPendingIntent = PendingIntent.getBroadcast(this, 2, noAnswerIntent, PendingIntent.FLAG_ONE_SHOT);

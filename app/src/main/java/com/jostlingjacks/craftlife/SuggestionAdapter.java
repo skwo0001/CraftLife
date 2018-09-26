@@ -24,7 +24,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
     public class SuggestionViewHolder extends RecyclerView.ViewHolder{
 
         public TextView titleText, detailsText, addressText;
-        public ImageView iconImg;
+        public ImageView iconImg, choiceImg;
 
         public SuggestionViewHolder( View itemView) {
             super(itemView);
@@ -32,6 +32,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
             detailsText = itemView.findViewById(R.id.detailsList);
             addressText = itemView.findViewById(R.id.addressList);
             iconImg = itemView.findViewById(R.id.historyIcon);
+            choiceImg = itemView.findViewById(R.id.choice);
         }
     }
 
@@ -54,19 +55,26 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
         String detail = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_5));
         String address = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_6));
         String type = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_3));
+        String respond = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_9));
 
         suggestionViewHolder.titleText.setText(title);
         suggestionViewHolder.detailsText.setText(detail);
         suggestionViewHolder.addressText.setText(address);
-
 
         if (type.toLowerCase().contains("art")){
             suggestionViewHolder.iconImg.setImageResource(R.drawable.placeholder_3);
         } else {
             suggestionViewHolder.iconImg.setImageResource(R.drawable.calendar4);
         }
-    }
 
+        if (respond == null){
+            suggestionViewHolder.choiceImg.setImageResource(R.drawable.null12);
+        } else if (respond.contains("0")){
+            suggestionViewHolder.choiceImg.setImageResource(R.drawable.dislike);
+        } else if (respond.contains("1")){
+            suggestionViewHolder.choiceImg.setImageResource(R.drawable.good);
+        }
+    }
 
     @Override
     public int getItemCount() {

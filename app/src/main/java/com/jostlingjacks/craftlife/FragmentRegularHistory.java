@@ -58,6 +58,6 @@ public class FragmentRegularHistory extends Fragment{
     }
 
     public Cursor getAllDaily(String email, String type){
-        return db.getSuggestions(email,type);
+        return db.getRegularSuggestions(email,type);
     }
 }

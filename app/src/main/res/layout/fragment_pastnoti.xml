@@ -16,9 +16,7 @@
         app:tabMode="fixed"
         android:background="@color/colorPrimary"
         app:tabIndicatorColor="@color/white"
-        app:tabTextColor="@color/white">
-
-    </android.support.design.widget.TabLayout>
+        app:tabTextColor="@color/white"/>
 
     <FrameLayout
         android:id="@+id/frame_container"

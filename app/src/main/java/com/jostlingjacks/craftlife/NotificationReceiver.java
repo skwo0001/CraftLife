@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
@@ -18,16 +19,20 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     private NotificationManager notificationManager;
 
+    DataBaseHelper db;
+
     String toDoText;
     String fileName;
     ArrayList<String> toDoListArrayList;
 
     String notificationTitle;
+    String email;
     String notificationDescription;
     String notificationArtAddress;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        db = new DataBaseHelper(context);
         String addToToDoListMessage = intent.getStringExtra("addToToDoList");
         String yesResponseActionClicked = intent.getStringExtra("yesAction");
         String noResponseActionClicked = intent.getStringExtra("noAction");
@@ -41,7 +46,6 @@ public class NotificationReceiver extends BroadcastReceiver {
         } else if (yesResponseActionClicked != null){
             /**
              * TODO: Joanna please update here to receive the response. when the user clicked the yes option.
-             * TODO: Help me to get Frank! He's mine!
              * yesResponseActionClicked variable here would be "1"
              */
             String response = yesResponseActionClicked; // "1"
@@ -51,10 +55,14 @@ public class NotificationReceiver extends BroadcastReceiver {
             notificationTitle = intent.getStringExtra("title");
             notificationDescription = intent.getStringExtra("description");
             notificationArtAddress = intent.getStringExtra("address");
+            email = intent.getStringExtra("email");
+            String suggestionId = getNotificationId(email,notificationTitle,notificationArtAddress);
+            db.updateOption(suggestionId,yesResponseActionClicked);
+
+
         } else if (noResponseActionClicked != null){
             /**
              * TODO: Joanna please update here to receive the response, when the user clicked the no option.
-             * TODO: Help me to get Frank! He's mine!
              * noResponseActionClicked variable here would be "0"
              */
             String response = noResponseActionClicked; // "0"
@@ -64,6 +72,9 @@ public class NotificationReceiver extends BroadcastReceiver {
             notificationTitle = intent.getStringExtra("title");
             notificationDescription = intent.getStringExtra("description");
             notificationArtAddress = intent.getStringExtra("address");
+            email = intent.getStringExtra("email");
+            String suggestionId = getNotificationId(email,notificationTitle,notificationArtAddress);
+            db.updateOption(suggestionId,noResponseActionClicked);
         }
 
         // cancel this notification activity...
@@ -108,5 +119,15 @@ public class NotificationReceiver extends BroadcastReceiver {
         }catch (FileNotFoundException e){
             e.printStackTrace();
         }
+    }
+
+    public String getNotificationId(String email, String title, String address){
+        Cursor cursor = db.getSuggestionID(email,title,address);
+        String s = "";
+        if (cursor.moveToLast()){
+            //return id
+            s = cursor.getString(0);
+        }
+        return  s;
     }
 }
