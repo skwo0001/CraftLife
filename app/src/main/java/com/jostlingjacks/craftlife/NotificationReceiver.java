@@ -48,14 +48,8 @@ public class NotificationReceiver extends BroadcastReceiver {
             toast.show();
 
         } else if (yesResponseActionClicked != null){
-            /**
-             * TODO: Joanna please update here to receive the response. when the user clicked the yes option.
-             * yesResponseActionClicked variable here would be "1"
-             */
             String response = yesResponseActionClicked; // "1"
-            /**
-             * TODo: also get the data you want from below:
-             */
+
             notificationTitle = intent.getStringExtra("title");
             notificationDescription = intent.getStringExtra("description");
             notificationArtAddress = intent.getStringExtra("address");
@@ -67,14 +61,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 
         } else if (noResponseActionClicked != null){
-            /**
-             * TODO: Joanna please update here to receive the response, when the user clicked the no option.
-             * noResponseActionClicked variable here would be "0"
-             */
+
             String response = noResponseActionClicked; // "0"
-            /**
-             * TODo: also get the data you want from below:
-             */
             notificationTitle = intent.getStringExtra("title");
             notificationDescription = intent.getStringExtra("description");
             notificationArtAddress = intent.getStringExtra("address");

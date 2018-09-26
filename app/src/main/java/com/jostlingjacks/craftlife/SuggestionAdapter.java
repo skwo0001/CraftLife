@@ -67,6 +67,25 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
             suggestionViewHolder.iconImg.setImageResource(R.drawable.calendar4);
         }
 
+        if (title.toLowerCase().contains("gallery"))
+        {
+            suggestionViewHolder.iconImg.setImageResource(R.drawable.gallery);
+        } else if (title.toLowerCase().contains("concert")){
+            suggestionViewHolder.iconImg.setImageResource(R.drawable.stage);
+        }else if (title.toLowerCase().contains("art")){
+            suggestionViewHolder.iconImg.setImageResource(R.drawable.art);
+        } else if (title.toLowerCase().contains("fountain")){
+            suggestionViewHolder.iconImg.setImageResource(R.drawable.fountains_2);
+        } else if (title.toLowerCase().contains("monument")){
+            suggestionViewHolder.iconImg.setImageResource(R.drawable.history);
+        }else if (title.toLowerCase().contains("theatre")){
+            suggestionViewHolder.iconImg.setImageResource(R.drawable.theatre);
+        }else if (title.toLowerCase().contains("garden")){
+            suggestionViewHolder.iconImg.setImageResource(R.drawable.park);
+        }else if (title.toLowerCase().contains("facility") || title.toLowerCase().contains("health")){
+            suggestionViewHolder.iconImg.setImageResource(R.drawable.exercise);
+        }
+
         if (respond == null){
             suggestionViewHolder.choiceImg.setImageResource(R.drawable.null12);
         } else if (respond.contains("0")){
