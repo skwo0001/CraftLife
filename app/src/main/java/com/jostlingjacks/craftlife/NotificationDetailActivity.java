@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class NotificationDetailActivity extends AppCompatActivity {
@@ -148,7 +150,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
             actionImage.setImageResource(R.drawable.theatre);
         }else if (title.toLowerCase().contains("garden")){
             actionImage.setImageResource(R.drawable.park);
-        }else if (title.toLowerCase().contains("facility")){
+        }else if (title.toLowerCase().contains("facility") || title.toLowerCase().contains("health")){
             actionImage.setImageResource(R.drawable.exercise);
         }
 
@@ -232,6 +234,29 @@ public class NotificationDetailActivity extends AppCompatActivity {
              */
         }
 
+        if (id == R.id.action_addtocalendar){
+            Intent calIntent = new Intent(Intent.ACTION_INSERT);
+            calIntent.setType("vnd.android.cursor.item/event");
+            calIntent.putExtra(CalendarContract.Events.TITLE,getNotiTitle());
+            calIntent.putExtra(CalendarContract.Events.EVENT_LOCATION,getAddress());
+            calIntent.putExtra(CalendarContract.Events.DESCRIPTION,getDescription());
+
+            String time = getDate();
+            String[] details = time.split("-");
+            int year = Integer.parseInt(details[0]);
+            int month = Integer.parseInt(details[1]);
+            int day = Integer.parseInt(details[2]);
+            int hour = Integer.parseInt(details[3]);
+            int minutes = Integer.parseInt(details[4]);
+
+            GregorianCalendar calDate = new GregorianCalendar(year,month-1,day,hour,minutes);
+            calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY,false);
+            calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,calDate.getTimeInMillis());
+
+            startActivity(calIntent);
+
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -261,6 +286,22 @@ public class NotificationDetailActivity extends AppCompatActivity {
         Bundle details = intent.getExtras();
 
         return details.getString("description");
+    }
+
+    public String getDate(){
+        Intent intent = getIntent();
+        Bundle details = intent.getExtras();
+
+        String time = details.getString("time");
+
+        //Format the time
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+        TemporalAccessor accessor = dateTimeFormatter.parse(time);
+        Date date = Date.from(Instant.from(accessor));
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd-HH-mm");
+        time = sdf.format(date);
+
+        return time;
     }
 
     public String readRespond(String email, String title){

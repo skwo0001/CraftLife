@@ -4,16 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.jostlingjacks.craftlife_build180829.NotificationDetailActivity">
 
-    <item
-        android:id="@+id/action_share"
-        android:orderInCategory="100"
-        android:title="@string/action_share"
-        app:showAsAction="never" />
+    <item android:title=""
+        app:showAsAction="always"
+        android:icon="@drawable/ic_more">
+        <menu>
+            <item
+                android:id="@+id/action_share"
+                android:orderInCategory="100"
+                android:title="@string/action_share"
+                android:icon="@drawable/ic_share"
+                app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_addtodo"
-        android:orderInCategory="100"
-        android:title="Add to To-Do List"
-        app:showAsAction="never" />
+            <item
+                android:id="@+id/action_addtodo"
+                android:orderInCategory="100"
+                android:title="Add to To-Do List"
+                android:icon="@drawable/ic_playlist_add"/>
 
+            <item
+                android:id="@+id/action_addtocalendar"
+                android:orderInCategory="100"
+                android:title="Add to Calendar"
+                android:icon="@drawable/ic_event"/>
+
+
+        </menu>
+    </item>
 </menu>
+
