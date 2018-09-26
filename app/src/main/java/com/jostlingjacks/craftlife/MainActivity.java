@@ -439,7 +439,7 @@ public class MainActivity extends AppCompatActivity
                     .setContentText(description)
                     .addAction(R.drawable.ic_yes, "Okay, I'll go", yesPendingIntent)
                     .addAction(R.drawable.ic_no, "show me less", noPendingIntent)
-                    .addAction(R.drawable.ic_no, "Add To To-do List", addToToDoListPendingIntent)
+                    .addAction(R.drawable.ic_no, "Add To Daily Planner", addToToDoListPendingIntent)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
 //                .setChannelId(CHANNEL_ID)

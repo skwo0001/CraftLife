@@ -44,7 +44,7 @@ public class NotificationReceiver extends BroadcastReceiver {
             toDoListArrayList = new ArrayList<>();
             addToToDoList(addToToDoListMessage, context);
             // when added to to-do list, show a message saying, yes added.
-            Toast toast = Toast.makeText(context, "CraftLife: We just added this place to your to-do list", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(context, "CraftLife: We just added this place to your Daily Planner", Toast.LENGTH_LONG);
             toast.show();
 
         } else if (yesResponseActionClicked != null){

@@ -79,8 +79,6 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
     @Override
     public int getItemCount() {
 
-        int i = mCursor.getCount();
-
         if (mCursor.getCount() < 5) {
             return mCursor.getCount();
         } else {

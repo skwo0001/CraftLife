@@ -284,13 +284,13 @@ public class NotificationDetailActivity extends AppCompatActivity {
         // check existence of existing item..
         if (checkSameItemInTheToDoList(toDoListArrayList, message) ){
             // has same item
-            Toast toast = Toast.makeText(this, "You have a same item in the to-do list haven't finished yet.", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "You have a same item in the Daily Planner haven't finished yet.", Toast.LENGTH_LONG);
             toast.show();
         } else {
             // does not have same item...
             writeNewItemToArrayList(toDoListArrayList, message);
             writeToFile(context, toDoListArrayList);
-            Toast toast = Toast.makeText(this, "CraftLife: We just added this place to your to-do list", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "CraftLife: We just added this place to your Daily Planner", Toast.LENGTH_LONG);
             toast.show();
         }
     }
