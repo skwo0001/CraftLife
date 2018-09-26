@@ -122,7 +122,8 @@ public class NotificationDetailActivity extends AppCompatActivity {
 
         addressImg.setVisibility(View.VISIBLE);
         artEventOnMapButton.setVisibility(View.VISIBLE);
-        timeTextView.setVisibility(View.GONE);
+        timeTextView.setVisibility(View.VISIBLE);
+        timeImg.setVisibility(View.VISIBLE);
 
 
         // set the image to different type of suggestion

@@ -8,6 +8,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
+    <string name="Add_To_To_do_List">Add To To-do List</string>
+    <string name="Okay_I_ll_go">Okay, I\'ll go</string>
+    <string name="show_me_less">show me less</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

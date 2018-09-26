@@ -89,7 +89,7 @@ public class SettingFragment extends PreferenceFragment {
                         return true;
                     }
                 });
-            popupMenu.show();
+                popupMenu.show();
 
             }
         });
@@ -128,7 +128,7 @@ public class SettingFragment extends PreferenceFragment {
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                       // Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
+                        // Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
 
                         event_interval.setText(menuItem.getTitle());
                         db.updateSetting(emailAddress,"event",menuItem.getTitle().toString());

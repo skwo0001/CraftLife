@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/app_logo"
@@ -74,6 +73,7 @@
             android:screenOrientation="landscape" />
         <activity android:name=".EditToDoFieldActivity" />
         <activity android:name=".EditToDoItemActivity"></activity>
+        <receiver android:name=".NotificationReceiver" />
     </application>
 
 </manifest>
