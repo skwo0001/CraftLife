@@ -277,7 +277,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    //Return title, description, address, option form the user, latitude and longitude
+    //Return title, description, address, option from the user, latitude and longitude
     public Cursor getAddress (String email){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor mCursor = db.query(true,SUGGESTION_TABLE, new String[] {T2_COL_4,T2_COL_5,T2_COL_6,T2_COL_9,T2_COL_10,T2_COL_11}, T2_COL_2 + "=? and " + T2_COL_3 + "!=? ", new String[] {email,"regular"},
