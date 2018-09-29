@@ -96,6 +96,7 @@
                 android:layout_weight="1"
                 android:text="Art Location Suggestion"
                 android:textSize="24sp"
+                android:layout_marginRight="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

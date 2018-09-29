@@ -381,7 +381,8 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
 
-        db.addSuggestion(type, title,description,address,time,emailAddress,formatedate,null);
+
+        db.addSuggestion(type, title,description,address,time,emailAddress,formatedate,null,lat,lon);
         Intent resultIntent;
 
         if (address != null) {
