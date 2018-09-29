@@ -43,9 +43,10 @@ public class FragmentStat extends Fragment {
         replaceFragment(fragmentPieChart);
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabHistory);
+        //need to change the nam eof the tab
         tabLayout.addTab(tabLayout.newTab().setText("Pie Chart"), true);
-        tabLayout.addTab(tabLayout.newTab().setText("Bar Chart"));
-        tabLayout.addTab(tabLayout.newTab().setText("Map"));
+        tabLayout.addTab(tabLayout.newTab().setText("Favourite Place"));
+        tabLayout.addTab(tabLayout.newTab().setText("Place Collection"));
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

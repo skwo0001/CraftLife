@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearReg"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_margin="8dp"
@@ -47,7 +48,6 @@
 
                 <TextView
                 android:id="@+id/detailsList"
-                android:textIsSelectable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
