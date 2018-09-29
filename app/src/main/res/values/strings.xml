@@ -122,4 +122,12 @@
         <item>1 Day</item>
     </string-array>
 
+    <string-array name="pref_daily_suggestion_days_values">
+        <item>Only on weekdays</item>
+        <item>Only on weekends</item>
+        <item>On both weekdays and weekends</item>
+    </string-array>
+
+
+
 </resources>
