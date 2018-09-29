@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteTransactionListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -76,14 +77,9 @@ public class MainActivity extends AppCompatActivity
          * the following code is for getting the settings from user settings.
          *
          */
+        db = new DataBaseHelper(this);
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        // daily_suggestion string is from pref_notification.xml file, reference to that.
-        String dailyNotificationIntervalString = sharedPreferences.getString("daily_suggestion", "");
-        // when this is the first user use this application, there is no user settings...
-        int dailyNotificationInterval = 15;
-        if (dailyNotificationIntervalString != "") {
-            dailyNotificationInterval = Integer.valueOf(dailyNotificationIntervalString.split(" ")[0]);
-        }
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -116,8 +112,6 @@ public class MainActivity extends AppCompatActivity
         // once the user logs in, the name should be displayed in the navigation drawer..
         this.showUserInfoInNaviHeader(navigationView, userInfoSharedPreferences);
 
-
-        db = new DataBaseHelper(this);
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
         if (!db.getSettingRepeat(emailAddress,"regular")){
             db.addSetting(emailAddress,"regular","15 minutes");
@@ -128,6 +122,12 @@ public class MainActivity extends AppCompatActivity
         if (!db.getSettingRepeat(emailAddress,"event")) {
             db.addSetting(emailAddress,"event","2 hour");
         }
+
+        Cursor dailyNotificationIntervalcursor = db.getSetting(emailAddress,"regular");
+        String dailyNotificationIntervalString =  dailyNotificationIntervalcursor.getString(0);
+        //hard code
+        String exactint = dailyNotificationIntervalString.substring(0,2);
+        int dailyNotificationInterval = Integer.parseInt(exactint);
 
         //when the phone allow to access the location.
         if (!runtime_permissions()) {
@@ -205,6 +205,9 @@ public class MainActivity extends AppCompatActivity
                     break;
                 case R.id.nav_pastnoti:
                     nextFragment = new PastNotiFragment();
+                    break;
+                case R.id.nav_stat:
+                    nextFragment = new FragmentStat();
                     break;
                 case R.id.nav_settings:
                     nextFragment = new SettingFragment();
@@ -420,7 +423,7 @@ public class MainActivity extends AppCompatActivity
         } else
             notification_id = 2;
 
-        if (notification_id == 1) {
+        if (address == null) {
             notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setContentIntent(resultPendingIntent)
                     .setSmallIcon(R.drawable.app_logo)
@@ -442,7 +445,7 @@ public class MainActivity extends AppCompatActivity
                     .setContentText(description)
                     .addAction(R.drawable.ic_yes, "Okay, I'll go", yesPendingIntent)
                     .addAction(R.drawable.ic_no, "show me less", noPendingIntent)
-                    .addAction(R.drawable.ic_no, "Add To To-do List", addToToDoListPendingIntent)
+                    .addAction(R.drawable.ic_no, "Add Daily Planner", addToToDoListPendingIntent)
                     .setLargeIcon(this.resolveNotificationIcon(title.toLowerCase()))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)

@@ -40,6 +40,7 @@ import java.util.Date;
 import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
 public class SendRequest extends JobService {
     private static final String TAG = "JobService";
     private boolean jobCancelled = false;
@@ -191,7 +192,8 @@ public class SendRequest extends JobService {
         resultIntent.putExtras(bundle);
 
 
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_ONE_SHOT);
 
         Intent yesAnswerIntent = new Intent(this, NotificationReceiver.class);
         yesAnswerIntent.putExtra("yesAction", "1");
@@ -219,10 +221,10 @@ public class SendRequest extends JobService {
         Notification notification;
         if (type.toLowerCase().equals("Regular".toLowerCase())) {
             notification_id = 1;
-        } else
+        } else //add notification_id 3 for events
             notification_id = 2;
 
-        if (notification_id == 1) {
+        if (address == null) {
             notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setContentIntent(resultPendingIntent)
                     .setSmallIcon(R.drawable.app_logo)
@@ -244,7 +246,7 @@ public class SendRequest extends JobService {
                     .setContentText(description)
                     .addAction(R.drawable.ic_yes, "Okay, I'll go", yesPendingIntent)
                     .addAction(R.drawable.ic_no, "show me less", noPendingIntent)
-                    .addAction(R.drawable.ic_no, "Add To Daily Planner", addToToDoListPendingIntent)
+                    .addAction(R.drawable.ic_no, "Add To To-do List", addToToDoListPendingIntent)
                     .setLargeIcon(this.resolveNotificationIcon(title.toLowerCase()))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)

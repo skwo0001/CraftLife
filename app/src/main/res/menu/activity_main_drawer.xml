@@ -16,6 +16,11 @@
             android:id="@+id/nav_pastnoti"
             android:icon="@drawable/ic_history"
             android:title="Past Notification" />
+        <item
+            android:id="@+id/nav_stat"
+            android:icon="@drawable/ic_insert_chart"
+            android:title="Analysis" />
+
     </group>
     <item android:title="Application">
         <menu>

@@ -122,4 +122,19 @@
         <item>1 Day</item>
     </string-array>
 
+    <string-array name="pie_chart_spinner">
+        <item>Overall</item>
+        <item>Art</item>
+        <item>Monument</item>
+        <item>Theatre</item>
+        <item>Gallery</item>
+        <item>Sport</item>
+        <item>Concert</item>
+        <item>Fountain</item>
+    </string-array>
+
+    <string-array name="bar_chart_spinner">
+        <item>The suggestion you liked</item>
+        <item>The suggestion you disliked</item>
+    </string-array>
 </resources>

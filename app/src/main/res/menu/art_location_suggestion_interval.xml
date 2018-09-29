@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/off_art_location_suggestion"
+        android:title="Off"/>
 
     <item
         android:id="@+id/one_hour_art_location_suggestion"
-        android:title="1 hour"></item>
+        android:title="1 hour"/>
 
     <item
         android:id="@+id/two_hours_art_location_suggestion"
-        android:title="2 hours"></item>
+        android:title="2 hours"/>
 
     <item
         android:id="@+id/three_hours_art_location_suggestion"
-        android:title="3 hours"></item>
+        android:title="3 hours"/>
 
     <item
         android:id="@+id/four_hours_art_location_suggestion"
-        android:title="4 hours"></item>
+        android:title="4 hours"/>
 
     <item
         android:id="@+id/five_hours_art_location_suggestion"
-        android:title="5 hours"></item>
+        android:title="5 hours"/>
 
 </menu>
