@@ -61,6 +61,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
         String lat = details.getString("lat");
         String lon = details.getString("lon");
         String time = details.getString("time");
+        String noti_id = details.getString("id");
 
         artEventOnMapButton = (Button) findViewById(R.id.art_event_on_map_button);
         button = (Button) findViewById(R.id.getbutton);
@@ -83,46 +84,55 @@ public class NotificationDetailActivity extends AppCompatActivity {
         SharedPreferences userInfoSharedPreferences = this.getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
         final String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
 
-        //Check the respond of the user to this suggestion
-        String optionId = readRespond(emailAddress,title);
+        final String id;
+        String option;
+        if (noti_id == null){
+            //Check the respond of the user to this suggestion
+            String optionId = readRespond(emailAddress, title);
+            String[] result = optionId.split("#");
+            id = result[0];
+            option = result[1];
+        } else {
+            id = noti_id;
+            option = readOptionById(noti_id);
+            if (option == null) {
+                option = "null";
+            }
+        }
 
-        String[] result = optionId.split("#");
-        final String id = result[0];
-        String option = result[1];
-
-        if (option.contains("1") || option.contains("0")){
+        if (option.contains("1") || option.contains("0")) {
             questionTV.setVisibility(View.GONE);
             pullLL.setVisibility(View.GONE);
-            if (option.contains("1")){
+            if (option.contains("1")) {
                 resultImg.setImageResource(R.drawable.good);
             }
         } else {
             resultLL.setVisibility(View.GONE);
             yesLL.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    db.updateOption(id,"1");
-                    questionTV.setVisibility(View.GONE);
-                    pullLL.setVisibility(View.GONE);
-                    resultLL.setVisibility(View.VISIBLE);
-                    resultImg.setImageResource(R.drawable.good);
-                }
+                    @Override
+                    public void onClick(View v) {
+                        db.updateOption(id, "1");
+                        questionTV.setVisibility(View.GONE);
+                        pullLL.setVisibility(View.GONE);
+                        resultLL.setVisibility(View.VISIBLE);
+                        resultImg.setImageResource(R.drawable.good);
+                    }
 
-            });
+                });
 
             noLL.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    db.updateOption(id,"0");
-                    questionTV.setVisibility(View.GONE);
-                    pullLL.setVisibility(View.GONE);
-                    resultLL.setVisibility(View.VISIBLE);
-                    resultImg.setImageResource(R.drawable.dislike);
-                }
+                    @Override
+                    public void onClick(View v) {
+                        db.updateOption(id, "0");
+                        questionTV.setVisibility(View.GONE);
+                        pullLL.setVisibility(View.GONE);
+                        resultLL.setVisibility(View.VISIBLE);
+                        resultImg.setImageResource(R.drawable.dislike);
+                    }
 
-            });
+                });
+            }
 
-        }
 
         //Format the time
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
@@ -391,6 +401,16 @@ public class NotificationDetailActivity extends AppCompatActivity {
             s = c.getString(0)+ "#" + c.getString(1);
         }
         return  s;
+    }
+
+    public String readOptionById(String id){
+        Cursor c = db.getOptionsById(id);
+        String s = "";
+        if (c.moveToLast()){
+            //return title,details,address and time
+            s = c.getString(0);
+        }
+        return s;
     }
 
 }

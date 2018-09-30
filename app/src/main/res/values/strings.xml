@@ -137,12 +137,4 @@
         <item>The suggestion you liked</item>
         <item>The suggestion you disliked</item>
     </string-array>
-    <string-array name="pref_daily_suggestion_days_values">
-        <item>Only on weekdays</item>
-        <item>Only on weekends</item>
-        <item>On both weekdays and weekends</item>
-    </string-array>
-
-
-
 </resources>

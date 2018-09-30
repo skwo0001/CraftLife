@@ -114,6 +114,7 @@ public class FragmentBarChart extends Fragment {
 
         String[] labels = new String[]{"Art","Monument","Theatre","Gallery","Sport","Concert","Fountain"};
 
+
         BarData data = new BarData(barDataSet);
         data.setBarWidth(0.6f);
 
@@ -121,11 +122,12 @@ public class FragmentBarChart extends Fragment {
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setValueFormatter(new XAisValueFormatter(labels));
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
 
         barChart.setTouchEnabled(true);
         barChart.setDragEnabled(true);
         barChart.setScaleEnabled(true);
+        barChart.getDescription().setEnabled(false);
 
         barChart.invalidate();
     }

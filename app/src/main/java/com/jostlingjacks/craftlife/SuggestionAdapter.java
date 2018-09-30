@@ -1,13 +1,16 @@
 package com.jostlingjacks.craftlife;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.SuggestionViewHolder> {
@@ -25,6 +28,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
 
         public TextView titleText, detailsText, addressText;
         public ImageView iconImg, choiceImg;
+        LinearLayout linearLayout;
 
         public SuggestionViewHolder( View itemView) {
             super(itemView);
@@ -33,6 +37,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
             addressText = itemView.findViewById(R.id.addressList);
             iconImg = itemView.findViewById(R.id.historyIcon);
             choiceImg = itemView.findViewById(R.id.choice);
+            linearLayout = itemView.findViewById(R.id.LinearAdd);
         }
     }
 
@@ -51,9 +56,11 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
             return;
         }
 
-        String title = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_4));
-        String detail = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_5));
-        String address = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_6));
+        final String notificationid = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_1));
+        final String title = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_4));
+        final String detail = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_5));
+        final String address = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_6));
+        final String time = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_7));
         String type = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_3));
         String respond = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_9));
 
@@ -93,7 +100,26 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
         } else if (respond.contains("1")){
             suggestionViewHolder.choiceImg.setImageResource(R.drawable.good);
         }
+
+        suggestionViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent notificationDetail = new Intent(mContext,NotificationDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("id",notificationid);
+                bundle.putString("title",title);
+                bundle.putString("description",detail);
+                bundle.putString("address",address);
+                bundle.putString("time",time);
+                notificationDetail.putExtras(bundle);
+                mContext.startActivity(notificationDetail);
+            }
+        });
+
+
     }
+
+
 
     @Override
     public int getItemCount() {
