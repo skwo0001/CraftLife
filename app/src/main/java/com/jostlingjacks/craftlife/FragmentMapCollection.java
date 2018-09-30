@@ -49,6 +49,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class FragmentMapCollection extends Fragment implements OnMapReadyCallback, LocationEngineListener, PermissionsListener {
 
     MapView mapView;
+    Context context;
     View view;
     DataBaseHelper db;
     ArrayList<String[]> mapEntries;
@@ -70,6 +71,7 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_map_collection, container, false);
+        context = view.getContext();
         // initialise the database helper class instance
         db = new DataBaseHelper(getContext());
 
@@ -101,7 +103,7 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
         Cursor cursor = db.getAddress(email);
         if (cursor.moveToFirst()){
             do {
-                String[] row = new String[6];
+                String[] row = new String[8];
                 row[0] = cursor.getString(0);
                 row[1] = cursor.getString(1);
                 row[2] = cursor.getString(2);
@@ -114,6 +116,9 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
 
                 row[4] = cursor.getString(4);
                 row[5] = cursor.getString(5);
+                // row 6 store the suggestion_id
+                row[6] = cursor.getString(6);
+                row[7] = cursor.getString(7);
                 arrayList.add(row);
             } while (cursor.moveToNext());
         }

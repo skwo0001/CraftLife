@@ -63,6 +63,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         } else if (noResponseActionClicked != null){
 
             String response = noResponseActionClicked; // "0"
+
             notificationTitle = intent.getStringExtra("title");
             notificationDescription = intent.getStringExtra("description");
             notificationArtAddress = intent.getStringExtra("address");
@@ -74,7 +75,6 @@ public class NotificationReceiver extends BroadcastReceiver {
         }
 
         // cancel this notification activity...
-        notificationManager.cancel(1);
         notificationManager.cancel(2);
 
     }
