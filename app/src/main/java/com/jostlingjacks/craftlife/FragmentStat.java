@@ -25,7 +25,7 @@ public class FragmentStat extends Fragment {
     DataBaseHelper db;
     private FragmentPieChart fragmentPieChart;
     private FragmentBarChart fragmentBarChart;
-    //mapfragment
+    private FragmentMapCollection fragmentMapCollection;
 
     @Nullable
     @Override
@@ -38,15 +38,14 @@ public class FragmentStat extends Fragment {
 
         fragmentPieChart = new FragmentPieChart();
         fragmentBarChart = new FragmentBarChart();
-        //mapfragment
+        fragmentMapCollection = new FragmentMapCollection();
 
         replaceFragment(fragmentPieChart);
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabHistory);
-        //need to change the nam eof the tab
-        tabLayout.addTab(tabLayout.newTab().setText("Sort by Type"), true);
-        tabLayout.addTab(tabLayout.newTab().setText("Sort by Response"));
-        tabLayout.addTab(tabLayout.newTab().setText("Place Collection"));
+        tabLayout.addTab(tabLayout.newTab().setText("Pie Chart"), true);
+        tabLayout.addTab(tabLayout.newTab().setText("Bar Chart"));
+        tabLayout.addTab(tabLayout.newTab().setText("Map"));
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -78,7 +77,7 @@ public class FragmentStat extends Fragment {
                 replaceFragment(fragmentBarChart);
                 break;
             case 2:
-                //replaceFragment(fragmentEventHistory);
+                replaceFragment(fragmentMapCollection);
                 break;
         }
     }

@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
@@ -26,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -36,6 +38,7 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.io.*;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -129,6 +132,7 @@ public class ToDoListFragment extends Fragment {
                 switch (index) {
                     case 0:
                         Log.d("this", "onMenuItemClick: clicked item " + index + "position: " + position);
+                        scheduleItemInListView(position);
                         break;
                     case 1:
                         Log.d("this", "onMenuItemClick: clicked item " + index+ "position: " + position);
@@ -194,6 +198,9 @@ public class ToDoListFragment extends Fragment {
             arrayList.add(position, toDoText);
             arrayAdapter.notifyDataSetChanged();
             saveToDoListToFile();
+        } else if (resultCode == 1888){
+            Toast toast = Toast.makeText(context, "Yes, you set as res", Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 
@@ -257,6 +264,30 @@ public class ToDoListFragment extends Fragment {
         saveToDoListToFile();
     }
 
+    private void scheduleItemInListView(int position){
+        String title = arrayList.get(position);
+
+        Intent calIntent = new Intent(Intent.ACTION_INSERT);
+        calIntent.setType("vnd.android.cursor.item/event");
+
+        if (title.toLowerCase().contains("go art".toLowerCase())){
+            calIntent.putExtra(CalendarContract.Events.TITLE, "Go to art place (suggested by CraftLife)");
+        } else{
+            calIntent.putExtra(CalendarContract.Events.TITLE, title);
+        }
+
+
+        if (title.toLowerCase().contains("go".toLowerCase()) && title.toLowerCase().contains("at".toLowerCase())){
+            String address =  title.split("at".toLowerCase())[title.split("at".toLowerCase()).length - 1];
+            calIntent.putExtra(CalendarContract.Events.EVENT_LOCATION, address);
+        }
+        calIntent.putExtra("finishActivityOnSaveCompleted", true);
+
+    startActivityForResult(calIntent, 1888);
+    }
+
+
+
     /**
      * this method MUST be called when the list is empty, or it will crash or delete user's own items...
      * @param arrayList the user to-do list arraylist...
@@ -269,6 +300,7 @@ public class ToDoListFragment extends Fragment {
         //arrayList.add(4, "");
         arrayList.add(4, "Just don't keep your list empty :)");
     }
+
 
 
 }
