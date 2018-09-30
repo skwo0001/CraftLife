@@ -54,11 +54,12 @@ public class NotificationReceiver extends BroadcastReceiver {
             notificationDescription = intent.getStringExtra("description");
             notificationArtAddress = intent.getStringExtra("address");
             email = intent.getStringExtra("email");
-            String suggestionId = getNotificationId(email,notificationTitle,notificationArtAddress);
-            db.updateOption(suggestionId,yesResponseActionClicked);
-            Toast toast = Toast.makeText(context, "CraftLife: We'll give you more related suggestions.", Toast.LENGTH_LONG);
-            toast.show();
-
+            if (notificationArtAddress != null) {
+                String suggestionId = getNotificationId(email,notificationTitle,notificationArtAddress);
+                db.updateOption(suggestionId, yesResponseActionClicked);
+                    Toast toast = Toast.makeText(context, "CraftLife: We'll give you more related suggestions.", Toast.LENGTH_LONG);
+                    toast.show();
+            }
 
         } else if (noResponseActionClicked != null){
 
@@ -68,10 +69,12 @@ public class NotificationReceiver extends BroadcastReceiver {
             notificationDescription = intent.getStringExtra("description");
             notificationArtAddress = intent.getStringExtra("address");
             email = intent.getStringExtra("email");
-            String suggestionId = getNotificationId(email,notificationTitle,notificationArtAddress);
-            db.updateOption(suggestionId,noResponseActionClicked);
-            Toast toast = Toast.makeText(context, "CraftLife: Thank you, We'll show less, and make suggestions more relevant.", Toast.LENGTH_LONG);
-            toast.show();
+            if (notificationArtAddress != null) {
+                String suggestionId = getNotificationId(email,notificationTitle,notificationArtAddress);
+                db.updateOption(suggestionId, yesResponseActionClicked);
+                Toast toast = Toast.makeText(context, "CraftLife: Thank you, We'll show less, and make suggestions more relevant.", Toast.LENGTH_LONG);
+                toast.show();
+            }
         }
 
         // cancel this notification activity...

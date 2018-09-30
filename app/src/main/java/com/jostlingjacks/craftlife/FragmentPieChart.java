@@ -89,9 +89,9 @@ public class FragmentPieChart extends Fragment {
                         createChart(text,like,dislike,nothing);
                         break;
                     case "Sport":
-                        like = getNumberofOption(emailAddress,text,"1");
-                        dislike = getNumberofOption(emailAddress,text,"0");
-                        nothing = getNumberofNull(emailAddress,text);
+                        like = getNumberofOption(emailAddress,"Facility","1");
+                        dislike = getNumberofOption(emailAddress,"Facility","0");
+                        nothing = getNumberofNull(emailAddress,"Facility");
 
                         createChart(text,like,dislike,nothing);
                         break;

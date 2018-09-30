@@ -71,7 +71,7 @@ public class FragmentBarChart extends Fragment {
                         barEntry.add(new BarEntry(4, galleryLike));
                         float monumentLike = getNumberofOption(emailAddress, "Monument", "1");
                         barEntry.add(new BarEntry(5, monumentLike));
-                        float sportLike = getNumberofOption(emailAddress, "Sport", "1");
+                        float sportLike = getNumberofOption(emailAddress, "Facility", "1");
                         barEntry.add(new BarEntry(6, sportLike));
                         float theatreLike = getNumberofOption(emailAddress, "Theatre", "1");
                         barEntry.add(new BarEntry(7, theatreLike));
@@ -93,7 +93,7 @@ public class FragmentBarChart extends Fragment {
                         barEntry.add(new BarEntry(4, galleryDislike));
                         float monumentDislike = getNumberofOption(emailAddress, "Monument", "0");
                         barEntry.add(new BarEntry(5, monumentDislike));
-                        float sportDislike = getNumberofOption(emailAddress, "Sport", "0");
+                        float sportDislike = getNumberofOption(emailAddress, "Facility", "0");
                         barEntry.add(new BarEntry(6, sportDislike));
                         float theatreDislike = getNumberofOption(emailAddress, "Theatre", "0");
                         barEntry.add(new BarEntry(7, theatreDislike));
