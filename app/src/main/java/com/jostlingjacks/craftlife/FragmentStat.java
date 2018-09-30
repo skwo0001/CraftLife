@@ -44,8 +44,8 @@ public class FragmentStat extends Fragment {
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabHistory);
         //need to change the nam eof the tab
-        tabLayout.addTab(tabLayout.newTab().setText("Pie Chart"), true);
-        tabLayout.addTab(tabLayout.newTab().setText("Favourite Place"));
+        tabLayout.addTab(tabLayout.newTab().setText("Sort by Type"), true);
+        tabLayout.addTab(tabLayout.newTab().setText("Sort by Response"));
         tabLayout.addTab(tabLayout.newTab().setText("Place Collection"));
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
