@@ -241,7 +241,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
         if (id == R.id.action_addtodo) {
             /**
              * TODO: Oliver please update here to add the things to to-do list
-             * you can just call the getNotiTitle() and getAddress() to have the value of title and address
+             * you can just call the getNotiTitle() and getMapEntryDataFromDatabase() to have the value of title and address
              * Done...
              */
             toDoListArrayList = new ArrayList<>();

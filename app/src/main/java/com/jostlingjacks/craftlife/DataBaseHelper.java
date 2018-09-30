@@ -172,7 +172,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         //select title,details,address,time from suggestion s where s.email = email and s.type = type;
         Cursor mCursor = db.query(SUGGESTION_TABLE,new String[] {T2_COL_3,T2_COL_4,T2_COL_5,T2_COL_6,T2_COL_7}, T2_COL_2 + "=? and "  + T2_COL_3+"=?", new String[] {email,type},
-                null,null,T2_COL_8 + " DESC");
+                null,null,T2_COL_8 + " DESC",null);
 
         if (mCursor != null){
             mCursor.moveToFirst();
@@ -184,8 +184,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         //select title,details,address,time from suggestion s where s.email = email and s.type = type;
-        Cursor mCursor = db.query(SUGGESTION_TABLE,new String[] {T2_COL_3,T2_COL_4,T2_COL_5,T2_COL_6,T2_COL_7,T2_COL_9}, T2_COL_2 + "=? and "  + T2_COL_3+"=?", new String[] {email,type},
-                null,null,T2_COL_8 + " DESC");
+        Cursor mCursor = db.query(SUGGESTION_TABLE, new String[] {T2_COL_3,T2_COL_4,T2_COL_5,T2_COL_6,T2_COL_7,T2_COL_9}, T2_COL_2 + "=? and "  + T2_COL_3+"=?", new String[] {email,type},
+                null,null,T2_COL_8 + " DESC",null);
 
         if (mCursor != null){
             mCursor.moveToFirst();
@@ -213,5 +213,63 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public Cursor getTypeByOption(String email, String title, String option){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor mCursor = db.query(SUGGESTION_TABLE, new String[] {T2_COL_1}, T2_COL_2 + "=? and "+ T2_COL_4 + " LIKE ? and "  + T2_COL_9+"=?", new String[] {email,"%"+ title + "%",option},
+                null,null,null,null);
+
+        if (mCursor != null){
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+
+    }
+
+    public Cursor getAllByOption(String email, String option){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor mCursor = db.query(SUGGESTION_TABLE, new String[] {T2_COL_1}, T2_COL_2 + "=? and "+ T2_COL_9+"=?", new String[] {email,option},
+                null,null,null,null);
+
+        if (mCursor != null){
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+
+    }
+
+    public Cursor getAllNull(String email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor mCursor = db.query(SUGGESTION_TABLE, new String[] {T2_COL_1}, T2_COL_2 + "=? and " + T2_COL_3 + "!=? and " + T2_COL_9+" IS NULL", new String[] {email,"regular"},
+                null,null,null,null);
+
+        if (mCursor != null){
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+
+    }
+
+    public Cursor getTypeNull(String email , String title){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor mCursor = db.query(SUGGESTION_TABLE, new String[] {T2_COL_1}, T2_COL_2 + "=? and "+ T2_COL_4 + " LIKE ? and "  + T2_COL_9+" IS NULL", new String[] {email,"%"+title + "%"},
+                null,null,null,null);
+
+        if (mCursor != null){
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+
+    }
+
+    public Cursor getAddress (String email){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor mCursor = db.query(true, SUGGESTION_TABLE, new String[] {T2_COL_4,T2_COL_5,T2_COL_6,T2_COL_9}, T2_COL_2 + "=? and " + T2_COL_3 + "!=?", new String[] {email,"regular"},
+                null,null,null,null);
+
+        if (mCursor != null){
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
 
 }
