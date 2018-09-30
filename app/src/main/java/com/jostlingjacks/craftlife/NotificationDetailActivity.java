@@ -99,39 +99,29 @@ public class NotificationDetailActivity extends AppCompatActivity {
             }
         }
 
-        if (option.contains("1") || option.contains("0")) {
-            questionTV.setVisibility(View.GONE);
-            pullLL.setVisibility(View.GONE);
-            if (option.contains("1")) {
+
+        if (option.contains("1")) {
+            resultImg.setImageResource(R.drawable.good);
+        }
+        if (option.contains("0")) {
+            resultImg.setImageResource(R.drawable.dislike);
+        }
+        yesLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.updateOption(id, "1");
+                resultLL.setVisibility(View.VISIBLE);
                 resultImg.setImageResource(R.drawable.good);
             }
-        } else {
-            resultLL.setVisibility(View.GONE);
-            yesLL.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        db.updateOption(id, "1");
-                        questionTV.setVisibility(View.GONE);
-                        pullLL.setVisibility(View.GONE);
-                        resultLL.setVisibility(View.VISIBLE);
-                        resultImg.setImageResource(R.drawable.good);
-                    }
-
-                });
-
-            noLL.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        db.updateOption(id, "0");
-                        questionTV.setVisibility(View.GONE);
-                        pullLL.setVisibility(View.GONE);
-                        resultLL.setVisibility(View.VISIBLE);
-                        resultImg.setImageResource(R.drawable.dislike);
-                    }
-
-                });
+        });
+        noLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.updateOption(id, "0");
+                resultLL.setVisibility(View.VISIBLE);
+                resultImg.setImageResource(R.drawable.dislike);
             }
-
+        });
 
         //Format the time
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
