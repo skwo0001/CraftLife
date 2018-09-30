@@ -25,6 +25,8 @@ import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Icon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -70,10 +72,6 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
         view = inflater.inflate(R.layout.fragment_map_collection, container, false);
         // initialise the database helper class instance
         db = new DataBaseHelper(getContext());
-        // get the sharedPreference to retrieve the email of the user...
-        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
-        // get the data from the database using the primary key of user's email..
-        mapEntries = getMapEntryDataFromDatabase(userInfoSharedPreferences.getString("UserEmailAddress", ""));
 
         Mapbox.getInstance(getContext(), getString(R.string.access_token));
         mapView = (MapView) view.findViewById(R.id.mapCollectionMapView);
@@ -86,21 +84,15 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
         map = mapboxMap;
-        enableLocation();
+        // get the sharedPreference to retrieve the email of the user...
+        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+        // get the data from the database using the primary key of user's email..
+        mapEntries = getMapEntryDataFromDatabase(userInfoSharedPreferences.getString("UserEmailAddress", ""));
 
-        /**
-         * styling layers
-         */
-        final Layer waterLayer = mapboxMap.getLayer("water");
-        mapboxMap.getLayer("");
-        if (waterLayer != null) {
-            waterLayer.setProperties(PropertyFactory.fillColor(Color.parseColor("#f57f17"))
-            );
-        }
+        // if you want to open location service ...
+        //enableLocation();
 
-        for (int i = 0; i < 10; i++){
-            getLocationFromAddress(getContext(), mapEntries.get(i)[2], i);
-        }
+        addMarkersOnTheMap(mapEntries);
 
     }
 
@@ -113,7 +105,15 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
                 row[0] = cursor.getString(0);
                 row[1] = cursor.getString(1);
                 row[2] = cursor.getString(2);
-                row[3] = cursor.getString(3);
+
+                if (cursor.getString(3)== null){
+                    row[3] = "-1";
+                }else{
+                    row[3] = cursor.getString(3);
+                }
+
+                row[4] = cursor.getString(4);
+                row[5] = cursor.getString(5);
                 arrayList.add(row);
             } while (cursor.moveToNext());
         }
@@ -121,56 +121,38 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
     }
 
 
+    private void addMarkersOnTheMap(ArrayList<String[]> mapEntries) {
 
-    /**
-     * Author: Oliver
-     * @param context
-     * @param inputtedAddress
-     * @return
-     */
-    public LatLng getLocationFromAddress(Context context, String inputtedAddress, int position) {
+        for(int i = 0; i < mapEntries.size(); i++){
+            LatLng latLng = new LatLng(Double.valueOf(mapEntries.get(i)[4]), Double.valueOf(mapEntries.get(i)[5]));
+            Marker marker = map.addMarker(new MarkerOptions().position(latLng));
 
-        Geocoder coder = new Geocoder(context);
-        List<Address> address;
-        LatLng resLatLng = null;
-
-        try {
-            // May throw an IOException
-            address = coder.getFromLocationName(inputtedAddress, 5);
-            if (address == null) {
-                return null;
+            // like or disliked on title of marker...
+            String likedOrDislike = "";
+            if (mapEntries.get(i)[3].equals("1")){
+                likedOrDislike = " (Liked)";
+            }else if (mapEntries.get(i)[3].equals("0")){
+                likedOrDislike = " (Disliked)";
+            } else {
+                likedOrDislike = " (No response yet)";
             }
 
-            if (address.size() == 0) {
-                return null;
+            marker.setTitle(mapEntries.get(i)[0] + likedOrDislike);
+            marker.setSnippet(mapEntries.get(i)[1]);
+
+            // set different markers
+            IconFactory iconFactory = IconFactory.getInstance(getContext());
+            if (mapEntries.get(i)[3].equals("1")){
+                Icon icon = iconFactory.fromResource(R.drawable.good_pin_100p);
+                marker.setIcon(icon);
+            }else if (mapEntries.get(i)[3].equals("0")){
+                Icon icon = iconFactory.fromResource(R.drawable.dislike_pin_100p);
+                marker.setIcon(icon);
+            } else {
+                Icon icon = iconFactory.fromResource(R.drawable.no_response_pin);
+                marker.setIcon(icon);
             }
-
-            Address location = address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-
-            resLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-            //TODO
-            String lat = String.valueOf(location.getLatitude());
-            String lng = String.valueOf(location.getLatitude());
-
-            mapEntries.get(position)[4] = lat;
-            mapEntries.get(position)[5] = lng;
-
-            Marker marker = map.addMarker(new MarkerOptions().position(resLatLng));
-            Point.fromLngLat(location.getLongitude(), location.getLatitude());
-            marker.setTitle(mapEntries.get(position)[0]);
-            marker.setSnippet(mapEntries.get(position)[1]);
-
-
-        } catch (IOException ex) {
-
-            ex.printStackTrace();
-            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
         }
-
-        return resLatLng;
     }
 
     private void enableLocation(){
@@ -255,49 +237,49 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
         mapView.onStart();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mapView.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mapView.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (locationEngine != null){
-            locationEngine.removeLocationUpdates();
-        }
-        if  (locationLayerPlugin!=null){
-            locationLayerPlugin.onStop();
-        }
-        mapView.onStop();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (locationEngine != null){
-            locationEngine.deactivate();
-        }
-        mapView.onDestroy();
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        mapView.onResume();
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        mapView.onPause();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (locationEngine != null){
+//            locationEngine.removeLocationUpdates();
+//        }
+//        if  (locationLayerPlugin!=null){
+//            locationLayerPlugin.onStop();
+//        }
+//        mapView.onStop();
+//    }
+//
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        mapView.onSaveInstanceState(outState);
+//    }
+//
+//    @Override
+//    public void onLowMemory() {
+//        super.onLowMemory();
+//        mapView.onLowMemory();
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        if (locationEngine != null){
+//            locationEngine.deactivate();
+//        }
+//        mapView.onDestroy();
+//    }
 
 }
