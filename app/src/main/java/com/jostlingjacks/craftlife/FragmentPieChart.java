@@ -109,6 +109,13 @@ public class FragmentPieChart extends Fragment {
 
                         createChart(text,like,dislike,nothing);
                         break;
+                    case "Garden":
+                        like = getNumberofOption(emailAddress,text,"1");
+                        dislike = getNumberofOption(emailAddress,text,"0");
+                        nothing = getNumberofNull(emailAddress,text);
+
+                        createChart(text,like,dislike,nothing);
+                        break;
                 }
             }
 

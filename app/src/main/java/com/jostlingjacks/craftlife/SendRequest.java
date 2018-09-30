@@ -10,7 +10,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,13 +30,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
-import java.util.Date;
 
-import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID;
+import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID_3;
+import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID_1;
+import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID_2;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 
@@ -45,7 +42,7 @@ public class SendRequest extends JobService {
     private static final String TAG = "JobService";
     private boolean jobCancelled = false;
 
-    private  NotificationManager notificationManager;
+    private  NotificationManager notificationManager,notificationManager2,notificationManager3;
     private LocationManager locationManager;
     private DataBaseHelper db;
 
@@ -54,6 +51,7 @@ public class SendRequest extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         db = new DataBaseHelper(this);
+        final String request = params.getExtras().getString("request");
         try {
             Log.d("jsonObject",getLastLocation().toString());
 
@@ -75,12 +73,20 @@ public class SendRequest extends JobService {
                 }
 
                 //Randomly send the request to different api
-                int i = Tool.randomNumberGenerator(100);
+//                int i = Tool.randomNumberGenerator(100);
                 String jsonString = null;
-                if (i % 2 == 0){
+//                if (i % 2 == 0){
+//                    jsonString = HTTPDataHandler.getEventNotification(jsonObject);
+//                } else {
+//                    jsonString = HTTPDataHandler.getRegularNotification(jsonObject);
+//                }
+                if (request.contains("regular")){
+                    jsonString = HTTPDataHandler.getRegularNotification(jsonObject);
+                } else if (request.contains("art location")){
                     jsonString = HTTPDataHandler.getEventNotification(jsonObject);
                 } else {
-                    jsonString = HTTPDataHandler.getRegularNotification(jsonObject);
+                    //for event
+                    jsonString = HTTPDataHandler.getEventNotification(jsonObject);
                 }
 
                 if (jsonString != "") {
@@ -148,9 +154,17 @@ public class SendRequest extends JobService {
         String type= null, title= null, description= null, lat= null, lon= null, address= null, time = null;
         int notification_id;
 
-        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "Channel", NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID_1, "Regular Notification", NotificationManager.IMPORTANCE_HIGH);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(notificationChannel);
+
+        NotificationChannel notificationChannel2 = new NotificationChannel(CHANNEL_ID_2, "Art Location Notification", NotificationManager.IMPORTANCE_HIGH);
+        notificationManager2 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager2.createNotificationChannel(notificationChannel2);
+
+        NotificationChannel notificationChannel3 = new NotificationChannel(CHANNEL_ID_3, "Event Notification", NotificationManager.IMPORTANCE_HIGH);
+        notificationManager3 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager3.createNotificationChannel(notificationChannel3);
 
         try {
             type = jsonObject.getString("type");
@@ -181,7 +195,7 @@ public class SendRequest extends JobService {
         SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
 
-        db.addSuggestion(type, title,description,address,time,emailAddress,formatedate,null,lat,lon);
+        db.addSuggestion(type,title,description,address,time,emailAddress,formatedate,null,lat,lon);
         Intent resultIntent;
 
         if (address != null) {
@@ -192,8 +206,7 @@ public class SendRequest extends JobService {
         resultIntent.putExtras(bundle);
 
 
-        //PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent yesAnswerIntent = new Intent(this, NotificationReceiver.class);
         yesAnswerIntent.putExtra("yesAction", "1");
@@ -224,8 +237,10 @@ public class SendRequest extends JobService {
         } else //add notification_id 3 for events
             notification_id = 2;
 
+
+        //need to hv ID3
         if (address == null) {
-            notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+            notification = new NotificationCompat.Builder(this, CHANNEL_ID_1)
                     .setContentIntent(resultPendingIntent)
                     .setSmallIcon(R.drawable.app_logo)
                     .setContentTitle(title)
@@ -233,13 +248,15 @@ public class SendRequest extends JobService {
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                     .setLargeIcon(this.resolveNotificationIcon(title.toLowerCase()))
-//                .setChannelId(CHANNEL_ID)
                     .setColor(16757760)
                     .setOnlyAlertOnce(true)
                     .setAutoCancel(true)
                     .build();
+
+            notificationManager.notify(notification_id, notification);
+
         } else {
-            notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+            notification = new NotificationCompat.Builder(this, CHANNEL_ID_2)
                     .setContentIntent(resultPendingIntent)
                     .setSmallIcon(R.drawable.app_logo)
                     .setContentTitle(title)
@@ -250,14 +267,15 @@ public class SendRequest extends JobService {
                     .setLargeIcon(this.resolveNotificationIcon(title.toLowerCase()))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-//                .setChannelId(CHANNEL_ID)
                     .setColor(16757760)
                     .setOnlyAlertOnce(true)
                     .setAutoCancel(true)
                     .build();
+
+            notificationManager2.notify(notification_id, notification);
         }
 
-        notificationManager.notify(notification_id, notification);
+
     }
 
     /**
