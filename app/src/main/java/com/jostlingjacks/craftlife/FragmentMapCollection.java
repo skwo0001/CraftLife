@@ -2,6 +2,7 @@ package com.jostlingjacks.craftlife;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -29,6 +30,7 @@ import com.mapbox.mapboxsdk.annotations.Icon;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -46,7 +48,7 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class FragmentMapCollection extends Fragment implements OnMapReadyCallback, LocationEngineListener, PermissionsListener {
+public class FragmentMapCollection extends Fragment implements OnMapReadyCallback, LocationEngineListener, PermissionsListener, MapboxMap.OnMarkerClickListener, MapboxMap.OnInfoWindowClickListener {
 
     MapView mapView;
     View view;
@@ -78,6 +80,7 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
+
         return view;
     }
 
@@ -93,6 +96,15 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
         //enableLocation();
 
         addMarkersOnTheMap(mapEntries);
+        map.setOnMarkerClickListener(this);
+        map.setOnInfoWindowClickListener(this);
+        if (mapEntries.size() != 0 ) {
+            map.setCameraPosition(new CameraPosition.Builder()
+                    .target(new LatLng(Double.valueOf(mapEntries.get(0)[4]), Double.valueOf(mapEntries.get(0)[5])))
+                    .zoom(15)
+                    .build());
+
+        }
 
     }
 
@@ -101,7 +113,7 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
         Cursor cursor = db.getAddress(email);
         if (cursor.moveToFirst()){
             do {
-                String[] row = new String[6];
+                String[] row = new String[8];
                 row[0] = cursor.getString(0);
                 row[1] = cursor.getString(1);
                 row[2] = cursor.getString(2);
@@ -114,6 +126,8 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
 
                 row[4] = cursor.getString(4);
                 row[5] = cursor.getString(5);
+                row[6] = cursor.getString(6);
+                row[7] = cursor.getString(7);
                 arrayList.add(row);
             } while (cursor.moveToNext());
         }
@@ -237,11 +251,55 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
         mapView.onStart();
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        mapView.onResume();
-//    }
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        return false;
+    }
+
+    @Override
+    public boolean onInfoWindowClick(@NonNull Marker marker) {
+        Intent notificationDetail = new Intent(getContext(),NotificationDetailActivity.class);
+        Bundle bundle = new Bundle();
+
+        // get the info
+        int positionInTheMapEntryList = 0;
+        for(int i = 0; i < mapEntries.size(); i++) {
+            if (mapEntries.get(i)[4].equals(String.valueOf(marker.getPosition().getLatitude())) && // latitude
+                    mapEntries.get(i)[5].equals(String.valueOf(marker.getPosition().getLongitude()))) {  //lng
+                positionInTheMapEntryList = i;
+            }
+        }
+
+        bundle.putString("title", mapEntries.get(positionInTheMapEntryList)[0]);
+        bundle.putString("description",marker.getSnippet());
+        bundle.putString("address",mapEntries.get(positionInTheMapEntryList)[2]);
+        //bundle.putString("time",time);
+        bundle.putString("id", mapEntries.get(positionInTheMapEntryList)[6]);
+        bundle.putString("time", mapEntries.get(positionInTheMapEntryList)[7]);
+        notificationDetail.putExtras(bundle);
+        startActivity(notificationDetail);
+
+
+
+        return false;
+    }
+
+        @Override
+    public void onResume() {
+        super.onResume();
+
+
+            // get the sharedPreference to retrieve the email of the user...
+            SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+            // get the data from the database using the primary key of user's email..
+            mapEntries = getMapEntryDataFromDatabase(userInfoSharedPreferences.getString("UserEmailAddress", ""));
+
+        if (map != null) {
+            map.removeAnnotations();
+            this.addMarkersOnTheMap(mapEntries);
+        }
+        mapView.onResume();
+    }
 //
 //    @Override
 //    public void onPause() {
