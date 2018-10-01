@@ -13,12 +13,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.SuggestionViewHolder> {
+public class EventSuggestionAdapter extends RecyclerView.Adapter<EventSuggestionAdapter.SuggestionViewHolder> {
 
     private Context mContext;
     private Cursor mCursor;
 
-    public SuggestionAdapter(Context context, Cursor cursor){
+    public EventSuggestionAdapter(Context context, Cursor cursor){
         mContext = context;
         mCursor = cursor;
 
@@ -26,18 +26,17 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
 
     public class SuggestionViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView titleText, detailsText, addressText;
-        public ImageView iconImg, choiceImg;
+        public TextView titleText, timeText, urlText;
+        public ImageView choiceImg;
         LinearLayout linearLayout;
 
         public SuggestionViewHolder( View itemView) {
             super(itemView);
-            titleText = itemView.findViewById(R.id.titleList);
-            detailsText = itemView.findViewById(R.id.detailsList);
-            addressText = itemView.findViewById(R.id.addressList);
-            iconImg = itemView.findViewById(R.id.historyIcon);
-            choiceImg = itemView.findViewById(R.id.choice);
-            linearLayout = itemView.findViewById(R.id.LinearAdd);
+            titleText = itemView.findViewById(R.id.titleEvent);
+            timeText = itemView.findViewById(R.id.timeList);
+            urlText = itemView.findViewById(R.id.urlList);
+            choiceImg = itemView.findViewById(R.id.choiceEvent);
+            linearLayout = itemView.findViewById(R.id.LinearEvent);
         }
     }
 
@@ -45,7 +44,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
     @Override
     public SuggestionViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.addresslistitem, viewGroup, false);
+        View view = inflater.inflate(R.layout.eventlistitem, viewGroup, false);
 
         return new SuggestionViewHolder(view);
     }
@@ -66,33 +65,8 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
         final String url = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_13));
 
         suggestionViewHolder.titleText.setText(title);
-        suggestionViewHolder.detailsText.setText(detail);
-        suggestionViewHolder.addressText.setText(address);
-
-        if (type.toLowerCase().contains("art")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.placeholder_3);
-        } else {
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.calendar4);
-        }
-
-        if (detail.toLowerCase().contains("gallery"))
-        {
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.gallery);
-        } else if (detail.toLowerCase().contains("concert")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.stage);
-        }else if (detail.toLowerCase().contains("art")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.art);
-        } else if (detail.toLowerCase().contains("fountain")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.fountains_2);
-        } else if (detail.toLowerCase().contains("monument")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.history);
-        }else if (detail.toLowerCase().contains("theatre")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.theatre);
-        }else if (detail.toLowerCase().contains("garden")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.park);
-        }else if (detail.toLowerCase().contains("facility") || detail.toLowerCase().contains("health")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.exercise);
-        }
+        suggestionViewHolder.timeText.setText(time);
+        suggestionViewHolder.urlText.setText(url);
 
         if (respond == null){
             suggestionViewHolder.choiceImg.setImageResource(R.drawable.null12);

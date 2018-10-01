@@ -42,14 +42,14 @@ public class FragmentLocationHistory extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        Cursor cursor = getAllLocation(emailAddress, "Arts event");
+        Cursor cursor = getAllLocation(emailAddress, "location");
 
         if (cursor.getCount() == 0){
             msg.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         }
         else {
-            suggestionAdapter = new SuggestionAdapter(context, getAllLocation(emailAddress, "Arts event"));
+            suggestionAdapter = new SuggestionAdapter(context, getAllLocation(emailAddress, "location"));
 
             recyclerView.setAdapter(suggestionAdapter);
 
@@ -59,5 +59,35 @@ public class FragmentLocationHistory extends Fragment {
 
     public Cursor getAllLocation(String email, String type){
         return db.getSuggestions(email,type);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (view != null){
+            recyclerView = (RecyclerView) view.findViewById(R.id.locationRV);
+            msg = (TextView) view.findViewById(R.id.showLocationMsg);
+            msg.setVisibility(View.GONE);
+
+            SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+            String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+
+            db = new DataBaseHelper(context);
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+            Cursor cursor = getAllLocation(emailAddress, "location");
+
+            if (cursor.getCount() == 0){
+                msg.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            }
+            else {
+                suggestionAdapter = new SuggestionAdapter(context, getAllLocation(emailAddress, "location"));
+
+                recyclerView.setAdapter(suggestionAdapter);
+
+            }
+        }
     }
 }

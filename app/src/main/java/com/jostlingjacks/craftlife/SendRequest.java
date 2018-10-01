@@ -26,11 +26,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
 
 import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID_3;
 import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID_1;
@@ -71,19 +75,12 @@ public class SendRequest extends JobService {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                //Randomly send the request to different api
-//                int i = Tool.randomNumberGenerator(100);
                 String jsonString = null;
-//                if (i % 2 == 0){
-//                    jsonString = HTTPDataHandler.getEventNotification(jsonObject);
-//                } else {
-//                    jsonString = HTTPDataHandler.getRegularNotification(jsonObject);
-//                }
+
                 if (request.contains("regular")){
                     jsonString = HTTPDataHandler.getRegularNotification();
                 } else if (request.contains("art location")){
-                    jsonString = HTTPDataHandler.getEventNotification(jsonObject);
+                    jsonString = HTTPDataHandler.getLocationNotification(jsonObject);
                 } else {
                     //for event
                     jsonString = HTTPDataHandler.getEventNotification(jsonObject);
@@ -98,12 +95,15 @@ public class SendRequest extends JobService {
                     }
                 }
 
-                return jsonReply ;}
+                return jsonReply ;
+            }
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             protected void onPostExecute(JSONObject jsonObject) {
-                createNotification(jsonObject);
-                Log.d("jsonObject", jsonObject.toString());
+                if (jsonObject != null) {
+                    createNotification(jsonObject);
+                    Log.d("jsonObject", jsonObject.toString());
+                }
 
             }
         }.execute();
@@ -142,8 +142,8 @@ public class SendRequest extends JobService {
             latitudeAndLongtidue[0] = lastLocation.getLatitude();
             latitudeAndLongtidue[1] = lastLocation.getLongitude();
         }
-        jsonObject.put("Latitude",latitudeAndLongtidue[0]);
-        jsonObject.put("Longtitude", latitudeAndLongtidue[1]);
+        jsonObject.put("lat",latitudeAndLongtidue[0]);
+        jsonObject.put("lon", latitudeAndLongtidue[1]);
 
         return  jsonObject;
     }
@@ -151,7 +151,7 @@ public class SendRequest extends JobService {
     //Using the JSONObject to create the notification and also store the data to sqlite
     public void createNotification(JSONObject jsonObject) {
 
-        String type= null, title= null, description= null, lat= null, lon= null, address= null, time = null;
+        String type= null, title= null, description= null, lat= null, lon= null, address= null, time = null, url = null, subtype = null;
         int notification_id;
 
         NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID_1, "Regular Notification", NotificationManager.IMPORTANCE_HIGH);
@@ -166,14 +166,29 @@ public class SendRequest extends JobService {
         notificationManager3 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager3.createNotificationChannel(notificationChannel3);
 
+
+
         try {
-            type = jsonObject.getString("type");
-            title = jsonObject.getString("title");
-            description = jsonObject.getString("description");
-            lat = jsonObject.getString("lat");
-            lon = jsonObject.getString("lon");
-            address = jsonObject.getString("address");
-            time = jsonObject.getString("time");
+            Iterator<String> iterator = jsonObject.keys();
+            String key = iterator.next();
+
+            type = key;
+            JSONObject object = jsonObject.getJSONObject(key);
+            JSONObject suggestion = jsonObject.getJSONObject(key);
+            title = suggestion.getString("title");
+            if (key.contains("event")){
+                time = suggestion.getString("time");
+                url = suggestion.getString("url");
+            }else {
+                description = suggestion.getString("description");
+            }
+            if (key.contains("location")) {
+                lat = suggestion.getString("lat");
+                lon = suggestion.getString("lon");
+                address = suggestion.getString("address");
+                subtype = suggestion.getString("type");
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -185,8 +200,9 @@ public class SendRequest extends JobService {
         bundle.putString("lat",lat);
         bundle.putString("lon",lon);
         bundle.putString("address",address);
-
         bundle.putString("time",time);
+        bundle.putString("subtype",subtype);
+        bundle.putString("url",url);
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf2 = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -195,10 +211,10 @@ public class SendRequest extends JobService {
         SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
 
-        db.addSuggestion(type,title,description,address,time,emailAddress,formatedate,null,lat,lon);
+        db.addSuggestion(type,title,description,address,time,emailAddress,formatedate,null,lat,lon,subtype,url);
         Intent resultIntent;
 
-        if (address != null) {
+        if (!type.contains("regular")) {
             resultIntent = new Intent(this, NotificationDetailActivity.class);
         } else {
             resultIntent = new Intent(this, NotificationRegularDetailActivity.class);
@@ -234,12 +250,12 @@ public class SendRequest extends JobService {
         Notification notification;
         if (type.toLowerCase().equals("Regular".toLowerCase())) {
             notification_id = 1;
-        } else //add notification_id 3 for events
+        }else if (type.toLowerCase().equals("location".toLowerCase())) {
             notification_id = 2;
+        }else //add notification_id 3 for events
+            notification_id = 3;
 
-
-        //need to hv ID3
-        if (address == null) {
+        if (type.contains("regular")) {
             notification = new NotificationCompat.Builder(this, CHANNEL_ID_1)
                     .setContentIntent(resultPendingIntent)
                     .setSmallIcon(R.drawable.app_logo)
@@ -247,7 +263,7 @@ public class SendRequest extends JobService {
                     .setContentText(description)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                    .setLargeIcon(this.resolveNotificationIcon(title.toLowerCase()))
+                    .setLargeIcon(this.resolveNotificationIcon(description.toLowerCase()))
                     .setColor(16757760)
                     .setOnlyAlertOnce(true)
                     .setAutoCancel(true)
@@ -255,7 +271,7 @@ public class SendRequest extends JobService {
 
             notificationManager.notify(notification_id, notification);
 
-        } else {
+        } else if (type.contains("location")){
             notification = new NotificationCompat.Builder(this, CHANNEL_ID_2)
                     .setContentIntent(resultPendingIntent)
                     .setSmallIcon(R.drawable.app_logo)
@@ -264,7 +280,7 @@ public class SendRequest extends JobService {
                     .addAction(R.drawable.ic_yes, "Okay, I'll go", yesPendingIntent)
                     .addAction(R.drawable.ic_no, "show me less", noPendingIntent)
                     .addAction(R.drawable.ic_no, "Add To To-do List", addToToDoListPendingIntent)
-                    .setLargeIcon(this.resolveNotificationIcon(title.toLowerCase()))
+                    .setLargeIcon(this.resolveNotificationIcon(description.toLowerCase()))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                     .setColor(16757760)
@@ -273,8 +289,26 @@ public class SendRequest extends JobService {
                     .build();
 
             notificationManager2.notify(notification_id, notification);
-        }
 
+        } else if (type.contains("event")){
+            notification = new NotificationCompat.Builder(this, CHANNEL_ID_3)
+                    .setContentIntent(resultPendingIntent)
+                    .setSmallIcon(R.drawable.app_logo)
+                    .setContentTitle(title)
+                    .setContentText("When : " + time)
+                    .addAction(R.drawable.ic_yes, "Okay, I'll go", yesPendingIntent)
+                    .addAction(R.drawable.ic_no, "show me less", noPendingIntent)
+                    .addAction(R.drawable.ic_no, "Add To To-do List", addToToDoListPendingIntent)
+                    .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.app_logo))
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .setColor(16757760)
+                    .setOnlyAlertOnce(true)
+                    .setAutoCancel(true)
+                    .build();
+
+            notificationManager3.notify(notification_id, notification);
+        }
 
     }
 

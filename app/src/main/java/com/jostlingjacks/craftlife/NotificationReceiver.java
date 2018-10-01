@@ -79,6 +79,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         // cancel this notification activity...
         notificationManager.cancel(2);
+        notificationManager.cancel(3);
 
     }
 

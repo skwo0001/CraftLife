@@ -53,12 +53,13 @@
                     android:layout_gravity="center_horizontal"
                     android:textColor="@color/colorPrimary"
                     android:textIsSelectable="true"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     tools:layout_editor_absoluteX="71dp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/descLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -67,7 +68,7 @@
                 android:paddingRight="4dp">
 
                 <ImageView
-                    android:id="@+id/imageView17"
+                    android:id="@+id/noti_desc_img"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_gravity="center_vertical"
@@ -86,6 +87,7 @@
 
 
             <LinearLayout
+                android:id="@+id/addressLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -100,7 +102,6 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="24dp"
                     android:layout_marginStart="16dp"
-                    android:visibility="invisible"
                     app:srcCompat="@drawable/map" />
 
                 <TextView
@@ -113,6 +114,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/timeLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -127,7 +129,6 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="24dp"
                     android:layout_marginStart="16dp"
-                    android:visibility="gone"
                     app:srcCompat="@drawable/clock" />
 
                 <TextView
@@ -137,7 +138,35 @@
                     android:textColor="@color/colorPrimary"
                     android:textIsSelectable="true"
                     android:textSize="18sp"
-                    android:visibility="gone"
+                    tools:layout_editor_absoluteX="70dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/urlLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:paddingRight="4dp">
+
+                <ImageView
+                    android:id="@+id/urlImg"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="16dp"
+                    app:srcCompat="@drawable/browser" />
+
+                <TextView
+                    android:id="@+id/urlTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:autoLink="web"
+                    android:textIsSelectable="true"
+                    android:textSize="18sp"
                     tools:layout_editor_absoluteX="70dp" />
             </LinearLayout>
 
