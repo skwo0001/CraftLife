@@ -76,10 +76,10 @@ public class NotificationReceiver extends BroadcastReceiver {
                 toast.show();
             }
         }
-
-        // cancel this notification activity...
-        notificationManager.cancel(2);
-        notificationManager.cancel(3);
+//
+//        // cancel this notification activity...
+//        notificationManager.cancel(2);
+//        notificationManager.cancel(3);
 
     }
 
