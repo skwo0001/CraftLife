@@ -81,7 +81,7 @@ public class SendRequest extends JobService {
 //                    jsonString = HTTPDataHandler.getRegularNotification(jsonObject);
 //                }
                 if (request.contains("regular")){
-                    jsonString = HTTPDataHandler.getRegularNotification(jsonObject);
+                    jsonString = HTTPDataHandler.getRegularNotification();
                 } else if (request.contains("art location")){
                     jsonString = HTTPDataHandler.getEventNotification(jsonObject);
                 } else {

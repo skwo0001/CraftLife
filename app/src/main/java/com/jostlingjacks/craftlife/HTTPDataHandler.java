@@ -210,7 +210,7 @@ public class HTTPDataHandler {
         return textResult;
     }
 
-    public static String getRegularNotification (JSONObject jsonObject) {
+    public static String getRegularNotification () {
         final String methodPath = "Regular/";
         //initialise
 
@@ -220,7 +220,7 @@ public class HTTPDataHandler {
 
         //Making HTTP request
         try {
-            url = new URL(BASE_URI + methodPath);
+            url = new URL(ITERATION_BASE_URI + methodPath);
 
             //open the connection
             conn = (HttpURLConnection) url.openConnection();

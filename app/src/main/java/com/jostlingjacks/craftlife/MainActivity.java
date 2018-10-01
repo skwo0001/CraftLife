@@ -348,7 +348,7 @@ public class MainActivity extends AppCompatActivity
                 if (i % 2 == 0) {
                     jsonString = HTTPDataHandler.getEventNotification(jsonObject);
                 } else {
-                    jsonString = HTTPDataHandler.getRegularNotification(jsonObject);
+                    jsonString = HTTPDataHandler.getRegularNotification();
                 }
 
                 if (jsonString != "") {
