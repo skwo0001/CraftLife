@@ -25,7 +25,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class HTTPDataHandler {
     private static final String BASE_URI = "https://monash-ie-dev.herokuapp.com/api/v1/";
-    private static final String ITERATION_BASE_URI = "https://letian-bucket-test.herokuapp.com/";
+    private static final String ITERATION_BASE_URI = "https://craftlife-backend-v2.herokuapp.com/";
 
     public static String loginUser (UserInfo userInfo) {
         String responseString = "";
