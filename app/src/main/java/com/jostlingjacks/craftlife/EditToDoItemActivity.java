@@ -34,12 +34,16 @@ public class EditToDoItemActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String changedMessageText = ((EditText) findViewById(R.id.addToDo)).getText().toString();
 
-                Intent intent = new Intent();
-                intent.putExtra(Tool.INTENT_TO_DO_CHANGED_MESSAGE, changedMessageText);
+                if (!changedMessageText.trim().equals("")) {
+                    //String changedMessageText = ((EditText) findViewById(R.id.addToDo)).getText().toString();
 
-                intent.putExtra(Tool.INTENT_TO_DO_ITEM_POSITION, position);
-                setResult(Tool.INTENT_RESULT_CODE_TWO, intent);
-                finish();
+                    Intent intent = new Intent();
+                    intent.putExtra(Tool.INTENT_TO_DO_CHANGED_MESSAGE, changedMessageText);
+
+                    intent.putExtra(Tool.INTENT_TO_DO_ITEM_POSITION, position);
+                    setResult(Tool.INTENT_RESULT_CODE_TWO, intent);
+                    finish();
+                }
             }
         });
     }

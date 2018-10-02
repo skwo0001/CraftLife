@@ -293,12 +293,10 @@ public class ToDoListFragment extends Fragment {
      * @param arrayList the user to-do list arraylist...
      */
     private void addDefaultToDoListItems(ArrayList<String> arrayList){
-        arrayList.add(0, "Sample item: Buy some milk");
+        arrayList.add(0, "Sample item: Go art place at Melbourne Collins St");
         arrayList.add(1, "Sample item: Wash my clothes after work");
-        arrayList.add(2, "Sample item: Buy sushi");
-        arrayList.add(3, "Sample item: Get my parcel back from post office");
-        //arrayList.add(4, "");
-        arrayList.add(4, "Just don't keep your list empty :)");
+        arrayList.add(2, "Sample item: Go art event around 12:00pm about Harp in the Gardens: Coffee Concerts");
+        arrayList.add(3, "Just don't keep your list empty :)");
     }
 
 

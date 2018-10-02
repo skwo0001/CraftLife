@@ -24,6 +24,8 @@ import com.mapbox.android.core.location.LocationEnginePriority;
 import com.mapbox.android.core.location.LocationEngineProvider;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.api.directions.v5.models.DirectionsResponse;
+import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Icon;
@@ -41,16 +43,24 @@ import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode;
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode;
 import com.mapbox.mapboxsdk.style.layers.Layer;
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
+import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
+import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static android.content.Context.MODE_PRIVATE;
+import static android.support.constraint.Constraints.TAG;
 
 public class FragmentMapCollection extends Fragment implements OnMapReadyCallback, LocationEngineListener, PermissionsListener, MapboxMap.OnMarkerClickListener, MapboxMap.OnInfoWindowClickListener {
 
     MapView mapView;
+    Context context;
     View view;
     DataBaseHelper db;
     ArrayList<String[]> mapEntries;
@@ -66,6 +76,9 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
     private String artName;
     private String artDescription;
     private LatLng artCoordinates;
+
+    private DirectionsRoute currentRoute;
+    private NavigationMapRoute navigationMapRoute;
 
 
     @Nullable
@@ -87,6 +100,8 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
         map = mapboxMap;
+        enableLocation();
+
         // get the sharedPreference to retrieve the email of the user...
         SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
         String emailAddress = userInfoSharedPreferences.getString("CURRENT_USER_EMAIL", "");
@@ -106,6 +121,10 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
                     .build());
 
         }
+
+        originPosition = Point.fromLngLat(originLocation.getLongitude(), originLocation.getLatitude());
+
+
 
     }
 
@@ -191,7 +210,7 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
     public void onLocationChanged(Location location) {
         if (location != null){
             originLocation = location;
-            setCameraPosition(location);
+            //setCameraPosition(location);
         }
     }
 
@@ -221,7 +240,7 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
         Location lastLocation = locationEngine.getLastLocation();
         if (lastLocation != null){
             originLocation = lastLocation;
-            setCameraPosition(lastLocation);
+            //setCameraPosition(lastLocation);
         } else {
             locationEngine.addLocationEngineListener(this);
         }
@@ -231,13 +250,15 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
     private void initializeLocationLayer(){
         locationLayerPlugin = new LocationLayerPlugin(mapView, map, locationEngine);
         locationLayerPlugin.setLocationLayerEnabled(true);
-        locationLayerPlugin.setCameraMode(CameraMode.TRACKING);
+        locationLayerPlugin.setCameraMode(CameraMode.NONE);
         locationLayerPlugin.setRenderMode(RenderMode.NORMAL);
     }
 
     private void setCameraPosition(Location location){
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15));
     }
+
+
 
     @SuppressWarnings("MissingPermission")
     @Override
@@ -254,6 +275,7 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
+        getRoute(originPosition, Point.fromLngLat(marker.getPosition().getLongitude(), marker.getPosition().getLatitude()));
         return false;
     }
 
@@ -280,15 +302,12 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
         notificationDetail.putExtras(bundle);
         startActivity(notificationDetail);
 
-
-
         return false;
     }
 
         @Override
     public void onResume() {
         super.onResume();
-
 
             // get the sharedPreference to retrieve the email of the user...
             SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
@@ -301,6 +320,43 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
         }
         mapView.onResume();
     }
+
+    private void getRoute(Point origin, Point destination){
+        String token = Mapbox.getAccessToken();
+        NavigationRoute.builder(getContext())
+                .accessToken(Mapbox.getAccessToken())
+                .origin(origin)
+                .destination(destination)
+                .build()
+                .getRoute(new Callback<DirectionsResponse>() {
+                    @Override
+                    public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
+                        if  (response.body() == null){
+                            Log.e(TAG, "No routes found, check right user and access token");
+                            return;
+                        }else if (response.body().routes().size() == 0){
+                            Log.e(TAG, "No routes found");
+                            // can show a toast, no routes found...
+                            return;
+                        }
+                        currentRoute = response.body().routes().get(0);
+
+
+                        //initisal the route
+                        if (navigationMapRoute != null){
+                            navigationMapRoute.removeRoute();
+                        }else {
+                            navigationMapRoute = new NavigationMapRoute(null, mapView, map);
+                        }
+                        navigationMapRoute.addRoute(currentRoute);
+                    }
+                    @Override
+                    public void onFailure(Call<DirectionsResponse> call, Throwable t) {
+                        Log.e(TAG, "Error!!:" + t.getMessage());
+                    }
+                });
+    }
+
 //
 //    @Override
 //    public void onPause() {
