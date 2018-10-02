@@ -61,18 +61,20 @@ public class FragmentBarChart extends Fragment {
                     case "The suggestion you liked":
                         float artLike = getNumberofOption(emailAddress, "Art", "1");
                         barEntry.add(new BarEntry(0, artLike));
-                        float monumentLike = getNumberofOption(emailAddress, "Monument", "1");
-                        barEntry.add(new BarEntry(1, monumentLike));
-                        float theatreLike = getNumberofOption(emailAddress, "Theatre", "1");
-                        barEntry.add(new BarEntry(2, theatreLike));
-                        float galleryLike = getNumberofOption(emailAddress, "Gallery", "1");
-                        barEntry.add(new BarEntry(3, galleryLike));
-                        float sportLike = getNumberofOption(emailAddress, "Sport", "1");
-                        barEntry.add(new BarEntry(4, sportLike));
                         float concertLike = getNumberofOption(emailAddress, "Concert", "1");
-                        barEntry.add(new BarEntry(5, concertLike));
+                        barEntry.add(new BarEntry(1, concertLike));
                         float fountainLike = getNumberofOption(emailAddress, "Fountain", "1");
-                        barEntry.add(new BarEntry(6, fountainLike));
+                        barEntry.add(new BarEntry(2, fountainLike));
+                        float gardenLike = getNumberofOption(emailAddress, "Garden", "1");
+                        barEntry.add(new BarEntry(3, gardenLike));
+                        float galleryLike = getNumberofOption(emailAddress, "Gallery", "1");
+                        barEntry.add(new BarEntry(4, galleryLike));
+                        float monumentLike = getNumberofOption(emailAddress, "Monument", "1");
+                        barEntry.add(new BarEntry(5, monumentLike));
+                        float sportLike = getNumberofOption(emailAddress, "Facility", "1");
+                        barEntry.add(new BarEntry(6, sportLike));
+                        float theatreLike = getNumberofOption(emailAddress, "Theatre", "1");
+                        barEntry.add(new BarEntry(7, theatreLike));
 
                         makeBarChart(barEntry);
 
@@ -81,18 +83,20 @@ public class FragmentBarChart extends Fragment {
 
                         float artDislike = getNumberofOption(emailAddress, "Art", "0");
                         barEntry.add(new BarEntry(0, artDislike));
-                        float monumentDislike = getNumberofOption(emailAddress, "Monument", "0");
-                        barEntry.add(new BarEntry(1, monumentDislike));
-                        float theatreDislike = getNumberofOption(emailAddress, "Theatre", "0");
-                        barEntry.add(new BarEntry(2, theatreDislike));
-                        float galleryDislike = getNumberofOption(emailAddress, "Gallery", "0");
-                        barEntry.add(new BarEntry(3, galleryDislike));
-                        float sportDislike = getNumberofOption(emailAddress, "Sport", "0");
-                        barEntry.add(new BarEntry(4, sportDislike));
                         float concertDislike = getNumberofOption(emailAddress, "Concert", "0");
-                        barEntry.add(new BarEntry(5, concertDislike));
-                        float fountainDislike = getNumberofOption(emailAddress, "Fountain", "1");
-                        barEntry.add(new BarEntry(6, fountainDislike));
+                        barEntry.add(new BarEntry(1, concertDislike));
+                        float fountainDislike = getNumberofOption(emailAddress, "Fountain", "0");
+                        barEntry.add(new BarEntry(2, fountainDislike));
+                        float gardenDislike = getNumberofOption(emailAddress, "Garden", "0");
+                        barEntry.add(new BarEntry(3, gardenDislike));
+                        float galleryDislike = getNumberofOption(emailAddress, "Gallery", "0");
+                        barEntry.add(new BarEntry(4, galleryDislike));
+                        float monumentDislike = getNumberofOption(emailAddress, "Monument", "0");
+                        barEntry.add(new BarEntry(5, monumentDislike));
+                        float sportDislike = getNumberofOption(emailAddress, "Facility", "0");
+                        barEntry.add(new BarEntry(6, sportDislike));
+                        float theatreDislike = getNumberofOption(emailAddress, "Theatre", "0");
+                        barEntry.add(new BarEntry(7, theatreDislike));
 
                         makeBarChart(barEntry);
                         break;
@@ -112,7 +116,7 @@ public class FragmentBarChart extends Fragment {
         BarDataSet barDataSet = new BarDataSet(barEntries, "Type of suggestion");
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
-        String[] labels = new String[]{"Art","Monument","Theatre","Gallery","Sport","Concert","Fountain"};
+        String[] labels = new String[]{"Art","Concert","Fountain","Garden","Gallery","Monument","Sport","Theatre"};
 
 
         BarData data = new BarData(barDataSet);

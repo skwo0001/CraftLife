@@ -16,7 +16,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteTransactionListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -25,8 +24,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
-import android.service.notification.NotificationListenerService;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
@@ -40,8 +39,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -51,19 +48,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
-import java.util.Date;
 
-import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID;
+import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID_1;
+import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID_2;
+import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID_3;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity" ;
-    private NotificationManager notificationManager;
+    private NotificationManager notificationManager,notificationManager2,notificationManager3;
     private LocationManager locationManager;
     boolean doubleBackToExitPressedOnce = false;
     private DataBaseHelper db;
@@ -112,6 +107,7 @@ public class MainActivity extends AppCompatActivity
         // once the user logs in, the name should be displayed in the navigation drawer..
         this.showUserInfoInNaviHeader(navigationView, userInfoSharedPreferences);
 
+        // set the default time interval for every user
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
         if (!db.getSettingRepeat(emailAddress,"regular")){
             db.addSetting(emailAddress,"regular","15 minutes");
@@ -123,21 +119,97 @@ public class MainActivity extends AppCompatActivity
             db.addSetting(emailAddress,"event","2 hour");
         }
 
+        //Hold 3 job services, 1 is for event, 1 is for regular and i is for art location
         Cursor dailyNotificationIntervalcursor = db.getSetting(emailAddress,"regular");
         String dailyNotificationIntervalString =  dailyNotificationIntervalcursor.getString(0);
-        //hard code
-        String exactint = dailyNotificationIntervalString.substring(0,2);
-        int dailyNotificationInterval = Integer.parseInt(exactint);
+        int dailyNotificationInterval = 0;
+        String exactint = "";
+        if (!dailyNotificationIntervalString.toLowerCase().contains("off")){
+            if (dailyNotificationIntervalString.toLowerCase().contains("minutes")){
+                exactint = dailyNotificationIntervalString.substring(0,2);
+                dailyNotificationInterval = Integer.parseInt(exactint);
+            } else {
+                exactint = dailyNotificationIntervalString.substring(0,1);
+                dailyNotificationInterval = Integer.parseInt(exactint);
+                dailyNotificationInterval = dailyNotificationInterval * 60 ;
+            }
+        }
 
-        //when the phone allow to access the location.
         if (!runtime_permissions()) {
             ComponentName componentName = new ComponentName(this, SendRequest.class);
+            PersistableBundle bundle = new PersistableBundle();
+            bundle.putString("request","regular");
             JobInfo info = new JobInfo.Builder(123, componentName)
                     .setPersisted(true)
+                    .setExtras(bundle)
                     .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                     .setRequiresBatteryNotLow(true)
                     .setPeriodic(dailyNotificationInterval * 60 * 1000, dailyNotificationInterval * 60 * 1000)  //set the job work in schedule and the minimum is 15 mins for SDK 24 and above
-                    //set the task will do when the network is connected
+                    //set the task will do whe  n the network is connected
+                    .build();
+
+            JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+            int resultCode = scheduler.schedule(info);
+            if (resultCode == JobScheduler.RESULT_SUCCESS) {
+                Log.d(TAG, "Job scheduled");
+            } else {
+                Log.d(TAG, "Job scheduling failed");
+            }
+        }
+
+        Cursor locationNotificationIntervalcursor = db.getSetting(emailAddress,"art location");
+        String locationNotificationIntervalString =  locationNotificationIntervalcursor.getString(0);
+        int locationNotificationInterval = 0;
+        String exactLoint = "";
+        if (!locationNotificationIntervalString.toLowerCase().contains("off")){
+            exactLoint = locationNotificationIntervalString.substring(0,1);
+            locationNotificationInterval = Integer.parseInt(exactLoint);
+            locationNotificationInterval = locationNotificationInterval * 60 ;
+        }
+
+        if (!runtime_permissions()) {
+            ComponentName componentName = new ComponentName(this, SendRequest.class);
+            PersistableBundle bundle = new PersistableBundle();
+            bundle.putString("request","art location");
+            JobInfo info = new JobInfo.Builder(124, componentName)
+                    .setPersisted(true)
+                    .setExtras(bundle)
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .setRequiresBatteryNotLow(true)
+                    .setPeriodic(locationNotificationInterval * 60 * 1000, locationNotificationInterval * 60 * 1000)  //set the job work in schedule and the minimum is 15 mins for SDK 24 and above
+                    //set the task will do whe  n the network is connected
+                    .build();
+
+            JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+            int resultCode = scheduler.schedule(info);
+            if (resultCode == JobScheduler.RESULT_SUCCESS) {
+                Log.d(TAG, "Job scheduled");
+            } else {
+                Log.d(TAG, "Job scheduling failed");
+            }
+        }
+
+        Cursor eventNotificationIntervalcursor = db.getSetting(emailAddress,"event");
+        String eventNotificationIntervalString =  eventNotificationIntervalcursor.getString(0);
+        int eventNotificationInterval = 0;
+        String exactEventint = "";
+        if (!eventNotificationIntervalString.toLowerCase().contains("off")){
+            exactLoint = eventNotificationIntervalString.substring(0,1);
+            eventNotificationInterval = Integer.parseInt(exactLoint);
+            eventNotificationInterval = eventNotificationInterval * 60 ;
+        }
+
+        if (!runtime_permissions()) {
+            ComponentName componentName = new ComponentName(this, SendRequest.class);
+            PersistableBundle bundle = new PersistableBundle();
+            bundle.putString("request","event");
+            JobInfo info = new JobInfo.Builder(125, componentName)
+                    .setPersisted(true)
+                    .setExtras(bundle)
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .setRequiresBatteryNotLow(true)
+                    .setPeriodic(eventNotificationInterval * 60 * 1000,  eventNotificationInterval * 60 * 1000)  //set the job work in schedule and the minimum is 15 mins for SDK 24 and above
+                    //set the task will do whe  n the network is connected
                     .build();
 
             JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
@@ -348,9 +420,17 @@ public class MainActivity extends AppCompatActivity
         String type= null, title= null, description= null, lat= null, lon= null, address= null, time = null;
         int notification_id;
 
-        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "Channel", NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID_1, "Regular Notification", NotificationManager.IMPORTANCE_HIGH);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(notificationChannel);
+
+        NotificationChannel notificationChannel2 = new NotificationChannel(CHANNEL_ID_2, "Art Location Notification", NotificationManager.IMPORTANCE_HIGH);
+        notificationManager2 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager2.createNotificationChannel(notificationChannel2);
+
+        NotificationChannel notificationChannel3 = new NotificationChannel(CHANNEL_ID_3, "Event Notification", NotificationManager.IMPORTANCE_HIGH);
+        notificationManager3 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager3.createNotificationChannel(notificationChannel3);
 
         try {
             type = jsonObject.getString("type");
@@ -425,7 +505,7 @@ public class MainActivity extends AppCompatActivity
             notification_id = 2;
 
         if (address == null) {
-            notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+            notification = new NotificationCompat.Builder(this, CHANNEL_ID_1)
                     .setContentIntent(resultPendingIntent)
                     .setSmallIcon(R.drawable.app_logo)
                     .setContentTitle(title)
@@ -438,8 +518,11 @@ public class MainActivity extends AppCompatActivity
                     .setOnlyAlertOnce(true)
                     .setAutoCancel(true)
                     .build();
+
+            notificationManager.notify(notification_id, notification);
+
         } else {
-            notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+            notification = new NotificationCompat.Builder(this, CHANNEL_ID_2)
                     .setContentIntent(resultPendingIntent)
                     .setSmallIcon(R.drawable.app_logo)
                     .setContentTitle(title)
@@ -455,9 +538,9 @@ public class MainActivity extends AppCompatActivity
                     .setOnlyAlertOnce(true)
                     .setAutoCancel(true)
                     .build();
-        }
 
-        notificationManager.notify(notification_id, notification);
+            notificationManager2.notify(notification_id, notification);
+        }
     }
 
     private void showUserInfoInNaviHeader(NavigationView navigationView, SharedPreferences userInfoSharedPreferences){

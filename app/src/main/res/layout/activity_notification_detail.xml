@@ -209,10 +209,10 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="You have chose: "
+                android:layout_gravity="center_vertical"
+                android:text="You have chosen: "
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -222,7 +222,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="8dp"
-                app:srcCompat="@drawable/dislike" />
+                app:srcCompat="@drawable/null12" />
         </LinearLayout>
 
         <Button

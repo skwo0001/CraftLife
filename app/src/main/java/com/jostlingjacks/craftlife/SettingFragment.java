@@ -29,7 +29,7 @@ public class SettingFragment extends PreferenceFragment {
     private Context context;
     private Button startButton;
     private ConstraintLayout regularCard ,artLocation, eventCard;
-    private TextView reg_interval, location_interval, event_interval;
+    private TextView reg_interval, location_interval, event_interval, reg_every, location_every, event_every;
     private DataBaseHelper db;
 
     @Nullable
@@ -47,10 +47,22 @@ public class SettingFragment extends PreferenceFragment {
         reg_interval = (TextView) view.findViewById(R.id.regular_setting);
         location_interval = (TextView) view.findViewById(R.id.location_setting);
         event_interval = (TextView) view.findViewById(R.id.event_setting);
+        reg_every = (TextView) view.findViewById(R.id.reg_every);
+        location_every = (TextView) view.findViewById(R.id.location_every);
+        event_every = (TextView) view.findViewById(R.id.event_every);
 
         reg_interval.setText(getSetting(emailAddress,"regular"));
+        if (reg_interval.getText().toString().toLowerCase().contains("off")){
+            reg_every.setVisibility(View.GONE);
+        }
         location_interval.setText(getSetting(emailAddress,"art location"));
+        if (location_interval.getText().toString().toLowerCase().contains("off")){
+            location_every.setVisibility(View.GONE);
+        }
         event_interval.setText(getSetting(emailAddress,"event"));
+        if (event_interval.getText().toString().toLowerCase().contains("off")){
+            event_every.setVisibility(View.GONE);
+        }
 
 
         /**
@@ -85,6 +97,11 @@ public class SettingFragment extends PreferenceFragment {
                         //Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
 
                         reg_interval.setText(menuItem.getTitle());
+                        if (menuItem.getTitle().toString().toLowerCase().contains("off")){
+                            reg_every.setVisibility(View.GONE);
+                        } else  {
+                            reg_every.setVisibility(View.VISIBLE);
+                        }
                         db.updateSetting(emailAddress,"regular",menuItem.getTitle().toString());
                         return true;
                     }
@@ -106,6 +123,11 @@ public class SettingFragment extends PreferenceFragment {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         location_interval.setText(menuItem.getTitle());
+                        if (menuItem.getTitle().toString().toLowerCase().contains("off")){
+                            location_every.setVisibility(View.GONE);
+                        } else  {
+                            location_every.setVisibility(View.VISIBLE);
+                        }
                         db.updateSetting(emailAddress,"art location",menuItem.getTitle().toString());
 
                         return true;
@@ -129,6 +151,11 @@ public class SettingFragment extends PreferenceFragment {
                         // Toast.makeText(context, "" + menuItem.getTitle(), Toast.LENGTH_LONG).show();
 
                         event_interval.setText(menuItem.getTitle());
+                        if (menuItem.getTitle().toString().toLowerCase().contains("off")){
+                            event_every.setVisibility(View.GONE);
+                        } else  {
+                            event_every.setVisibility(View.VISIBLE);
+                        }
                         db.updateSetting(emailAddress,"event",menuItem.getTitle().toString());
 
                         return true;

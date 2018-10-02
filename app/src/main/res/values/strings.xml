@@ -125,12 +125,13 @@
     <string-array name="pie_chart_spinner">
         <item>Overall</item>
         <item>Art</item>
-        <item>Monument</item>
-        <item>Theatre</item>
-        <item>Gallery</item>
-        <item>Sport</item>
         <item>Concert</item>
         <item>Fountain</item>
+        <item>Gallery</item>
+        <item>Garden</item>
+        <item>Monument</item>
+        <item>Sport</item>
+        <item>Theatre</item>
     </string-array>
 
     <string-array name="bar_chart_spinner">

@@ -43,9 +43,9 @@ public class FragmentStat extends Fragment {
         replaceFragment(fragmentPieChart);
 
         tabLayout = (TabLayout) view.findViewById(R.id.tabHistory);
-        tabLayout.addTab(tabLayout.newTab().setText("Pie Chart"), true);
-        tabLayout.addTab(tabLayout.newTab().setText("Bar Chart"));
-        tabLayout.addTab(tabLayout.newTab().setText("Map"));
+        tabLayout.addTab(tabLayout.newTab().setText("Sort By Type"), true);
+        tabLayout.addTab(tabLayout.newTab().setText("Sort By Response"));
+        tabLayout.addTab(tabLayout.newTab().setText("Place Collection"));
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
