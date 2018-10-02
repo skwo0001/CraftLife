@@ -46,8 +46,8 @@ public class FragmentBarChart extends Fragment {
 
         Spinner spinner = view.findViewById(R.id.spinnerbar);
 
-        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
-        final String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
+        final String emailAddress = userInfoSharedPreferences.getString("CURRENT_USER_EMAIL", "");
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.bar_chart_spinner, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_item);

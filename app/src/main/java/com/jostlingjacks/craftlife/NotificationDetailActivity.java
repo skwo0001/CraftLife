@@ -88,8 +88,8 @@ public class NotificationDetailActivity extends AppCompatActivity {
         urlImg = (ImageView) findViewById(R.id.urlImg);
 
         //get the user email
-        SharedPreferences userInfoSharedPreferences = this.getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
-        final String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+        SharedPreferences userInfoSharedPreferences = getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
+        final String emailAddress = userInfoSharedPreferences.getString("CURRENT_USER_EMAIL", "");
 
         final String id;
         String option;

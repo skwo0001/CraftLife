@@ -208,8 +208,8 @@ public class SendRequest extends JobService {
         SimpleDateFormat sdf2 = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
         String formatedate = sdf2.format(calendar.getTime());
 
-        SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
-        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+        SharedPreferences userInfoSharedPreferences = getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
+        final String emailAddress = userInfoSharedPreferences.getString("CURRENT_USER_EMAIL", "");
 
         db.addSuggestion(type,title,description,address,time,emailAddress,formatedate,null,lat,lon,subtype,url);
         Intent resultIntent;

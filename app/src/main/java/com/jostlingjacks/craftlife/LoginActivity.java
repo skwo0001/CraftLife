@@ -151,6 +151,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences registerPreference = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
                         String emailAddress = registerPreference.getString("UserEmailAddress", "");
 
+
                         /**
                          * if there is nothing in the registerPreference
                          * UserEmailAddress is empty... (existing email)

@@ -36,8 +36,6 @@ public class PastNotiFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_pastnoti, container,false);
         context = view.getContext();
         db = new DataBaseHelper(context);
-        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
-        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
 
         fragmentRegularHistory = new FragmentRegularHistory();
         fragmentLocationHistory = new FragmentLocationHistory();
