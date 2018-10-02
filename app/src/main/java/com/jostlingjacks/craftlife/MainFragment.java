@@ -137,6 +137,7 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
                 public void onClick(View v) {
                     Intent notificationDetail = new Intent(context,NotificationDetailActivity.class);
                     Bundle bundle = new Bundle();
+                    bundle.putString("type","location");
                     bundle.putString("title",title);
                     bundle.putString("description",details);
                     bundle.putString("address",address);
@@ -169,6 +170,7 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
                 public void onClick(View v) {
                     Intent notificationDetail = new Intent(context,NotificationDetailActivity.class);
                     Bundle bundle = new Bundle();
+                    bundle.putString("type","event");
                     bundle.putString("title",title);
                     bundle.putString("description",details);
                     bundle.putString("address",address);
