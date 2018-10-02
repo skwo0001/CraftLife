@@ -48,6 +48,7 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
 
         regularHome = (ConstraintLayout) vHome.findViewById(R.id.regular_home);
         artLocationHome = (ConstraintLayout) vHome.findViewById(R.id.location_home);
+        eventHome = (ConstraintLayout) vHome.findViewById(R.id.event_home);
 
         //get the email from shared preference
         SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
@@ -82,18 +83,19 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
             });
         }
 
-        String locationResult = showRegular(readRecentData(emailAddress,"Arts event"));
+        String locationResult = showRegular(readRecentData(emailAddress,"location"));
         if (locationResult != "")
         {
             location_detail.setText(locationResult);
         }
-        String location = readRecentData(emailAddress, "Arts event");
+        String location = readRecentData(emailAddress, "location");
         if (location != ""){
             String[] result = location.split("#");
             final String title = result[0];
             final String details = result[1];
             final String address = result[2];
             final String time = result[3];
+            final String url = result[4];
 
             artLocationHome.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -104,6 +106,7 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
                     bundle.putString("description",details);
                     bundle.putString("address",address);
                     bundle.putString("time",time);
+                    bundle.putString("url",url);
                     notificationDetail.putExtras(bundle);
                     startActivity(notificationDetail);
 
@@ -111,21 +114,37 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
             });
         }
 
-//        eventHome = (ConstraintLayout) vHome.findViewById(R.id.event_home);
-//        eventHome.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent notificationDetail = new Intent(context,NotificationDetailActivity.class);
-//               Bundle bundle = new Bundle();
-//                bundle.putString("title",title);
-//               bundle.putString("description",details);
-//               bundle.putString("address",address);
-//               bundle.putString("time",time);
-//               notificationDetail.putExtras(bundle);
-//                startActivity(notificationDetail);
-//            }
-//        });
 
+        String eventResult = showRegular(readRecentData(emailAddress,"event"));
+        if (eventResult != "")
+        {
+            event_detail.setText(eventResult);
+        }
+        String event = readRecentData(emailAddress, "event");
+        if (location != ""){
+            String[] result = event.split("#");
+            final String title = result[0];
+            final String details = result[1];
+            final String address = result[2];
+            final String time = result[3];
+            final String url = result[4];
+
+            eventHome.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent notificationDetail = new Intent(context,NotificationDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title",title);
+                    bundle.putString("description",details);
+                    bundle.putString("address",address);
+                    bundle.putString("time",time);
+                    bundle.putString("url",url);
+                    notificationDetail.putExtras(bundle);
+                    startActivity(notificationDetail);
+
+                }
+            });
+        }
         setHasOptionsMenu(true);
         return vHome;
     }
@@ -155,7 +174,7 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
         String s = "";
         if (c.moveToLast()){
             //return title,details,address and time
-            s = ( c.getString(0))+ "#" + c.getString(1)+ "#" + c.getString(2)+ "#" + c.getString(3);
+            s = ( c.getString(0))+ "#" + c.getString(1)+ "#" + c.getString(2)+ "#" + c.getString(3)+ "#" +c.getString(4);
         }
 
         return  s;
@@ -168,10 +187,6 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
         {
             String[] result = s.split("#");
             String title = result[0];
-            String details = result[1];
-            String address = result[2];
-            String time = result[3];
-
             show = "Type: " + title ;
         }else{
             show = s;

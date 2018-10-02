@@ -61,8 +61,6 @@ public class FragmentBarChart extends Fragment {
                     case "The suggestion you liked":
                         float artLike = getNumberofOption(emailAddress, "Art", "1");
                         barEntry.add(new BarEntry(0, artLike));
-                        float concertLike = getNumberofOption(emailAddress, "Concert", "1");
-                        barEntry.add(new BarEntry(1, concertLike));
                         float fountainLike = getNumberofOption(emailAddress, "Fountain", "1");
                         barEntry.add(new BarEntry(2, fountainLike));
                         float gardenLike = getNumberofOption(emailAddress, "Garden", "1");
@@ -83,8 +81,6 @@ public class FragmentBarChart extends Fragment {
 
                         float artDislike = getNumberofOption(emailAddress, "Art", "0");
                         barEntry.add(new BarEntry(0, artDislike));
-                        float concertDislike = getNumberofOption(emailAddress, "Concert", "0");
-                        barEntry.add(new BarEntry(1, concertDislike));
                         float fountainDislike = getNumberofOption(emailAddress, "Fountain", "0");
                         barEntry.add(new BarEntry(2, fountainDislike));
                         float gardenDislike = getNumberofOption(emailAddress, "Garden", "0");
@@ -116,7 +112,7 @@ public class FragmentBarChart extends Fragment {
         BarDataSet barDataSet = new BarDataSet(barEntries, "Type of suggestion");
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
-        String[] labels = new String[]{"Art","Concert","Fountain","Garden","Gallery","Monument","Sport","Theatre"};
+        String[] labels = new String[]{"Art","Fountain","Garden","Gallery","Monument","Sport","Theatre"};
 
 
         BarData data = new BarData(barDataSet);

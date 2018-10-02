@@ -15,7 +15,7 @@ import org.w3c.dom.Text;
 public class NotificationRegularDetailActivity extends AppCompatActivity {
     private Button button;
     private TextView titleTextView,  descTextView;
-    private ImageView actionImage;
+    private ImageView actionImage, timeImg, addressImg, urlImg;
     private LinearLayout resultLL,questionTV, pullLL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +35,16 @@ public class NotificationRegularDetailActivity extends AppCompatActivity {
         actionImage = (ImageView) findViewById(R.id.imageAction);
         resultLL = (LinearLayout) findViewById(R.id.resultLL);
         pullLL = (LinearLayout) findViewById(R.id.pull);
+        addressImg = (ImageView) findViewById(R.id.addressImg);
+        timeImg = (ImageView) findViewById(R.id.timeImg);
+        urlImg = (ImageView) findViewById(R.id.urlImg);
 
         questionTV.setVisibility(View.GONE);
         pullLL.setVisibility(View.GONE);
         resultLL.setVisibility(View.GONE);
+        addressImg.setVisibility(View.GONE);
+        timeImg.setVisibility(View.GONE);
+        urlImg.setVisibility(View.GONE);
 
 
         if (title.toLowerCase().contains("water"))
@@ -54,7 +60,7 @@ public class NotificationRegularDetailActivity extends AppCompatActivity {
         }else if (title.toLowerCase().contains("meditation")){
             actionImage.setVisibility(View.VISIBLE);
             actionImage.setImageResource(R.drawable.meditation);
-        } else if (title.toLowerCase().contains("window")){
+        } else if (title.toLowerCase().contains("eye")){
             actionImage.setVisibility(View.VISIBLE);
             actionImage.setImageResource(R.drawable.curtain);
         }

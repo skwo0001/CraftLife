@@ -60,6 +60,7 @@ import static android.support.constraint.Constraints.TAG;
 public class FragmentMapCollection extends Fragment implements OnMapReadyCallback, LocationEngineListener, PermissionsListener, MapboxMap.OnMarkerClickListener, MapboxMap.OnInfoWindowClickListener {
 
     MapView mapView;
+    Context context;
     View view;
     DataBaseHelper db;
     ArrayList<String[]> mapEntries;

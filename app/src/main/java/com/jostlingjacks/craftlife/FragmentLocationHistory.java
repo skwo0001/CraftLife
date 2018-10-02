@@ -42,14 +42,14 @@ public class FragmentLocationHistory extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        Cursor cursor = getAllLocation(emailAddress, "Arts event");
+        Cursor cursor = getAllLocation(emailAddress, "location");
 
         if (cursor.getCount() == 0){
             msg.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         }
         else {
-            suggestionAdapter = new SuggestionAdapter(context, getAllLocation(emailAddress, "Arts event"));
+            suggestionAdapter = new SuggestionAdapter(context, getAllLocation(emailAddress, "location"));
 
             recyclerView.setAdapter(suggestionAdapter);
 

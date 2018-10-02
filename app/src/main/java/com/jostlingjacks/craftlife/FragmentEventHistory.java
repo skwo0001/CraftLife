@@ -21,7 +21,7 @@ public class FragmentEventHistory extends Fragment {
     RecyclerView recyclerView;
     TextView msg;
     private DataBaseHelper db;
-    private SuggestionAdapter suggestionAdapter;
+    private EventSuggestionAdapter suggestionAdapter;
 
     @Nullable
     @Override
@@ -41,7 +41,7 @@ public class FragmentEventHistory extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        Cursor cursor = getAllLocation(emailAddress, "Event");
+        Cursor cursor = getAllLocation(emailAddress, "event");
 
         int i = cursor.getCount();
 
@@ -50,7 +50,7 @@ public class FragmentEventHistory extends Fragment {
             recyclerView.setVisibility(View.GONE);
         }
         else {
-            suggestionAdapter = new SuggestionAdapter(context, getAllLocation(emailAddress, "Event"));
+            suggestionAdapter = new EventSuggestionAdapter(context, getAllLocation(emailAddress, "event"));
 
             recyclerView.setAdapter(suggestionAdapter);
 
@@ -60,6 +60,36 @@ public class FragmentEventHistory extends Fragment {
 
     public Cursor getAllLocation(String email, String type){
         return db.getSuggestions(email,type);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        recyclerView = (RecyclerView) view.findViewById(R.id.eventRV);
+        msg = (TextView) view.findViewById(R.id.showEventMsg);
+        msg.setVisibility(View.GONE);
+
+        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+
+        db = new DataBaseHelper(context);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        Cursor cursor = getAllLocation(emailAddress, "event");
+
+        int i = cursor.getCount();
+
+        if (cursor.getCount() == 0){
+            msg.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
+        else {
+            suggestionAdapter = new EventSuggestionAdapter(context, getAllLocation(emailAddress, "event"));
+
+            recyclerView.setAdapter(suggestionAdapter);
+
+        }
     }
 }
 

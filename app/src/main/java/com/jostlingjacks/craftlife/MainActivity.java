@@ -49,6 +49,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
 
 import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID_1;
 import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID_2;
@@ -189,37 +190,37 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        Cursor eventNotificationIntervalcursor = db.getSetting(emailAddress,"event");
-        String eventNotificationIntervalString =  eventNotificationIntervalcursor.getString(0);
-        int eventNotificationInterval = 0;
-        String exactEventint = "";
-        if (!eventNotificationIntervalString.toLowerCase().contains("off")){
-            exactLoint = eventNotificationIntervalString.substring(0,1);
-            eventNotificationInterval = Integer.parseInt(exactLoint);
-            eventNotificationInterval = eventNotificationInterval * 60 ;
-        }
-
-        if (!runtime_permissions()) {
-            ComponentName componentName = new ComponentName(this, SendRequest.class);
-            PersistableBundle bundle = new PersistableBundle();
-            bundle.putString("request","event");
-            JobInfo info = new JobInfo.Builder(125, componentName)
-                    .setPersisted(true)
-                    .setExtras(bundle)
-                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                    .setRequiresBatteryNotLow(true)
-                    .setPeriodic(eventNotificationInterval * 60 * 1000,  eventNotificationInterval * 60 * 1000)  //set the job work in schedule and the minimum is 15 mins for SDK 24 and above
-                    //set the task will do whe  n the network is connected
-                    .build();
-
-            JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-            int resultCode = scheduler.schedule(info);
-            if (resultCode == JobScheduler.RESULT_SUCCESS) {
-                Log.d(TAG, "Job scheduled");
-            } else {
-                Log.d(TAG, "Job scheduling failed");
-            }
-        }
+//        Cursor eventNotificationIntervalcursor = db.getSetting(emailAddress,"event");
+//        String eventNotificationIntervalString =  eventNotificationIntervalcursor.getString(0);
+//        int eventNotificationInterval = 0;
+//        String exactEventint = "";
+//        if (!eventNotificationIntervalString.toLowerCase().contains("off")){
+//            exactLoint = eventNotificationIntervalString.substring(0,1);
+//            eventNotificationInterval = Integer.parseInt(exactLoint);
+//            eventNotificationInterval = eventNotificationInterval * 60 ;
+//        }
+//
+//        if (!runtime_permissions()) {
+//            ComponentName componentName = new ComponentName(this, SendRequest.class);
+//            PersistableBundle bundle = new PersistableBundle();
+//            bundle.putString("request","event");
+//            JobInfo info = new JobInfo.Builder(125, componentName)
+//                    .setPersisted(true)
+//                    .setExtras(bundle)
+//                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+//                    .setRequiresBatteryNotLow(true)
+//                    .setPeriodic(eventNotificationInterval * 60 * 1000,  eventNotificationInterval * 60 * 1000)  //set the job work in schedule and the minimum is 15 mins for SDK 24 and above
+//                    //set the task will do whe  n the network is connected
+//                    .build();
+//
+//            JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+//            int resultCode = scheduler.schedule(info);
+//            if (resultCode == JobScheduler.RESULT_SUCCESS) {
+//                Log.d(TAG, "Job scheduled");
+//            } else {
+//                Log.d(TAG, "Job scheduling failed");
+//            }
+//        }
     }
 
     @Override
@@ -338,7 +339,7 @@ public class MainActivity extends AppCompatActivity
                 JSONObject jsonObject = null;
                 JSONObject jsonReply = null;
                 try {
-                    jsonObject = prepareCoordinatesAndTimeJSONObject(getLastLocation());
+                    jsonObject = getLastLocation();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -346,9 +347,9 @@ public class MainActivity extends AppCompatActivity
                 int i = Tool.randomNumberGenerator(100);
                 String jsonString = null;
                 if (i % 2 == 0) {
-                    jsonString = HTTPDataHandler.getEventNotification(jsonObject);
+                    jsonString = HTTPDataHandler.getLocationNotification(jsonObject);
                 } else {
-                    jsonString = HTTPDataHandler.getRegularNotification(jsonObject);
+                    jsonString = HTTPDataHandler.getRegularNotification();
                 }
 
                 if (jsonString != "") {
@@ -373,7 +374,8 @@ public class MainActivity extends AppCompatActivity
         }.execute();
     }
 
-    public Double[] getLastLocation() {
+    public JSONObject getLastLocation() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
         Double[] latitudeAndLongtidue = new Double[2];
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -386,38 +388,25 @@ public class MainActivity extends AppCompatActivity
             // for ActivityCompat#requestPermissions for more details.
             //return ;
         }
-        Location lastLocation = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
+        Location lastLocation =  locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
 
-        if (lastLocation == null) {
+        if (lastLocation == null){
             latitudeAndLongtidue[0] = -37.8770;
             latitudeAndLongtidue[1] = 145.0443;
         } else {
             latitudeAndLongtidue[0] = lastLocation.getLatitude();
             latitudeAndLongtidue[1] = lastLocation.getLongitude();
         }
+        jsonObject.put("lat",latitudeAndLongtidue[0]);
+        jsonObject.put("lon", latitudeAndLongtidue[1]);
 
-        return latitudeAndLongtidue;
-    }
-
-    private static JSONObject prepareCoordinatesAndTimeJSONObject(Double[] latitudeAndLongtidue) throws JSONException {
-        //prepare json object
-        JSONObject jsonObject = new JSONObject();
-        //prepare time
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-        String formattedTime = sdf.format(calendar.getTime());
-        //put time and coordinates into json object
-        jsonObject.put("time", formattedTime);
-        jsonObject.put("Latitude", latitudeAndLongtidue[0]);
-        jsonObject.put("Longtitude", latitudeAndLongtidue[1]);
-
-        return jsonObject;
+        return  jsonObject;
     }
 
     //Using the JSONObject to create the notification and also store the data to sqlite
     public void createNotification(JSONObject jsonObject) {
 
-        String type= null, title= null, description= null, lat= null, lon= null, address= null, time = null;
+        String type= null, title= null, description= null, lat= null, lon= null, address= null, time = null,url = null, subtype = null;
         int notification_id;
 
         NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID_1, "Regular Notification", NotificationManager.IMPORTANCE_HIGH);
@@ -428,18 +417,27 @@ public class MainActivity extends AppCompatActivity
         notificationManager2 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager2.createNotificationChannel(notificationChannel2);
 
-        NotificationChannel notificationChannel3 = new NotificationChannel(CHANNEL_ID_3, "Event Notification", NotificationManager.IMPORTANCE_HIGH);
-        notificationManager3 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager3.createNotificationChannel(notificationChannel3);
-
         try {
-            type = jsonObject.getString("type");
-            title = jsonObject.getString("title");
-            description = jsonObject.getString("description");
-            lat = jsonObject.getString("lat");
-            lon = jsonObject.getString("lon");
-            address = jsonObject.getString("address");
-            time = jsonObject.getString("time");
+            Iterator<String> iterator = jsonObject.keys();
+            String key = iterator.next();
+
+            type = key;
+            JSONObject object = jsonObject.getJSONObject(key);
+            JSONObject suggestion = jsonObject.getJSONObject(key);
+            title = suggestion.getString("title");
+            if (key.contains("event")){
+                time = suggestion.getString("time");
+                url = suggestion.getString("url");
+            }else {
+                description = suggestion.getString("description");
+            }
+            if (key.contains("location")) {
+                lat = suggestion.getString("lat");
+                lon = suggestion.getString("lon");
+                address = suggestion.getString("address");
+                subtype = suggestion.getString("type");
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -451,8 +449,9 @@ public class MainActivity extends AppCompatActivity
         bundle.putString("lat",lat);
         bundle.putString("lon",lon);
         bundle.putString("address",address);
-
         bundle.putString("time",time);
+        bundle.putString("subtype",subtype);
+        bundle.putString("url",url);
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf2 = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -461,11 +460,10 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
 
-
-        db.addSuggestion(type, title,description,address,time,emailAddress,formatedate,null,lat,lon);
+        db.addSuggestion(type,title,description,address,time,emailAddress,formatedate,null,lat,lon,subtype,url);
         Intent resultIntent;
 
-        if (address != null) {
+        if (!type.contains("regular")) {
             resultIntent = new Intent(this, NotificationDetailActivity.class);
         } else {
             resultIntent = new Intent(this, NotificationRegularDetailActivity.class);
@@ -501,10 +499,12 @@ public class MainActivity extends AppCompatActivity
         Notification notification;
         if (type.toLowerCase().equals("Regular".toLowerCase())) {
             notification_id = 1;
-        } else
+        }else if (type.toLowerCase().equals("location".toLowerCase())) {
             notification_id = 2;
+        }else //add notification_id 3 for events
+            notification_id = 3;
 
-        if (address == null) {
+        if (type.contains("regular")) {
             notification = new NotificationCompat.Builder(this, CHANNEL_ID_1)
                     .setContentIntent(resultPendingIntent)
                     .setSmallIcon(R.drawable.app_logo)
@@ -512,8 +512,7 @@ public class MainActivity extends AppCompatActivity
                     .setContentText(description)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                    .setLargeIcon(this.resolveNotificationIcon(title.toLowerCase()))
-//                .setChannelId(CHANNEL_ID)
+                    .setLargeIcon(this.resolveNotificationIcon(description.toLowerCase()))
                     .setColor(16757760)
                     .setOnlyAlertOnce(true)
                     .setAutoCancel(true)
@@ -521,7 +520,7 @@ public class MainActivity extends AppCompatActivity
 
             notificationManager.notify(notification_id, notification);
 
-        } else {
+        } else if (type.contains("location")){
             notification = new NotificationCompat.Builder(this, CHANNEL_ID_2)
                     .setContentIntent(resultPendingIntent)
                     .setSmallIcon(R.drawable.app_logo)
@@ -529,17 +528,17 @@ public class MainActivity extends AppCompatActivity
                     .setContentText(description)
                     .addAction(R.drawable.ic_yes, "Okay, I'll go", yesPendingIntent)
                     .addAction(R.drawable.ic_no, "show me less", noPendingIntent)
-                    .addAction(R.drawable.ic_no, "Add Daily Planner", addToToDoListPendingIntent)
-                    .setLargeIcon(this.resolveNotificationIcon(title.toLowerCase()))
+                    .addAction(R.drawable.ic_no, "Add To To-do List", addToToDoListPendingIntent)
+                    .setLargeIcon(this.resolveNotificationIcon(description.toLowerCase()))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-//                .setChannelId(CHANNEL_ID)
                     .setColor(16757760)
                     .setOnlyAlertOnce(true)
                     .setAutoCancel(true)
                     .build();
 
             notificationManager2.notify(notification_id, notification);
+
         }
     }
 

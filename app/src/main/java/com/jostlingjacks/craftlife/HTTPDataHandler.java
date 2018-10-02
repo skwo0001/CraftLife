@@ -24,8 +24,7 @@ import java.util.Scanner;
 import javax.net.ssl.HttpsURLConnection;
 
 public class HTTPDataHandler {
-    private static final String BASE_URI = "https://monash-ie-dev.herokuapp.com/api/v1/";
-    private static final String ITERATION_BASE_URI = "https://craftlife-backend-v2.herokuapp.com/";
+    private static final String ITERATION_BASE_URI = " https://craftlife-backend-v2.herokuapp.com/";
 
     public static String loginUser (UserInfo userInfo) {
         String responseString = "";
@@ -172,46 +171,114 @@ public class HTTPDataHandler {
 
     }
     public static String getEventNotification (JSONObject jsonObject) {
-        final String methodPath = "Event/";
+        final String methodPath = "event";
         //initialise
 
         URL url = null;
         HttpURLConnection conn = null;
         String textResult = "";
 
+
         //Making HTTP request
         try {
-            url = new URL(BASE_URI + methodPath);
-
+            String latNlon = jsonObject.toString();
+            url = new URL(ITERATION_BASE_URI + methodPath);
             //open the connection
             conn = (HttpURLConnection) url.openConnection();
-
             //set the timeout
             conn.setReadTimeout(10000);
             conn.setConnectTimeout(15000);
+            //set the connection method to POST
+            conn.setRequestMethod("POST"); //set the output to true
+            conn.setDoOutput(true);
+            //set length of the data you want to send
 
-            //set the connection method to GET
-            conn.setRequestMethod("GET");
-            //add http headers to set your response type to json
+
+            conn.setFixedLengthStreamingMode(latNlon.getBytes().length); //add HTTP headers
+
             conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("Accept", "application/json"); //Read the response
-            Scanner inStream = new Scanner(conn.getInputStream()); //read the input stream and store it as string
-            while (inStream.hasNextLine())
-            {
-                textResult += inStream.nextLine();
+            conn.getOutputStream().write(latNlon.getBytes("UTF8"));
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                //get the token back
+                Scanner inStream = new Scanner(conn.getInputStream()); //read the input stream and store it as string
+                while (inStream.hasNextLine())
+                {
+                    textResult += inStream.nextLine();
+                }
             }
+
+            Log.i("error",new Integer(conn.getResponseCode()).toString());
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally
-        {
+            e.getMessage();
+
+        } finally {
             conn.disconnect();
         }
+
         return textResult;
     }
 
-    public static String getRegularNotification (JSONObject jsonObject) {
-        final String methodPath = "Regular/";
+
+
+
+    public static String getLocationNotification (JSONObject jsonObject) {
+        final String methodPath = "location";
+        //initialise
+
+        URL url = null;
+        HttpURLConnection conn = null;
+        String textResult = "";
+
+
+        //Making HTTP request
+        try {
+            String latNlon = jsonObject.toString();
+            url = new URL(ITERATION_BASE_URI + methodPath);
+            //open the connection
+            conn = (HttpURLConnection) url.openConnection();
+            //set the timeout
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
+            //set the connection method to POST
+            conn.setRequestMethod("POST"); //set the output to true
+            conn.setDoOutput(true);
+            //set length of the data you want to send
+
+
+            conn.setFixedLengthStreamingMode(latNlon.getBytes().length); //add HTTP headers
+
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.getOutputStream().write(latNlon.getBytes("UTF8"));
+
+            int responseCode = conn.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                //get the token back
+                Scanner inStream = new Scanner(conn.getInputStream()); //read the input stream and store it as string
+                while (inStream.hasNextLine())
+                {
+                    textResult += inStream.nextLine();
+                }
+            }
+
+            Log.i("error",new Integer(conn.getResponseCode()).toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getMessage();
+
+        } finally {
+            conn.disconnect();
+        }
+
+        return textResult;
+    }
+
+    public static String getRegularNotification () {
+        final String methodPath = "regular";
         //initialise
 
         URL url = null;
@@ -220,7 +287,7 @@ public class HTTPDataHandler {
 
         //Making HTTP request
         try {
-            url = new URL(BASE_URI + methodPath);
+            url = new URL(ITERATION_BASE_URI + methodPath);
 
             //open the connection
             conn = (HttpURLConnection) url.openConnection();
