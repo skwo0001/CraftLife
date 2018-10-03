@@ -25,6 +25,7 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.GregorianCalendar;
@@ -232,8 +233,9 @@ public class NotificationDetailActivity extends AppCompatActivity {
             myIntent.setType("text/plain");
             String shareSub = "Activity suggested by CraftLife";
             String shareBody = "";
+            String type = getNotiType();
 
-            if (getType().contains("event")){
+            if (getNotiType().contains("event")){
                 shareBody = "Hey! There is an event called " + getName() + " on " + getDate() + ". Would you like to come with me?";
 
             }else {
@@ -254,7 +256,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
              */
             toDoListArrayList = new ArrayList<>();
 
-            if (getType().contains("event")){
+            if (getNotiType().contains("event")){
                 addToToDoList("Go " + getName().toLowerCase()
                         + " on " + getDate() + ".", this);
 
@@ -270,7 +272,8 @@ public class NotificationDetailActivity extends AppCompatActivity {
             if (getType().contains("location")){
                 calIntent.putExtra(CalendarContract.Events.EVENT_LOCATION,getAddress());
                 calIntent.putExtra(CalendarContract.Events.DESCRIPTION,getDescription());
-            } else {
+            }
+            if(getType().contains("event")){
                 calIntent.putExtra(CalendarContract.Events.DESCRIPTION,getUrl());
                 String time = getDate();
                 String[] details = time.split("-");
@@ -287,6 +290,8 @@ public class NotificationDetailActivity extends AppCompatActivity {
                 GregorianCalendar calDate = new GregorianCalendar(year,month-1,day,hour,minutes);
                 calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY,false);
                 calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,calDate.getTimeInMillis());
+                GregorianCalendar calDate2 = new GregorianCalendar(year,month-1,day,hour+2,minutes);
+                calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, calDate2.getTimeInMillis());
             }
 
 
