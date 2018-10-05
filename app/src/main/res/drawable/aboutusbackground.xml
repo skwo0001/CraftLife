@@ -2,11 +2,11 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
     <!-- This is for border bottom but
     you can change this according to your need -->
-    <item android:bottom="10dp" >
+    <item android:bottom="5dp" >
         <shape
             android:shape="rectangle">
             <!-- Set the background color of your layout here -->
-            <stroke android:width="5dp" android:color="#FAC495" />
+            <stroke android:width="3dp" android:color="#FAC495" />
             <corners android:radius="15dp" />
             <solid android:color="#FFFFFF" />
         </shape>

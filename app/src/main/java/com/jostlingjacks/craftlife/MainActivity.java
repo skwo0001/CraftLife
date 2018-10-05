@@ -189,37 +189,37 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-//        Cursor eventNotificationIntervalcursor = db.getSetting(emailAddress,"event");
-//        String eventNotificationIntervalString =  eventNotificationIntervalcursor.getString(0);
-//        int eventNotificationInterval = 0;
-//        String exactEventint = "";
-//        if (!eventNotificationIntervalString.toLowerCase().contains("off")){
-//            exactLoint = eventNotificationIntervalString.substring(0,1);
-//            eventNotificationInterval = Integer.parseInt(exactLoint);
-//            eventNotificationInterval = eventNotificationInterval * 60 ;
-//        }
-//
-//        if (!runtime_permissions()) {
-//            ComponentName componentName = new ComponentName(this, SendRequest.class);
-//            PersistableBundle bundle = new PersistableBundle();
-//            bundle.putString("request","event");
-//            JobInfo info = new JobInfo.Builder(125, componentName)
-//                    .setPersisted(true)
-//                    .setExtras(bundle)
-//                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-//                    .setRequiresBatteryNotLow(true)
-//                    .setPeriodic(eventNotificationInterval * 60 * 1000,  eventNotificationInterval * 60 * 1000)  //set the job work in schedule and the minimum is 15 mins for SDK 24 and above
-//                    //set the task will do whe  n the network is connected
-//                    .build();
-//
-//            JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-//            int resultCode = scheduler.schedule(info);
-//            if (resultCode == JobScheduler.RESULT_SUCCESS) {
-//                Log.d(TAG, "Job scheduled");
-//            } else {
-//                Log.d(TAG, "Job scheduling failed");
-//            }
-//        }
+        Cursor eventNotificationIntervalcursor = db.getSetting(emailAddress,"event");
+        String eventNotificationIntervalString =  eventNotificationIntervalcursor.getString(0);
+        int eventNotificationInterval = 0;
+        String exactEventint = "";
+        if (!eventNotificationIntervalString.toLowerCase().contains("off")){
+            exactLoint = eventNotificationIntervalString.substring(0,1);
+            eventNotificationInterval = Integer.parseInt(exactLoint);
+            eventNotificationInterval = eventNotificationInterval * 60 ;
+        }
+
+        if (!runtime_permissions()) {
+            ComponentName componentName = new ComponentName(this, SendRequest.class);
+            PersistableBundle bundle = new PersistableBundle();
+            bundle.putString("request","event");
+            JobInfo info = new JobInfo.Builder(125, componentName)
+                    .setPersisted(true)
+                    .setExtras(bundle)
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .setRequiresBatteryNotLow(true)
+                    .setPeriodic(eventNotificationInterval * 60 * 1000,  eventNotificationInterval * 60 * 1000)  //set the job work in schedule and the minimum is 15 mins for SDK 24 and above
+                    //set the task will do whe  n the network is connected
+                    .build();
+
+            JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+            int resultCode = scheduler.schedule(info);
+            if (resultCode == JobScheduler.RESULT_SUCCESS) {
+                Log.d(TAG, "Job scheduled");
+            } else {
+                Log.d(TAG, "Job scheduling failed");
+            }
+        }
     }
 
     @Override
@@ -322,7 +322,6 @@ public class MainActivity extends AppCompatActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-
 
             } else {
                 runtime_permissions();
