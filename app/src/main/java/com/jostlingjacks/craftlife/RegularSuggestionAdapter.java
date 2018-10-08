@@ -71,7 +71,7 @@ public class RegularSuggestionAdapter extends RecyclerView.Adapter<RegularSugges
                 suggestionViewHolder.iconImg.setImageResource(R.drawable.coach);
             }else if (title.toLowerCase().contains("meditation")){
                 suggestionViewHolder.iconImg.setImageResource(R.drawable.meditation);
-            } else if (title.toLowerCase().contains("window")){
+            } else if (title.toLowerCase().contains("eyes")){
                 suggestionViewHolder.iconImg.setImageResource(R.drawable.curtain);
             }
         }

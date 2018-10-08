@@ -560,7 +560,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private Bitmap resolveNotificationIcon(String title){
-        if (title.toLowerCase().contains("water"))
+        if (title.toLowerCase().contains("rehydrate"))
         {
             return BitmapFactory.decodeResource(this.getResources(), R.drawable.drinkwater);
         } else if (title.toLowerCase().contains("walk")){
