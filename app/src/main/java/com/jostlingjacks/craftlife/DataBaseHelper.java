@@ -293,4 +293,28 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return mCursor;
     }
 
+    public Boolean getLocationnEventRepeat(String email,String type,String title) throws SQLException{
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor mCursor = db.query(SUGGESTION_TABLE,new String[] {T2_COL_1}, T2_COL_2 + "=? and "  + T2_COL_3+"=? and " + T2_COL_4 + " =? ", new String[] {email,type, title},
+                null,null,null,null);
+        if (mCursor.getCount() <= 0){
+            mCursor.close();
+            return false;
+        }
+
+        mCursor.close();
+        return true;
+    }
+
+    public boolean updateNoticeTime(String email,String type,String title, String time){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(T2_COL_8, time);
+
+        db.update(SUGGESTION_TABLE,values,T2_COL_2+" =? and " + T2_COL_3 + " =? and " + T2_COL_4 + "=?" ,new String[] {email,type, title});
+        db.close();
+        return true;
+    }
+
 }

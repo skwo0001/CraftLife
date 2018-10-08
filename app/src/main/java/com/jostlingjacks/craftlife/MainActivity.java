@@ -405,7 +405,7 @@ public class MainActivity extends AppCompatActivity
     public void createNotification(JSONObject jsonObject) {
 
         String type= null, title= null, description= null, lat= null, lon= null, address= null, time = null,url = null, subtype = null;
-        int notification_id;
+        int notification_id = 0;
 
         NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID_1, "Regular Notification", NotificationManager.IMPORTANCE_HIGH);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -458,7 +458,16 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
 
-        db.addSuggestion(type,title,description,address,time,emailAddress,formatedate,null,lat,lon,subtype,url);
+        if (!type.contains("regular")){
+            if (!db.getLocationnEventRepeat(emailAddress,type,title)){
+                db.addSuggestion(type,title,description,address,time,emailAddress,formatedate,null,lat,lon,subtype,url);
+            } else {
+                db.updateNoticeTime(emailAddress,type,title,formatedate);
+            }
+        } else {
+            db.addSuggestion(type,title,description,address,time,emailAddress,formatedate,null,lat,lon,subtype,url);
+        }
+
         Intent resultIntent;
 
         if (!type.contains("regular")) {
@@ -498,9 +507,7 @@ public class MainActivity extends AppCompatActivity
         if (type.toLowerCase().equals("Regular".toLowerCase())) {
             notification_id = 1;
         }else if (type.toLowerCase().equals("location".toLowerCase())) {
-            notification_id = 2;
-        }else //add notification_id 3 for events
-            notification_id = 3;
+            notification_id = 2;}
 
         if (type.contains("regular")) {
             notification = new NotificationCompat.Builder(this, CHANNEL_ID_1)

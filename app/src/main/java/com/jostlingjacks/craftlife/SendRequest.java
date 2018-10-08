@@ -151,7 +151,7 @@ public class SendRequest extends JobService {
     //Using the JSONObject to create the notification and also store the data to sqlite
     public void createNotification(JSONObject jsonObject) {
 
-        String type= null, title= null, description= null, lat= null, lon= null, address= null, time = null, url = null, subtype = null;
+        String type = null, title = null, description = null, lat = null, lon = null, address = null, time = null, url = null, subtype = null;
         int notification_id;
 
         NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID_1, "Regular Notification", NotificationManager.IMPORTANCE_HIGH);
@@ -167,19 +167,17 @@ public class SendRequest extends JobService {
         notificationManager3.createNotificationChannel(notificationChannel3);
 
 
-
         try {
             Iterator<String> iterator = jsonObject.keys();
             String key = iterator.next();
 
             type = key;
-            JSONObject object = jsonObject.getJSONObject(key);
             JSONObject suggestion = jsonObject.getJSONObject(key);
             title = suggestion.getString("title");
-            if (key.contains("event")){
+            if (key.contains("event")) {
                 time = suggestion.getString("time");
                 url = suggestion.getString("url");
-            }else {
+            } else {
                 description = suggestion.getString("description");
             }
             if (key.contains("location")) {
@@ -194,15 +192,15 @@ public class SendRequest extends JobService {
         }
 
         Bundle bundle = new Bundle();
-        bundle.putString("type",type);
-        bundle.putString("title",title);
-        bundle.putString("description",description);
-        bundle.putString("lat",lat);
-        bundle.putString("lon",lon);
-        bundle.putString("address",address);
-        bundle.putString("time",time);
-        bundle.putString("subtype",subtype);
-        bundle.putString("url",url);
+        bundle.putString("type", type);
+        bundle.putString("title", title);
+        bundle.putString("description", description);
+        bundle.putString("lat", lat);
+        bundle.putString("lon", lon);
+        bundle.putString("address", address);
+        bundle.putString("time", time);
+        bundle.putString("subtype", subtype);
+        bundle.putString("url", url);
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf2 = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -211,7 +209,18 @@ public class SendRequest extends JobService {
         SharedPreferences userInfoSharedPreferences = getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
         final String emailAddress = userInfoSharedPreferences.getString("CURRENT_USER_EMAIL", "");
 
-        db.addSuggestion(type,title,description,address,time,emailAddress,formatedate,null,lat,lon,subtype,url);
+
+        if (!type.contains("regular")) {
+            if (!db.getLocationnEventRepeat(emailAddress, type, title)) {
+                db.addSuggestion(type, title, description, address, time, emailAddress, formatedate, null, lat, lon, subtype, url);
+            } else {
+                db.updateNoticeTime(emailAddress, type, title, formatedate);
+            }
+        } else {
+            db.addSuggestion(type, title, description, address, time, emailAddress, formatedate, null, lat, lon, subtype, url);
+        }
+
+
         Intent resultIntent;
 
         if (!type.contains("regular")) {
@@ -250,10 +259,11 @@ public class SendRequest extends JobService {
         Notification notification;
         if (type.toLowerCase().equals("Regular".toLowerCase())) {
             notification_id = 1;
-        }else if (type.toLowerCase().equals("location".toLowerCase())) {
+        } else if (type.toLowerCase().equals("location".toLowerCase())) {
             notification_id = 2;
-        }else //add notification_id 3 for events
+        } else {
             notification_id = 3;
+        }
 
         if (type.contains("regular")) {
             notification = new NotificationCompat.Builder(this, CHANNEL_ID_1)
