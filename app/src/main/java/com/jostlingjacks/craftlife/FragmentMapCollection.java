@@ -121,12 +121,10 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
                     .build());
 
         }
-
         originPosition = Point.fromLngLat(originLocation.getLongitude(), originLocation.getLatitude());
-
-
-
     }
+
+
 
     public ArrayList<String[]> getMapEntryDataFromDatabase(String email){
         ArrayList<String[]> arrayList = new ArrayList<String[]>();
@@ -356,6 +354,8 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
                     }
                 });
     }
+
+
 
 //
 //    @Override
