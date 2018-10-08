@@ -103,9 +103,10 @@ public class FragmentMapCollection extends Fragment implements OnMapReadyCallbac
         enableLocation();
 
         // get the sharedPreference to retrieve the email of the user...
-        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
+        String emailAddress = userInfoSharedPreferences.getString("CURRENT_USER_EMAIL", "");
         // get the data from the database using the primary key of user's email..
-        mapEntries = getMapEntryDataFromDatabase(userInfoSharedPreferences.getString("UserEmailAddress", ""));
+        mapEntries = getMapEntryDataFromDatabase(emailAddress);
 
         // if you want to open location service ...
         //enableLocation();

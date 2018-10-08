@@ -28,7 +28,7 @@
             android:layout_marginTop="4dp"
             android:layout_weight="1"
             android:text="Daily Suggestion"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +40,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Every"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10"
@@ -54,7 +54,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="TextView"
-            android:textSize="26sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/reg_every"
             app:layout_constraintTop_toBottomOf="@+id/textView10"
@@ -92,7 +92,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="TextView"
-            android:textSize="26sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/location_every"
             app:layout_constraintTop_toBottomOf="@+id/textView12"
@@ -106,7 +106,7 @@
             android:layout_marginTop="4dp"
             android:layout_weight="1"
             android:text="Art Location Suggestion"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -118,11 +118,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Every"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView12"
-            app:layout_constraintVertical_bias="1.0"/>
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/imageView20"
@@ -155,12 +155,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:text="TextView"
-            android:textSize="26sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/event_every"
-            app:layout_constraintVertical_bias="0.0"/>
+            app:layout_constraintStart_toEndOf="@+id/event_every" />
 
         <TextView
             android:id="@+id/textView13"
@@ -170,7 +168,7 @@
             android:layout_marginTop="4dp"
             android:layout_weight="1"
             android:text="Event Suggestion"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -179,13 +177,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="6dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:text="Every"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/imageView21"

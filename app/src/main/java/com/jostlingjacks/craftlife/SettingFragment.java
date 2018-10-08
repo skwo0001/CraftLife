@@ -41,8 +41,8 @@ public class SettingFragment extends PreferenceFragment {
         view = inflater.inflate(R.layout.fragment_setting, container,false);
         context = view.getContext();
         db = new DataBaseHelper(context);
-        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
-        final String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
+        final String emailAddress = userInfoSharedPreferences.getString("CURRENT_USER_EMAIL", "");
 
         reg_interval = (TextView) view.findViewById(R.id.regular_setting);
         location_interval = (TextView) view.findViewById(R.id.location_setting);

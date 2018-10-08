@@ -39,8 +39,9 @@ public class FragmentPieChart extends Fragment {
         context = view.getContext();
         db = new DataBaseHelper(context);
 
-        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
-        final String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
+        final String emailAddress = userInfoSharedPreferences.getString("CURRENT_USER_EMAIL", "");
+
 
         pieChart = (PieChart)view.findViewById(R.id.piechart);
         Spinner spinner = view.findViewById(R.id.spinnerpie);

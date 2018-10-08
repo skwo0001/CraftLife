@@ -61,7 +61,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
         final String detail = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_5));
         final String address = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_6));
         final String time = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_7));
-        String type = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_3));
+        final String type = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_3));
         String respond = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_9));
         final String url = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_13));
 
@@ -107,6 +107,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
             public void onClick(View v) {
                 Intent notificationDetail = new Intent(mContext,NotificationDetailActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("type",type);
                 bundle.putString("id",notificationid);
                 bundle.putString("title",title);
                 bundle.putString("description",detail);

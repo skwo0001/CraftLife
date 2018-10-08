@@ -103,13 +103,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // get the user info shared preference.
-        SharedPreferences userInfoSharedPreferences = getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
+        SharedPreferences userInfoSharedPreferences = getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
+        String emailAddress = userInfoSharedPreferences.getString("CURRENT_USER_EMAIL", "");
 
         // once the user logs in, the name should be displayed in the navigation drawer..
         this.showUserInfoInNaviHeader(navigationView, userInfoSharedPreferences);
 
-        // set the default time interval for every user
-        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
         if (!db.getSettingRepeat(emailAddress,"regular")){
             db.addSetting(emailAddress,"regular","15 minutes");
         }

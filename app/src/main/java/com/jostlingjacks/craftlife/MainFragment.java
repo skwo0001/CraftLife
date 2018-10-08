@@ -1,5 +1,6 @@
 package com.jostlingjacks.craftlife;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -8,8 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteTransactionListener;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -20,6 +24,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -32,6 +39,7 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
     private SwipeRefreshLayout swipeRefreshLayout;
     private DataBaseHelper db;
 
+    @SuppressLint("StaticFieldLeak")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
@@ -51,8 +59,35 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
         eventHome = (ConstraintLayout) vHome.findViewById(R.id.event_home);
 
         //get the email from shared preference
-        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
-        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
+        String emailAddress = userInfoSharedPreferences.getString("CURRENT_USER_EMAIL", "");
+        final String token = userInfoSharedPreferences.getString(emailAddress+"AuthToken", "");
+        new AsyncTask<Void, Void, JSONObject>() {
+            @Override
+            protected JSONObject doInBackground(Void... params) {
+                JSONObject jsonReply = null;
+                String jsonString = null;
+                jsonString = HTTPDataHandler.getHistories(token);
+                if (jsonString != "") {
+                    try {
+                        //To get the reply from the request and make it to JSONObject
+                        jsonReply = new JSONObject(jsonString.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return jsonReply ;
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            protected void onPostExecute(JSONObject jsonObject) {
+                if (jsonObject != null) {
+                    Log.d("jsonObject", jsonObject.toString());
+                }
+
+            }
+        }.execute();
 
         String regResult = showRegular(readRecentData(emailAddress,"regular"));
         if (regResult != "")
@@ -102,9 +137,6 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
                 public void onClick(View v) {
                     Intent notificationDetail = new Intent(context,NotificationDetailActivity.class);
                     Bundle bundle = new Bundle();
-                    /**
-                     * Todo :HARDCODE FOR THE BUNDLE TYPE
-                     */
                     bundle.putString("type","location");
                     bundle.putString("title",title);
                     bundle.putString("description",details);
@@ -125,7 +157,7 @@ public class MainFragment extends Fragment implements SQLiteTransactionListener 
             event_detail.setText(eventResult);
         }
         String event = readRecentData(emailAddress, "event");
-        if (location != ""){
+        if (event != ""){
             String[] result = event.split("#");
             final String title = result[0];
             final String details = result[1];

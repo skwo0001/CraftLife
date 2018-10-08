@@ -35,8 +35,8 @@ public class FragmentRegularHistory extends Fragment{
         msg = (TextView) view.findViewById(R.id.showRegMsg);
         msg.setVisibility(View.GONE);
 
-        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
-        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+        SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
+        final String emailAddress = userInfoSharedPreferences.getString("CURRENT_USER_EMAIL", "");
 
         db = new DataBaseHelper(context);
 
