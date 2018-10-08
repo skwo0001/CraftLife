@@ -58,7 +58,11 @@ public class FragmentLocationHistory extends Fragment {
     }
 
     public Cursor getAllLocation(String email, String type){
-        return db.getSuggestions(email,type);
+        Cursor cursor = db.getSuggestions(email,type);
+        int count = cursor.getCount();
+
+
+        return cursor;
     }
 
     @Override

@@ -17,11 +17,14 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
 
     private Context mContext;
     private Cursor mCursor;
+    private int cursorMovingTimes;
+    private  boolean isCursorMoving;
 
     public SuggestionAdapter(Context context, Cursor cursor){
         mContext = context;
         mCursor = cursor;
-
+        cursorMovingTimes = 0;
+        isCursorMoving = false;
     }
 
     public class SuggestionViewHolder extends RecyclerView.ViewHolder{
@@ -52,84 +55,90 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
 
     @Override
     public void onBindViewHolder(@NonNull SuggestionViewHolder suggestionViewHolder, int i) {
-        if (!mCursor.move(i)) {
+
+            final String notificationid = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_1));
+            final String title = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_4));
+            final String detail = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_5));
+            final String address = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_6));
+            final String time = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_7));
+            final String type = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_3));
+            String respond = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_9));
+            final String url = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_13));
+
+            suggestionViewHolder.titleText.setText(title);
+            suggestionViewHolder.detailsText.setText(detail);
+            suggestionViewHolder.addressText.setText(address);
+
+            if (type.toLowerCase().contains("art")){
+                suggestionViewHolder.iconImg.setImageResource(R.drawable.placeholder_3);
+            } else {
+                suggestionViewHolder.iconImg.setImageResource(R.drawable.calendar4);
+            }
+
+            if (detail.toLowerCase().contains("gallery"))
+            {
+                suggestionViewHolder.iconImg.setImageResource(R.drawable.gallery);
+            } else if (detail.toLowerCase().contains("concert")){
+                suggestionViewHolder.iconImg.setImageResource(R.drawable.stage);
+            }else if (detail.toLowerCase().contains("art")){
+                suggestionViewHolder.iconImg.setImageResource(R.drawable.art);
+            } else if (detail.toLowerCase().contains("fountain")){
+                suggestionViewHolder.iconImg.setImageResource(R.drawable.fountains_2);
+            } else if (detail.toLowerCase().contains("monument")){
+                suggestionViewHolder.iconImg.setImageResource(R.drawable.history);
+            }else if (detail.toLowerCase().contains("theatre")){
+                suggestionViewHolder.iconImg.setImageResource(R.drawable.theatre);
+            }else if (detail.toLowerCase().contains("garden")){
+                suggestionViewHolder.iconImg.setImageResource(R.drawable.park);
+            }else if (detail.toLowerCase().contains("facility") || detail.toLowerCase().contains("health")){
+                suggestionViewHolder.iconImg.setImageResource(R.drawable.exercise);
+            }
+
+            if (respond == null){
+                suggestionViewHolder.choiceImg.setImageResource(R.drawable.null12);
+            } else if (respond.contains("0")){
+                suggestionViewHolder.choiceImg.setImageResource(R.drawable.dislike);
+            } else if (respond.contains("1")){
+                suggestionViewHolder.choiceImg.setImageResource(R.drawable.good);
+            }
+
+            suggestionViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent notificationDetail = new Intent(mContext,NotificationDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("type",type);
+                    bundle.putString("id",notificationid);
+                    bundle.putString("title",title);
+                    bundle.putString("description",detail);
+                    bundle.putString("address",address);
+                    bundle.putString("time",time);
+                    bundle.putString("url",url);
+                    notificationDetail.putExtras(bundle);
+                    mContext.startActivity(notificationDetail);
+                }
+            });
+
+        if (!mCursor.moveToNext()) {
+
             return;
         }
 
-        final String notificationid = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_1));
-        final String title = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_4));
-        final String detail = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_5));
-        final String address = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_6));
-        final String time = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_7));
-        final String type = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_3));
-        String respond = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_9));
-        final String url = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_13));
-
-        suggestionViewHolder.titleText.setText(title);
-        suggestionViewHolder.detailsText.setText(detail);
-        suggestionViewHolder.addressText.setText(address);
-
-        if (type.toLowerCase().contains("art")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.placeholder_3);
-        } else {
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.calendar4);
         }
-
-        if (detail.toLowerCase().contains("gallery"))
-        {
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.gallery);
-        } else if (detail.toLowerCase().contains("concert")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.stage);
-        }else if (detail.toLowerCase().contains("art")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.art);
-        } else if (detail.toLowerCase().contains("fountain")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.fountains_2);
-        } else if (detail.toLowerCase().contains("monument")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.history);
-        }else if (detail.toLowerCase().contains("theatre")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.theatre);
-        }else if (detail.toLowerCase().contains("garden")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.park);
-        }else if (detail.toLowerCase().contains("facility") || detail.toLowerCase().contains("health")){
-            suggestionViewHolder.iconImg.setImageResource(R.drawable.exercise);
-        }
-
-        if (respond == null){
-            suggestionViewHolder.choiceImg.setImageResource(R.drawable.null12);
-        } else if (respond.contains("0")){
-            suggestionViewHolder.choiceImg.setImageResource(R.drawable.dislike);
-        } else if (respond.contains("1")){
-            suggestionViewHolder.choiceImg.setImageResource(R.drawable.good);
-        }
-
-        suggestionViewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent notificationDetail = new Intent(mContext,NotificationDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("type",type);
-                bundle.putString("id",notificationid);
-                bundle.putString("title",title);
-                bundle.putString("description",detail);
-                bundle.putString("address",address);
-                bundle.putString("time",time);
-                bundle.putString("url",url);
-                notificationDetail.putExtras(bundle);
-                mContext.startActivity(notificationDetail);
-            }
-        });
-    }
 
 
     @Override
     public int getItemCount() {
 
         int i = mCursor.getCount();
-        if (mCursor.getCount() < 5) {
-            return mCursor.getCount();
+        if (i < 5 || i == 5) {
+            cursorMovingTimes = i;
+            return i;
         } else {
+            cursorMovingTimes = 5;
             return 5;
         }
+//        return mCursor.getCount();
     }
 
 

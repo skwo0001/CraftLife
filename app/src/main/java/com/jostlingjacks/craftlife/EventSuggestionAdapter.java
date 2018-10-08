@@ -51,9 +51,6 @@ public class EventSuggestionAdapter extends RecyclerView.Adapter<EventSuggestion
 
     @Override
     public void onBindViewHolder(@NonNull SuggestionViewHolder suggestionViewHolder, int i) {
-        if (!mCursor.move(i)) {
-            return;
-        }
 
         final String notificationid = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_1));
         final String title = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_4));
@@ -92,6 +89,9 @@ public class EventSuggestionAdapter extends RecyclerView.Adapter<EventSuggestion
                 mContext.startActivity(notificationDetail);
             }
         });
+        if (!mCursor.moveToNext()) {
+            return;
+        }
     }
 
 

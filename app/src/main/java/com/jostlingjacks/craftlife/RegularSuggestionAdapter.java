@@ -51,10 +51,6 @@ public class RegularSuggestionAdapter extends RecyclerView.Adapter<RegularSugges
     @Override
     public void onBindViewHolder(@NonNull SuggestionViewHolder suggestionViewHolder, int i) {
 
-        if (!mCursor.move(i)) {
-            return;
-        }
-
         final String title = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_4));
         final String detail = mCursor.getString(mCursor.getColumnIndex(DataBaseHelper.T2_COL_5));
 
@@ -88,6 +84,11 @@ public class RegularSuggestionAdapter extends RecyclerView.Adapter<RegularSugges
             }
         });
 
+
+        if (!mCursor.moveToNext()) {
+
+            return;
+        }
 
     }
 
