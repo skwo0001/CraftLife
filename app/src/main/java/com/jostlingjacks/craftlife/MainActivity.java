@@ -556,7 +556,7 @@ public class MainActivity extends AppCompatActivity
          * TODO: the shared preferences can acutally put into a class variable.
          * TODO: Done!!!
          */
-        String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
+        String emailAddress = userInfoSharedPreferences.getString("CURRENT_USER_EMAIL", "");
         navUsername.setText(emailAddress);
     }
 
