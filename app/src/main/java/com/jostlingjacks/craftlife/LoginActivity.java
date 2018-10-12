@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 /**
  * this contains shared preferences that allows to
- * TODO: this
+ * This class the login method
  */
 
 public class LoginActivity extends AppCompatActivity {

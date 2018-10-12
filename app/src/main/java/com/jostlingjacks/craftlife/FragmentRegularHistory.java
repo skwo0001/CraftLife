@@ -15,6 +15,10 @@ import android.widget.TextView;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This class is to show the Regular fragment in the Past Notification page
+ */
+
 public class FragmentRegularHistory extends Fragment{
 
     View view;

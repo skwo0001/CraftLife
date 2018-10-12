@@ -30,8 +30,7 @@ import java.security.NoSuchAlgorithmException;
  */
 
 /**
- * TODO list:
- * Shared preferences on 10/Sept/2019
+ * This class is to do the registration activity
  */
 public class RegistrationActivity extends AppCompatActivity {
 

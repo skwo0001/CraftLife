@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+/**
+ * This class is to show the Tutorial Page
+ */
 public class TutorialFragment extends Fragment {
     private View vTut;
     private Context context;

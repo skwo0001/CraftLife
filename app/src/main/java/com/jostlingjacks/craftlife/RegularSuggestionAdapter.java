@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * This class is have a adapter for the recycler view for the FragmentRegularHistory's recycler view
+ **/
+
 public class RegularSuggestionAdapter extends RecyclerView.Adapter<RegularSuggestionAdapter.SuggestionViewHolder> {
 
     private Context mContext;

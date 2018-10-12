@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * This class is have a adapter for the recycler view for the FragmentLocationHistory's recycler view
+ **/
+
 public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.SuggestionViewHolder> {
 
     private Context mContext;

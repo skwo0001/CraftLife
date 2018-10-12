@@ -1,5 +1,9 @@
 package com.jostlingjacks.craftlife;
 
+/**
+ * This class is to show the setting page
+ */
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,10 +20,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import java.util.prefs.Preferences;
 
 import static android.content.Context.MODE_PRIVATE;
 

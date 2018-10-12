@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * This class is to show the about CraftLife page
+ */
+
 public class DocumentFragment extends Fragment{
 
     View view;

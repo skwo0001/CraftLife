@@ -57,6 +57,10 @@ import retrofit2.Response;
 import static android.content.Context.MODE_PRIVATE;
 import static android.support.constraint.Constraints.TAG;
 
+/**
+ * This class is to show the Map fragment in the Stat page
+ */
+
 public class FragmentMapCollection extends Fragment implements OnMapReadyCallback, LocationEngineListener, PermissionsListener, MapboxMap.OnMarkerClickListener, MapboxMap.OnInfoWindowClickListener {
 
     MapView mapView;

@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * This class is have a adapter for the recyclerview for the FragmentEventHistory's recycler view
+ **/
+
 public class EventSuggestionAdapter extends RecyclerView.Adapter<EventSuggestionAdapter.SuggestionViewHolder> {
 
     private Context mContext;

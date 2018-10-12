@@ -8,6 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteTransactionListener;
 
+/**
+ * This class is to set the SQLite database
+ * All the queries should placed here
+ */
+
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     //Set up the SQLite database

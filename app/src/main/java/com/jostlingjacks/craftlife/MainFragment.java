@@ -30,6 +30,10 @@ import org.json.JSONObject;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This Fragment class is to link to the main Fragment page, which is the homepage
+ */
+
 public class MainFragment extends Fragment implements SQLiteTransactionListener {
 
     View vHome;

@@ -4,7 +4,10 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
-
+/**
+ * This class is to hold the channel for the notification
+ * Since the api 26 or above, need channel to handle the notification
+ */
 public class Channel extends Application {
     public static final String CHANNEL_ID_1 = "Regular Notification";
     public static final String CHANNEL_ID_2 = "Art Location Notification";

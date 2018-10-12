@@ -8,6 +8,10 @@ import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/*
+This class is to store all the extra method which is used more than one class
+ */
+
 public class Tool {
 
     public final static int INTENT_REQUEST_CODE = 1;

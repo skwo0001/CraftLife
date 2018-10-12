@@ -30,6 +30,9 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.GregorianCalendar;
 
+/**
+ * This class is to show the detail of the notification except the regular notification
+ */
 
 public class NotificationDetailActivity extends AppCompatActivity {
 
@@ -138,6 +141,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
         addressTextView.setText(address);
         timeTextView.setText(time);
         urlTextView.setText(url);
+
 
         if (time == null || time.contains("null")){
             timeLL.setVisibility(View.GONE);

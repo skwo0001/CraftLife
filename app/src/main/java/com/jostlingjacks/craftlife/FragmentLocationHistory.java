@@ -15,6 +15,10 @@ import android.widget.TextView;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This class is to show the Location fragment in the Past Notification page
+ */
+
 public class FragmentLocationHistory extends Fragment {
 
     View view;
@@ -49,6 +53,7 @@ public class FragmentLocationHistory extends Fragment {
             recyclerView.setVisibility(View.GONE);
         }
         else {
+            //link the data from database and show it in the recycler view
             suggestionAdapter = new SuggestionAdapter(context, getAllLocation(emailAddress, "location"));
 
             recyclerView.setAdapter(suggestionAdapter);
@@ -65,6 +70,7 @@ public class FragmentLocationHistory extends Fragment {
         return cursor;
     }
 
+    //Update the view after user do the changes
     @Override
     public void onResume() {
         super.onResume();

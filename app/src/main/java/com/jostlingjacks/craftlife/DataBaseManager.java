@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.concurrent.atomic.AtomicInteger;
-
+/**
+ * This class is used to set the SQLite Database with the queries stored in the DatabaseHelper
+ */
 public class DataBaseManager {
 
     private static DataBaseManager instance;

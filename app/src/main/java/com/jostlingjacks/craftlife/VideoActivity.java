@@ -9,8 +9,14 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
+/**
+ * This class is to show the tutorial video
+ */
+
 public class VideoActivity extends YouTubeBaseActivity{
+    //It is better to change the api key
     private final String API_KEY = "AIzaSyAHY396fAO-Yp_5avhVJuw9K750YWilXPs";
+    //It is able to change the link of the video, if the tutorial video is updated
     private final String VIDEO_CODE = "gYrfZXfFeQA";
     YouTubePlayerView player;
     private boolean doubleBackToExitPressedOnce = false;

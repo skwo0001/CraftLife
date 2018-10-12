@@ -15,6 +15,10 @@ import android.widget.TextView;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This class is to show the Event fragment in the Past Notification page
+ */
+
 public class FragmentEventHistory extends Fragment {
     View view;
     Context context;
@@ -34,6 +38,7 @@ public class FragmentEventHistory extends Fragment {
         msg = (TextView) view.findViewById(R.id.showEventMsg);
         msg.setVisibility(View.GONE);
 
+        //get the login user's email
         SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("REGISTER_PREFERENCES", MODE_PRIVATE);
         String emailAddress = userInfoSharedPreferences.getString("UserEmailAddress", "");
 
@@ -50,6 +55,7 @@ public class FragmentEventHistory extends Fragment {
             recyclerView.setVisibility(View.GONE);
         }
         else {
+            //link the data from database and show it in the recycler view
             suggestionAdapter = new EventSuggestionAdapter(context, getAllLocation(emailAddress, "event"));
 
             recyclerView.setAdapter(suggestionAdapter);
@@ -62,6 +68,7 @@ public class FragmentEventHistory extends Fragment {
         return db.getSuggestions(email,type);
     }
 
+    //Update the view after user do the changes
     @Override
     public void onResume() {
         super.onResume();

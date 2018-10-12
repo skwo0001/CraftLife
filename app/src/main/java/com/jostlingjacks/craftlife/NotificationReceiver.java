@@ -15,6 +15,10 @@ import java.util.Scanner;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This class is to hold the notification receiver, so that we can add the action to the notification
+ */
+
 public class NotificationReceiver extends BroadcastReceiver {
 
     private NotificationManager notificationManager;

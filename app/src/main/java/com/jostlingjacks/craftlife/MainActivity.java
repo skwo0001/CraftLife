@@ -55,12 +55,14 @@ import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID_1;
 import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID_2;
 import static com.jostlingjacks.craftlife.Channel.CHANNEL_ID_3;
 
+/**
+ * This is the mainActivity that to start the background service and set up the application
+ */
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity" ;
-    private NotificationManager notificationManager,notificationManager2,notificationManager3;
-    private LocationManager locationManager;
     boolean doubleBackToExitPressedOnce = false;
     private DataBaseHelper db;
 
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity
             db.addSetting(emailAddress,"event","2 hour");
         }
 
-        //Hold 3 job services, 1 is for event, 1 is for regular and i is for art location
+        //Hold 3 job services, 1 is for event, 1 is for regular and 1 is for art location
         Cursor dailyNotificationIntervalcursor = db.getSetting(emailAddress,"regular");
         String dailyNotificationIntervalString =  dailyNotificationIntervalcursor.getString(0);
         int dailyNotificationInterval = 0;

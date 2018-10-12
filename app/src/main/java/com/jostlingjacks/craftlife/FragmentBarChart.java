@@ -28,6 +28,10 @@ import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This class is to show the BarChart fragment in the Stat page
+ */
+
 public class FragmentBarChart extends Fragment {
 
     View view;
@@ -46,9 +50,11 @@ public class FragmentBarChart extends Fragment {
 
         Spinner spinner = view.findViewById(R.id.spinnerbar);
 
+        // get the email of the login user
         SharedPreferences userInfoSharedPreferences = this.getActivity().getSharedPreferences("CURRENT_USER_INFO", MODE_PRIVATE);
         final String emailAddress = userInfoSharedPreferences.getString("CURRENT_USER_EMAIL", "");
 
+        //set up the barchart
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.bar_chart_spinner, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(adapter);
@@ -132,6 +138,8 @@ public class FragmentBarChart extends Fragment {
         barChart.invalidate();
     }
 
+    //In here, it use the SQLite the access the user's data
+    //It is able to connect to the api using Async Task
     public int getNumberofOption(String email, String title, String option) {
         Cursor cursor = db.getTypeByOption(email, title, option);
         return cursor.getCount();

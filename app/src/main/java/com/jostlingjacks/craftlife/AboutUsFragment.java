@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * This class is to show the about us page
+ */
 public class AboutUsFragment extends Fragment {
 
     View vAbtUs;

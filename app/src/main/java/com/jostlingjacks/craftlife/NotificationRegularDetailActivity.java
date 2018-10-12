@@ -12,6 +12,10 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+/**
+ * This class is to show the detail of the regular notification
+ */
+
 public class NotificationRegularDetailActivity extends AppCompatActivity {
     private Button button;
     private TextView titleTextView,  descTextView;
@@ -46,6 +50,8 @@ public class NotificationRegularDetailActivity extends AppCompatActivity {
         timeImg.setVisibility(View.GONE);
         urlImg.setVisibility(View.GONE);
 
+
+        //set up the image of the notification
 
         if (title.toLowerCase().contains("water"))
         {

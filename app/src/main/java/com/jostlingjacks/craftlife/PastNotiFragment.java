@@ -20,6 +20,9 @@ import android.view.ViewGroup;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This class is to show the Past Notification Page
+ */
 public class PastNotiFragment extends Fragment {
 
     View view;

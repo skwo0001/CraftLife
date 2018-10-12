@@ -23,6 +23,10 @@ import java.util.Scanner;
 
 import javax.net.ssl.HttpsURLConnection;
 
+/**
+ * This class is to store all the method that is used to link the the http (api)
+ */
+
 public class HTTPDataHandler {
     private static final String ITERATION_BASE_URI = " https://craftlife-backend-v2.herokuapp.com/";
 

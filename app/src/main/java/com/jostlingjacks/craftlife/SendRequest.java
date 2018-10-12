@@ -1,6 +1,9 @@
 package com.jostlingjacks.craftlife;
 
-//Using job service to do the background work
+/**
+ * Using job service to do the background work,
+ * send the request to the api and then get the data back and transfer it to notification to push to the user
+ */
 
 import android.Manifest;
 import android.annotation.SuppressLint;

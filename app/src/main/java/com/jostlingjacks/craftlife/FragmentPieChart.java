@@ -25,6 +25,9 @@ import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This class is to show the PieChart fragment in the Stat page
+ */
 public class FragmentPieChart extends Fragment {
 
     View view;
@@ -122,6 +125,8 @@ public class FragmentPieChart extends Fragment {
         return view;
     }
 
+
+    //set up the chart using the data
     private void createChart(String item, int like, int dislike, int nothing) {
 
         pieChart.setCenterText(item);

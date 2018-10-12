@@ -17,6 +17,9 @@ import android.view.ViewGroup;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This class is to show the Stat page
+ */
 public class FragmentStat extends Fragment {
 
     View view;
@@ -40,8 +43,9 @@ public class FragmentStat extends Fragment {
 
         replaceFragment(fragmentPieChart);
 
+        //set up the tab that should appear in the tab layout
         tabLayout = (TabLayout) view.findViewById(R.id.tabHistory);
-        tabLayout.addTab(tabLayout.newTab().setText("Sort By Type"), true);
+        tabLayout.addTab(tabLayout.newTab().setText("Sort By Type"), true); //set it as the default
         tabLayout.addTab(tabLayout.newTab().setText("Sort By Response"));
         tabLayout.addTab(tabLayout.newTab().setText("Place Collection"));
 
