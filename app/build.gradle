@@ -37,11 +37,13 @@ dependencies {
     implementation "com.mapbox.mapboxsdk:mapbox-android-navigation:0.15.0"
     implementation "com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.15.0"
 
-
+    //Youtube dependencies
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    //Recyclerview dependencies
     implementation 'com.android.support:recyclerview-v7:28.0.0-rc01'
+    //SwipeMenu for Daily Planner Dependencies
     implementation "com.baoyz.swipemenulistview:library:1.3.0"
-
+    //Chart Dependencies
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
     implementation 'com.google.api-client:google-api-client:1.23.0'
